@@ -58,6 +58,8 @@ const container: Container = holder.container;
 const name: string = Symbol475.name;
 // @ts-expect-error symbols must retain their public types
 Symbol475.nonexistent;
+// @ts-expect-error generated data is shared and immutable
+Symbol475.frames![0].push({ name: 'invalid' });
 // @ts-expect-error renderer constructor must retain its public types
 new FighterHolder('invalid');
 `);

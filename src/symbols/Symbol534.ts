@@ -1,4 +1,5 @@
-import { Symbol } from '../common';
+// Generated from mini_perso.swf by npm run export:swf.
+import type { Symbol } from '../common';
 
 
 export const Symbol534: Symbol = {
@@ -8,17 +9,16 @@ export const Symbol534: Symbol = {
     {
       "type": "svg",
       "name": "Symbol534",
-      "svg": "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>\r\n<svg xmlns:ffdec=\"https://www.free-decompiler.com/flash\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" ffdec:objectType=\"shape\" height=\"20.15px\" width=\"123.25px\" xmlns=\"http://www.w3.org/2000/svg\">\r\n  <g transform=\"matrix(1.0, 0.0, 0.0, 1.0, -8.95, 21.35)\">\r\n    <path d=\"M13.0 -16.8 Q9.95 -19.15 9.95 -20.0 L10.0 -20.35 Q12.15 -19.85 15.3 -17.7 20.25 -14.35 22.4 -13.15 L30.1 -9.7 Q38.35 -6.7 48.85 -6.7 60.0 -6.7 71.25 -9.95 82.5 -13.25 93.25 -13.25 103.2 -13.25 115.65 -7.75 122.0 -4.95 123.8 -4.35 127.9 -3.0 130.8 -3.6 L131.1 -3.5 131.2 -3.15 Q130.6 -2.2 127.0 -2.2 125.45 -2.2 121.95 -3.65 L114.4 -6.85 Q102.9 -11.5 93.2 -11.5 83.0 -11.5 71.55 -8.05 60.15 -4.6 48.8 -4.6 34.8 -4.6 21.25 -11.6 16.45 -14.1 13.0 -16.8\" fill=\"#545656\" fill-rule=\"evenodd\" stroke=\"none\"/>\r\n  </g>\r\n</svg>\r\n",
+      "svg": "<svg height=\"22.15px\" width=\"125.25px\" xmlns=\"http://www.w3.org/2000/svg\"><g transform=\"matrix(1.0, 0.0, 0.0, 1.0, -7.949999999999999, 22.35)\"><path d=\"M13.0 -16.8 Q9.95 -19.15 9.95 -20.0 L10.0 -20.35 Q12.15 -19.85 15.3 -17.7 20.25 -14.35 22.4 -13.15 L30.1 -9.7 Q38.35 -6.7 48.85 -6.7 60.0 -6.7 71.25 -9.95 82.5 -13.25 93.25 -13.25 103.2 -13.25 115.65 -7.75 122.0 -4.95 123.8 -4.35 127.9 -3.0 130.8 -3.6 L131.1 -3.5 131.2 -3.15 Q130.6 -2.2 127.0 -2.2 125.45 -2.2 121.95 -3.65 L114.4 -6.85 Q102.9 -11.5 93.2 -11.5 83.0 -11.5 71.55 -8.05 60.15 -4.6 48.8 -4.6 34.8 -4.6 21.25 -11.6 16.45 -14.1 13.0 -16.8\" fill=\"#545656\" fill-rule=\"evenodd\" stroke=\"none\"/></g></svg>",
       "offset": {
-        "x": -8.95,
-        "y": 21.35
+        "x": -7.949999999999999,
+        "y": 22.35
       }
     }
   ],
   "frames": [
     [
       {
-        "type": "svg",
         "name": "Symbol534"
       }
     ]

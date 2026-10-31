@@ -1,31 +1,44 @@
-import { Symbol } from '../common';
+// Generated from mini_perso.swf by npm run export:swf.
+import type { Symbol } from '../common';
 import { Symbol3 } from './Symbol3';
 
 export const Symbol4: Symbol = {
   "type": "symbol",
   "name": "Symbol4",
   "parts": [
-    {
-      ...Symbol3
-    }
+    Symbol3
   ],
   "frames": [
     [
       {
-        "type": "symbol",
         "name": "Symbol3",
-        "colorOffset": {
-          "r": 45,
-          "g": -16,
-          "b": -92
-        },
-        "alpha": 0.3984375,
         "transform": {
-          "tx": 0,
-          "ty": -0.25,
           "a": 0.20111083984375,
-          "d": 0.20111083984375
-        }
+          "d": 0.20111083984375,
+          "ty": -0.25
+        },
+        "colorTransform": {
+          "multiply": [
+            1,
+            1,
+            1,
+            0.3984375
+          ],
+          "add": [
+            45,
+            -16,
+            -92,
+            0
+          ]
+        },
+        "filters": [
+          {
+            "type": "blur",
+            "blurX": 3,
+            "blurY": 3,
+            "flags": 8
+          }
+        ]
       }
     ]
   ]

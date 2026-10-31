@@ -20,15 +20,18 @@ import {
   Symbol939, Symbol940, Symbol941, Symbol942,
   Symbol943, Symbol944
 } from './symbols/index';
-import type { FramePart, Symbol as LaBruteSymbol, Svg } from './common';
+import type { ColorOffset, FramePart, Symbol as LaBruteSymbol, Svg } from './common';
 import type { Animation, FighterAppearance, FighterModel, WeaponName, SpeedRef } from './fighterTypes';
 import {
   Application,
   Assets,
-  BlurFilter, Container, Filter, Graphics, Matrix, Sprite, Texture,
+  BlurFilter, Container, Filter, Graphics, Matrix, Rectangle, Sprite, Texture,
   Ticker
 } from 'pixi.js';
-import { createColorOffsetFilter } from './createColorOffsetFilter';
+import { createPlacementFilters } from './flashFilters';
+import { prepareSvg } from './prepareSvg';
+import { getDefinitions, getFramePlan } from './framePlan';
+import type { PlannedPart } from './framePlan';
 
 const ANIMATIONS: Record<
   FighterModel,
@@ -367,6 +370,14 @@ type SvgLoadEntry = {
   renderScale: number;
 };
 
+type ColoredTexture = {
+  texture: Texture;
+  owned: boolean;
+  references: number;
+  key: string;
+  cache: Map<string, ColoredTexture>;
+};
+
 const matrixFromObject = (obj: FramePart['transform'], scale = 1) => new Matrix(obj?.a ?? 1, obj?.b ?? 0, obj?.c ?? 0, obj?.d ?? 1, (obj?.tx ?? 0) * scale, (obj?.ty ?? 0) * scale);
 
 const multiplyMatrices = (left: Matrix, right: Matrix) => new Matrix(
@@ -395,6 +406,10 @@ export class FighterHolder {
   // textures so browsing many different brute appearances cannot grow it forever.
   static readonly #sharedSvgLoadEntries = new Map<string, SvgLoadEntry[]>();
 
+  // Render textures belong to one renderer/context. Share matching variants
+  // only within that context, and keep them only while a fighter borrows them.
+  static readonly #sharedColoredTextures = new WeakMap<Application['renderer'], Map<string, ColoredTexture>>();
+
   // Setup data
   readonly type: FighterAppearance['type'];
 
@@ -409,7 +424,7 @@ export class FighterHolder {
   /** Animation used when idle is requested; callers can update this mid-fight. */
   idleAnimation: Animation;
 
-  readonly #colorOffset: FramePart['colorOffset'];
+  readonly #colorOffset: ColorOffset | undefined;
 
   // Those can change mid-fight
   animation: Animation = 'arrive';
@@ -479,7 +494,14 @@ export class FighterHolder {
 
   #usedMaskSvgs: Record<string, number> = {};
 
-  #colorOffsetFilters = new WeakMap<Container, { key: string; filter: Filter }>();
+  #placementFilters = new WeakMap<Container, {
+    key: string | undefined; color: string | undefined; filters: Filter[];
+  }>();
+
+  readonly #renderer: Application['renderer'];
+
+  #coloredTextures = new Map<Svg, Map<string, ColoredTexture>>();
+  #placementMatrix = new Matrix();
 
   #tickerHandler: ((ticker: Ticker) => void) | null = null;
 
@@ -504,13 +526,14 @@ export class FighterHolder {
     scale = 1,
   ) {
     this.type = fighter.type;
+    this.#renderer = app.renderer;
     this.name = fighter.name;
     this.shield = fighter.shield;
     this.weapon = null;
     this.idleAnimation = fighter.idleAnimation ?? 'idle';
     this.#colors = { ...fighter.colors };
     this.#parts = { ...fighter.parts };
-    this.#colorOffset = fighter.colorOffset;
+    this.#colorOffset = fighter.colorOffset ? { ...fighter.colorOffset } : undefined;
     this.speed = speed;
 
     // Apply custom scale
@@ -587,7 +610,9 @@ export class FighterHolder {
     const cachedSvgLoadEntries = FighterHolder.#sharedSvgLoadEntries.get(svgLoadKey);
 
     this.#animationSymbol = ANIMATIONS[this.#animationType][this.animation];
-    this.#frameCount = this.#animationSymbol?.frames?.length ?? 0;
+    this.#frameCount = this.#animationSymbol?.loopEnd !== undefined
+      ? this.#animationSymbol.loopEnd + 1
+      : this.#animationSymbol?.frames?.length ?? 0;
 
     // For each animation
     for (const animation of animationsByType) {
@@ -776,6 +801,17 @@ export class FighterHolder {
   setColors(colors: Readonly<Record<string, string>>) {
     Object.assign(this.#colors, colors);
 
+    const retainedColors = new Set(Object.values(this.#colors));
+    for (const [svg, variants] of this.#coloredTextures) {
+      for (const [color, entry] of variants) {
+        if (!retainedColors.has(color)) {
+          this.#releaseColoredTexture(entry);
+          variants.delete(color);
+        }
+      }
+      if (!variants.size) this.#coloredTextures.delete(svg);
+    }
+
     if (!this.loaded || this.#isDestroyed) {
       return;
     }
@@ -809,7 +845,9 @@ export class FighterHolder {
     // Reset frame
     this.#frame = frame;
     this.#previousFrame = -1;
-    this.#frameCount = this.#animationSymbol?.frames?.length ?? 0;
+    this.#frameCount = this.#animationSymbol?.loopEnd !== undefined
+      ? this.#animationSymbol.loopEnd + 1
+      : this.#animationSymbol?.frames?.length ?? 0;
     this.#timer = 0;
     this.#playing = true;
 
@@ -845,12 +883,12 @@ export class FighterHolder {
   #collectSvgsToLoad = (
     svgsToLoadByName: Map<string, SvgLoadEntry>,
     parts: LaBruteSymbol['parts'],
-    frame: FramePart[] = [],
+    frame: readonly FramePart[] = [],
     parentTransform = new Matrix(),
     resolution = 1,
   ) => {
     frame.forEach((framePart) => {
-      const symbol = parts?.find((p) => p.name === framePart.name);
+      const symbol = getDefinitions(parts).get(framePart.name);
 
       if (!symbol) {
         throw new Error(`Part ${framePart.name} not found in symbol parts`);
@@ -880,14 +918,15 @@ export class FighterHolder {
         let framesToLoad: number[] = [];
 
         // If symbol has partIdx, only load the corresponding frame
-        if (symbol.partIdx) {
-          const partValue = this.#parts[symbol.partIdx.substring(1)];
+        const partIdx = framePart.partIdx;
+        if (partIdx) {
+          const partValue = this.#parts[partIdx.substring(1)];
 
           if (partValue === undefined) {
-            throw new Error(`Part ${symbol.partIdx.substring(1)} not found in fighter config`);
+            throw new Error(`Part ${partIdx.substring(1)} not found in fighter config`);
           }
 
-          framesToLoad = [partValue];
+          framesToLoad = [this.#selectPartFrame(symbol, partValue)];
         } else if (symbol.name === WEAPON_SYMBOL) {
           // Load all weapon frames
           framesToLoad = WEAPON_FRAMES.map((_, index) => index);
@@ -956,7 +995,7 @@ export class FighterHolder {
       const { svg, renderScale } = svgToLoad;
 
       loadingSvgs.push(new Promise((resolve) => {
-        const svgSource = `${svg.svg}<!-- ${renderScale} -->`;
+        const svgSource = `${prepareSvg(svg.svg, renderScale)}<!-- ${renderScale} -->`;
         const svgDataUrl = `data:image/svg+xml,${encodeURIComponent(svgSource)}`;
         const cacheKey = `${svg.name}|${renderScale}`;
 
@@ -1112,262 +1151,194 @@ export class FighterHolder {
     return sprite;
   };
 
-  #getColorOffsetFilter = (container: Container, r: number, g: number, b: number) => {
-    const key = `${r},${g},${b}`;
-    const existingFilter = this.#colorOffsetFilters.get(container);
+  #selectPartFrame(symbol: LaBruteSymbol, value: number): number {
+    const count = symbol.frames?.length ?? 0;
 
-    if (existingFilter?.key === key) {
-      return existingFilter.filter;
+    if (!Number.isInteger(value) || value < 0) {
+      throw new Error(`Invalid body selector ${value} for ${symbol.name}`);
     }
 
-    const filter = createColorOffsetFilter(r, g, b, 'fight-color-offset-filter');
-    filter.resolution = 'inherit';
+    return count > 0 ? value % count : 0;
+  }
 
-    this.#colorOffsetFilters.set(container, { key, filter });
+  #applyPlacementFilters(container: Container, planned: PlannedPart) {
+    const placement = planned.placement;
+    const color = placement.colorIdx
+      ? this.#colors[placement.colorIdx.substring(1)]
+      : undefined;
+    if (placement.colorIdx && !color) throw new Error(`Color ${placement.colorIdx} not found`);
+    const key = planned.filterKey;
+    let cached = this.#placementFilters.get(container);
 
-    return filter;
-  };
+    if (!cached || cached.key !== key || cached.color !== color) {
+      // These filters belong to this pooled placement, not to a shared texture.
+      for (const filter of cached?.filters ?? []) filter.destroy();
+
+      const effective = this.#colorOffset && placement.colorTransform
+        ? { ...placement, colorTransform: {
+          ...placement.colorTransform,
+          add: [this.#colorOffset.r, this.#colorOffset.g, this.#colorOffset.b, 0],
+        } }
+        : placement;
+
+      cached = { key, color, filters: createPlacementFilters(effective, color, this.#scale) };
+      this.#placementFilters.set(container, cached);
+    }
+
+    if (container.filters?.[0] !== cached.filters[0]
+      || (container.filters?.length ?? 0) !== cached.filters.length) {
+      container.filters = cached.filters.length ? cached.filters : null;
+    }
+  }
+
+  #getColoredTexture(svg: Svg, color: string): Texture {
+    const base = this.#svgTexturesByLabel.get(svg.name);
+    if (!base) throw new Error(`Texture ${svg.name} not found`);
+    if (color === '#ffffff' || color === '#FFFFFF') return base;
+    let variants = this.#coloredTextures.get(svg);
+    const cached = variants?.get(color);
+    if (cached) return cached.texture;
+
+    let shared = FighterHolder.#sharedColoredTextures.get(this.#renderer);
+    if (!shared) {
+      shared = new Map();
+      FighterHolder.#sharedColoredTextures.set(this.#renderer, shared);
+    }
+    const key = `${svg.name}|${base.source.resolution}|${color}`;
+    const existing = shared.get(key);
+    if (existing) {
+      existing.references++;
+      if (!variants) {
+        variants = new Map();
+        this.#coloredTextures.set(svg, variants);
+      }
+      variants.set(color, existing);
+      return existing.texture;
+    }
+
+    const sprite = new Sprite(base);
+    sprite.label = svg.name;
+    const filters = createPlacementFilters({ name: svg.name }, color);
+    sprite.filters = filters;
+
+    try {
+      // Round the empty padding outward: fractional bounds must not crop artwork.
+      const texture = this.#renderer.generateTexture({
+        target: sprite,
+        frame: new Rectangle(0, 0, Math.ceil(base.width), Math.ceil(base.height)),
+        resolution: base.source.resolution,
+        clearColor: [0, 0, 0, 0],
+      });
+      if (!variants) {
+        variants = new Map();
+        this.#coloredTextures.set(svg, variants);
+      }
+      const entry = { texture, owned: texture !== base, references: 1, key, cache: shared };
+      shared.set(key, entry);
+      variants.set(color, entry);
+      return texture;
+    } finally {
+      sprite.destroy({ texture: false });
+      for (const filter of filters) filter.destroy();
+    }
+  }
+
+  #releaseColoredTexture(entry: ColoredTexture) {
+    entry.references--;
+    if (entry.references === 0) {
+      entry.cache.delete(entry.key);
+      if (entry.owned) entry.texture.destroy(true);
+    }
+  }
 
   #displayFrame = (
-    symbolContainer: Container | null,
+    container: Container,
     symbol: LaBruteSymbol | Svg | null,
-    colorIdx?: string,
-    zIndex?: number,
-    svgMaskedBy?: number,
-    frameTransform?: FramePart['transform'],
-    frameAlpha?: number,
-    framePartsByName?: Map<string, FramePart>,
+    placement?: FramePart,
+    coloredTexture?: Texture,
   ) => {
-    if (!symbolContainer || !symbol) return;
+    if (!symbol) return;
 
     if (symbol.type === 'svg') {
-      const sprite = this.#acquireSvgSprite(symbol.name, symbolContainer);
-      const svgData = this.#svgDataByLabel.get(symbol.name);
+      const sprite = this.#acquireSvgSprite(symbol.name, container);
+      sprite.texture = coloredTexture ?? this.#svgTexturesByLabel.get(symbol.name)!;
+      sprite.visible = symbol.name === SHIELD_SYMBOL[this.#animationType]
+        ? this.shield
+        : this.weapon !== null || symbol.name !== 'Symbol39';
+      return;
+    }
 
-      if (!svgData) {
-        throw new Error(`SVG data ${symbol.name} not found`);
+    let frame = 0;
+
+    if (placement?.partIdx) {
+      const key = placement.partIdx.substring(1);
+      const value = this.#parts[key];
+      if (value === undefined) throw new Error(`Part ${key} not found in fighter config`);
+      frame = this.#selectPartFrame(symbol, value);
+    } else if (symbol.name === WEAPON_SYMBOL) {
+      frame = WEAPON_FRAMES.indexOf(this.weapon);
+    } else if (symbol.name === 'Symbol526') {
+      frame = 16;
+    } else if (ANIMATION_SYMBOL_NAMES[this.#animationType].includes(symbol.name)) {
+      frame = Math.floor(this.#frame);
+    }
+
+    for (const planned of getFramePlan(symbol, frame)) {
+      const { placement: part, definition } = planned;
+
+      if (definition.type === 'svg') {
+        this.#displayFrame(container, definition, part, coloredTexture);
+        continue;
       }
 
-      // Apply transform from timeline placement.
-      if (frameTransform) {
+      const child = this.#acquireContainer(part.name, container, planned.occurrence);
+      const transform = part.transform;
+      const size = SCALE * this.#scale;
+      child.setFromMatrix(this.#placementMatrix.set(
+        transform?.a ?? 1, transform?.b ?? 0, transform?.c ?? 0, transform?.d ?? 1,
+        (transform?.tx ?? 0) * size, (transform?.ty ?? 0) * size,
+      ));
+      child.zIndex = planned.zIndex;
+      child.blendMode = part.blendMode ?? 'normal';
+      child.visible = true;
+
+      // Color selectors, color transforms, and effects belong to the placement,
+      // so two instances of one definition can have different appearances.
+      let nextTexture = coloredTexture;
+      if (planned.coloredSvg) {
+        const color = this.#colors[part.colorIdx!.slice(1)];
+        if (!color) throw new Error(`Color ${part.colorIdx} not found`);
+        nextTexture = this.#getColoredTexture(planned.coloredSvg, color);
+        if (child.filters?.length) child.filters = null;
+      } else if (part.colorTransform || part.colorIdx || part.filters) {
+        this.#applyPlacementFilters(child, planned);
+      } else if (child.filters?.length) {
+        child.filters = null;
+      }
+
+      if (planned.mask) {
+        const { name, transform: maskTransform } = planned.mask;
+        const mask = this.#acquireMaskSvgSprite(name, container);
+        const artwork = this.#svgDataByLabel.get(name);
+        if (!artwork) throw new Error(`Mask ${name} not found`);
+
         const size = SCALE * this.#scale;
-        const frameMatrix = matrixFromObject(frameTransform, size);
-        const baseMatrix = new Matrix(
-          size,
-          0,
-          0,
-          size,
-          -((svgData.offset?.x ?? 0) * size),
-          -((svgData.offset?.y ?? 0) * size),
+        const origin = new Matrix(
+          size, 0, 0, size,
+          -artwork.offset.x * size,
+          -artwork.offset.y * size,
         );
-        sprite.setFromMatrix(multiplyMatrices(frameMatrix, baseMatrix));
-      }
-
-      if (frameAlpha !== undefined) {
-        sprite.alpha = frameAlpha;
-      }
-
-      // Hide shield if needed
-      if (sprite.label === SHIELD_SYMBOL[this.#animationType]) {
-        sprite.visible = this.shield;
-      } else if (!this.weapon) {
-        // Hide 39 if no weapon
-        sprite.visible = sprite.label !== 'Symbol39';
+        mask.setFromMatrix(multiplyMatrices(
+          matrixFromObject(maskTransform, size), origin,
+        ));
+        mask.visible = true;
+        mask.renderable = false;
+        child.mask = mask;
       } else {
-        sprite.visible = true;
+        child.mask = null;
       }
 
-      // Apply masking
-      if (svgMaskedBy) {
-        const maskName = `Symbol${svgMaskedBy}`;
-        const maskSprite = this.#acquireMaskSvgSprite(maskName, symbolContainer);
-        const maskFramePart = framePartsByName?.get(maskName);
-
-        if (maskFramePart?.transform) {
-          const size = SCALE * this.#scale;
-          const maskMatrix = matrixFromObject(maskFramePart.transform, size);
-          const maskSvgData = this.#svgDataByLabel.get(maskName);
-          const maskBaseMatrix = new Matrix(
-            size,
-            0,
-            0,
-            size,
-            -((maskSvgData?.offset?.x ?? 0) * size),
-            -((maskSvgData?.offset?.y ?? 0) * size),
-          );
-          maskSprite.setFromMatrix(multiplyMatrices(maskMatrix, maskBaseMatrix));
-        }
-
-        // Keep mask sprites in the graph for masking, but do not draw them.
-        maskSprite.visible = true;
-        maskSprite.renderable = false;
-
-        sprite.mask = maskSprite;
-      }
-
-      // Apply color
-      if (colorIdx) {
-        const color = this.#colors[colorIdx.substring(1)];
-        if (!color) {
-          throw new Error(`Color ${colorIdx} not found`);
-        }
-
-        sprite.tint = parseInt(color.replace('#', ''), 16);
-      }
-
-      // Add to current container
-      sprite.zIndex = zIndex ?? 0;
-    } else {
-      const usedContainers: Record<string, number> = {};
-
-      // Check if symbol has an offset
-      if (symbol.offset) {
-        symbolContainer.x = this.#scale * SCALE * (symbol.offset.x ?? 0);
-        symbolContainer.y = this.#scale * SCALE * (symbol.offset.y ?? 0);
-      } else if (symbolContainer === this.#renderContainer) {
-        // Top-level container is reused across animations; clear stale offset
-        // when the current animation symbol has no explicit offset.
-        symbolContainer.x = 0;
-        symbolContainer.y = 0;
-      }
-
-      // Get frame to load
-      let frameToLoad: number;
-
-      // If symbol has partIdx, only load the corresponding frame
-      if (symbol.partIdx) {
-        const partValue = this.#parts[symbol.partIdx.substring(1)];
-
-        if (partValue === undefined) {
-          throw new Error(`Part ${symbol.partIdx} not found in fighter config`);
-        }
-
-        frameToLoad = partValue;
-      } else if (symbol.name === WEAPON_SYMBOL) {
-        // Load current weapon frame
-        frameToLoad = WEAPON_FRAMES.indexOf(this.weapon);
-      } else if (symbol.name === 'Symbol526') {
-        // Special case for whip animation
-        frameToLoad = 16;
-      } else if (ANIMATION_SYMBOL_NAMES[this.#animationType].includes(symbol.name)) {
-        // If the symbol is an animation, load the current frame
-        frameToLoad = Math.floor(this.#frame);
-      } else {
-        // Else load the first frame
-        frameToLoad = 0;
-      }
-
-      const frameParts = symbol.frames?.[frameToLoad] ?? [];
-      const maskSymbolNames = new Set(
-        frameParts
-          .filter((part) => !!part.maskedBy)
-          .map((part) => `Symbol${part.maskedBy}`),
-      );
-      const framePartByName = new Map(frameParts.map((part) => [part.name, part]));
-
-      for (let i = 0; i < frameParts.length; i++) {
-        const framePart = frameParts[i];
-
-        if (!framePart) {
-          throw new Error(`Part ${i} not found in frame ${frameToLoad}`);
-        }
-
-        // Match previous behavior: always resolve the first matching part by name.
-        const framePartSymbol = symbol.parts?.find((p) => p.name === framePart.name);
-
-        if (!framePartSymbol) {
-          throw new Error(`Part ${framePart.name} not found in symbol ${symbol.name}`);
-        }
-
-        // Mask helper symbols should not be rendered as standalone visual parts.
-        if (maskSymbolNames.has(framePart.name)) {
-          continue;
-        }
-
-        if (framePartSymbol.type === 'svg') {
-          this.#displayFrame(
-            symbolContainer,
-            framePartSymbol,
-            colorIdx,
-            frameParts.length - i,
-            framePart.maskedBy,
-            framePart.transform,
-            framePart.alpha,
-            framePartByName,
-          );
-          continue;
-        }
-
-        const usedContainerCount = usedContainers[framePart.name] ?? 0;
-        const framePartContainer = this.#acquireContainer(
-          framePart.name,
-          symbolContainer,
-          usedContainerCount,
-        );
-        usedContainers[framePart.name] = usedContainerCount + 1;
-
-        // Apply transform
-        if (framePart.transform) {
-          const size = SCALE * this.#scale;
-          framePartContainer.setFromMatrix(matrixFromObject(framePart.transform, size));
-        }
-
-        // Apply color offset
-        if (framePart.colorOffset) {
-          const colorFilter = this.#colorOffset
-            ? this.#getColorOffsetFilter(framePartContainer, this.#colorOffset.r, this.#colorOffset.g, this.#colorOffset.b)
-            : this.#getColorOffsetFilter(
-              framePartContainer,
-              framePart.colorOffset.r ?? 0,
-              framePart.colorOffset.g ?? 0,
-              framePart.colorOffset.b ?? 0,
-            );
-
-          if (framePartContainer.filters?.[0] !== colorFilter
-            || framePartContainer.filters?.length !== 1) {
-            framePartContainer.filters = [colorFilter];
-          }
-        } else if (framePartContainer.filters) {
-          framePartContainer.filters = null;
-        }
-
-        // Apply alpha
-        if (framePart.alpha !== undefined) {
-          framePartContainer.alpha = framePart.alpha;
-        }
-
-        // Apply masking
-        if (framePart.maskedBy) {
-          // Timeline masks share the part's parent, so they do not inherit its transform.
-          const maskSprite = this.#acquireMaskSvgSprite(`Symbol${framePart.maskedBy}`, symbolContainer);
-
-          // Keep mask sprites in the graph for masking, but do not draw them.
-          maskSprite.visible = true;
-          maskSprite.renderable = false;
-
-          framePartContainer.mask = maskSprite;
-        } else {
-          framePartContainer.mask = null;
-        }
-
-        // Apply zIndex
-        framePartContainer.zIndex = frameParts.length - i;
-
-        // Apply visibility
-        framePartContainer.visible = true;
-
-        // Handle children
-        this.#displayFrame(
-          framePartContainer,
-          framePartSymbol,
-          framePartSymbol.colorIdx ?? colorIdx,
-          undefined,
-          undefined,
-          undefined,
-          undefined,
-          framePartByName,
-        );
-      }
+      this.#displayFrame(child, definition, part, nextTexture);
     }
   };
 
@@ -1433,6 +1404,17 @@ export class FighterHolder {
       this.#appTicker = null;
     }
 
+    // Filters are owned by pooled placements, while SVG textures are shared.
+    for (const variants of this.#coloredTextures.values()) {
+      for (const entry of variants.values()) {
+        this.#releaseColoredTexture(entry);
+      }
+    }
+    this.#coloredTextures.clear();
+    for (const container of this.#allPooledContainers) {
+      for (const filter of this.#placementFilters.get(container)?.filters ?? []) filter.destroy();
+    }
+
     // Destroy container and its children
     try {
       this.container.destroy({ children: true, texture: false });
@@ -1449,6 +1431,6 @@ export class FighterHolder {
     this.#allPooledContainers = [];
     this.#containerPoolByParent = new WeakMap<Container, Map<string, Container[]>>();
 
-    this.#colorOffsetFilters = new WeakMap<Container, { key: string; filter: Filter }>();
+    this.#placementFilters = new WeakMap();
   };
 }

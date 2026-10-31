@@ -1,26 +1,21 @@
-import { Symbol } from '../common';
-import { Symbol815 } from './Symbol815';
+// Generated from mini_perso.swf by npm run export:swf.
+import type { Symbol } from '../common';
 import { Symbol812 } from './Symbol812';
+import { Symbol815 } from './Symbol815';
 
 export const Symbol816: Symbol = {
   "type": "symbol",
   "name": "Symbol816",
   "parts": [
-    {
-      ...Symbol815,
-      "partIdx": "_p1"
-    },
-    {
-      ...Symbol812,
-      "partIdx": "_p1"
-    }
+    Symbol812,
+    Symbol815
   ],
   "frames": [
     [],
     [
       {
-        "type": "symbol",
         "name": "Symbol812",
+        "partIdx": "_p1",
         "transform": {
           "tx": 3.75,
           "ty": -0.35
@@ -33,8 +28,8 @@ export const Symbol816: Symbol = {
     [],
     [
       {
-        "type": "symbol",
         "name": "Symbol815",
+        "partIdx": "_p1",
         "transform": {
           "tx": 3.75,
           "ty": -0.35

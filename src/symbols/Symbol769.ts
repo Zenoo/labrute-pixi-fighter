@@ -1,56 +1,28 @@
-import { Symbol } from '../common';
+// Generated from mini_perso.swf by npm run export:swf.
+import type { FramePart, Symbol } from '../common';
 import { Symbol766 } from './Symbol766';
 import { Symbol768 } from './Symbol768';
+
+const frame0: FramePart[] = [
+  {
+    "name": "Symbol768",
+    "colorIdx": "_col4"
+  },
+  {
+    "name": "Symbol766",
+    "colorIdx": "_col2"
+  }
+];
 
 export const Symbol769: Symbol = {
   "type": "symbol",
   "name": "Symbol769",
   "parts": [
-    {
-      ...Symbol766,
-      "colorIdx": "_col2"
-    },
-    {
-      ...Symbol768,
-      "colorIdx": "_col4"
-    }
+    Symbol766,
+    Symbol768
   ],
   "frames": [
-    [
-      {
-        "type": "symbol",
-        "name": "Symbol768",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol766",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
-      }
-    ],
-    [
-      {
-        "type": "symbol",
-        "name": "Symbol768",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol766",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
-      }
-    ]
+    frame0,
+    frame0
   ]
 };

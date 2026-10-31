@@ -145,11 +145,31 @@ export const animationSymbol = (model: FighterModel, animation: Animation) =>
   (symbols as unknown as Record<string, FighterSymbol>)[`Symbol${animationIds[model][animation]}`];
 
 export const partCounts = (model: FighterModel) => {
-  // Production body limits are inclusive. Some valid variations intentionally
-  // select an absent frame to hide a part, so timeline lengths are insufficient.
-  const limits: Record<string, number> =
-    model === 'male'
-      ? { p1: 1, p1a: 1, p1b: 1, p2: 7, p3: 11, p4: 5, p5: 1, p6: 1, p7: 6, p7b: 2, p8: 4 }
-      : { p1: 1, p1a: 1, p1b: 1, p2: 0, p3: 11, p4: 3, p5: 1, p6: 0, p7: 6, p7b: 2, p8: 4 };
-  return Object.fromEntries(Object.entries(limits).map(([key, max]) => [key, max + 1]));
+  // Choices come from the source timelines, including empty frames. Encoded
+  // appearance values can be larger because the renderer wraps them by length.
+  const counts = Object.fromEntries(partKeys.map((key) => [key, 1]));
+  const visited = new Set<string>();
+
+  function visit(symbol: FighterSymbol): void {
+    if (visited.has(symbol.name)) return;
+    visited.add(symbol.name);
+
+    for (const frame of symbol.frames ?? []) {
+      for (const placement of frame) {
+        const child = symbol.parts?.find((part) => part.name === placement.name);
+
+        if (placement.partIdx && child?.type === 'symbol') {
+          const key = placement.partIdx.slice(1);
+          counts[key] = Math.max(counts[key] ?? 1, child.frames?.length ?? 1);
+        }
+      }
+    }
+
+    for (const child of symbol.parts ?? []) {
+      if (child.type === 'symbol') visit(child);
+    }
+  }
+
+  for (const animation of animationsFor(model)) visit(animationSymbol(model, animation));
+  return counts;
 };

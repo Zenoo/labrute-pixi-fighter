@@ -30,7 +30,15 @@ module.exports = (env, argv) => {
     },
     devServer: {
       port: 3000,
-      static: false,
+      static: {
+        directory: path.resolve(__dirname, 'node_modules/@ruffle-rs/ruffle'),
+        publicPath: '/ruffle',
+        watch: false,
+      },
+      setupMiddlewares(middlewares, server) {
+        require('./test/swfMiddleware.cjs')(server.app);
+        return middlewares;
+      },
       hot: false,
       liveReload: true,
     },

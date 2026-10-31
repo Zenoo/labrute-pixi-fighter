@@ -1,64 +1,42 @@
-import { Symbol } from '../common';
+// Generated from mini_perso.swf by npm run export:swf.
+import type { Symbol } from '../common';
 import { Symbol674 } from './Symbol674';
+import { Symbol675 } from './Symbol675';
 import { Symbol677 } from './Symbol677';
 
 export const Symbol678: Symbol = {
   "type": "symbol",
   "name": "Symbol678",
   "parts": [
-    {
-      ...Symbol674,
-      "colorIdx": "_col2"
-    },
-    {
-      "type": "svg",
-      "name": "Symbol675",
-      "svg": "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>\r\n<svg xmlns:ffdec=\"https://www.free-decompiler.com/flash\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" ffdec:objectType=\"shape\" height=\"22.7px\" width=\"3.7px\" xmlns=\"http://www.w3.org/2000/svg\">\r\n  <g transform=\"matrix(1.0, 0.0, 0.0, 1.0, 6.15, 1.35)\">\r\n    <path d=\"M-3.5 8.7 L-4.2 20.35 Q-5.45 12.3 -5.05 4.35 -4.95 1.95 -4.35 -0.35 -3.2 4.1 -3.5 8.7\" fill=\"#ffffff\" fill-rule=\"evenodd\" stroke=\"none\"/>\r\n  </g>\r\n</svg>\r\n",
-      "offset": {
-        "x": 6.15,
-        "y": 1.35
-      }
-    },
-    {
-      ...Symbol677,
-      "colorIdx": "_col3"
-    }
+    Symbol674,
+    Symbol675,
+    Symbol677
   ],
   "frames": [
     [
       {
-        "type": "svg",
         "name": "Symbol675"
       },
       {
-        "type": "symbol",
         "name": "Symbol674",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "colorIdx": "_col2"
       }
     ],
     [
       {
-        "type": "symbol",
         "name": "Symbol677",
+        "colorIdx": "_col3",
         "transform": {
           "tx": -1.7,
           "ty": 9.5
         }
       },
       {
-        "type": "svg",
         "name": "Symbol675"
       },
       {
-        "type": "symbol",
         "name": "Symbol674",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "colorIdx": "_col2"
       }
     ]
   ]

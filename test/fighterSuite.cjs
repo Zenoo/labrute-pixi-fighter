@@ -1,11 +1,12 @@
 const assert = require('node:assert/strict');
 const { test } = require('node:test');
 
-module.exports = (pixi, { FighterHolder, Symbol475 }) => {
+module.exports = (pixi, { FighterHolder, Symbol475, Symbol385, Symbol121 }) => {
 // Exercise real Pixi filters and objects; only rasterization and GPU probing
 // need substitutes in Node. The browser regression uses the real renderer.
 pixi.DOMAdapter.set({ ...pixi.DOMAdapter.get(), createCanvas: () => ({ getContext: () => null }) });
 const loads = [];
+const colorBakes = [];
 let pending = null;
 pixi.Assets.load = async (request) => {
   loads.push(request);
@@ -54,7 +55,13 @@ const application = (resolution = 1) => {
   return {
     renderer: { resolution, generateTexture: (target) => {
       // This is the cross-runtime instanceof check that originally failed.
-      assert.ok(target instanceof pixi.Container);
+      const container = target.target ?? target;
+      assert.ok(container instanceof pixi.Container);
+      if (target.target) colorBakes.push({
+        name: container.label,
+        matrices: (container.filters ?? []).filter((filter) => filter instanceof pixi.ColorMatrixFilter)
+          .map((filter) => [...filter.matrix]),
+      });
       return pixi.Texture.EMPTY;
     } },
     ticker: {
@@ -70,6 +77,7 @@ const application = (resolution = 1) => {
 test('package retains symbol exports and exports the renderer', () => {
   assert.equal(Symbol475.name, 'Symbol475');
   assert.equal(typeof FighterHolder, 'function');
+  assert.equal(Symbol121.frames[0], Symbol121.frames[1], 'Held frames should share their placement array');
 });
 
 test('renders every model, reuses sprites, and detaches its ticker on destroy', async () => {
@@ -119,6 +127,33 @@ test('shares SVG textures and increases rasterization resolution for larger mode
   assert.ok(loads.slice(count).some(({ data }) => data.resolution >= 6));
   assert.ok(loads.every(({ data }) => data.parseAsGraphicsContext === false));
   [first, second, larger].forEach((holder) => holder.destroy());
+});
+
+test('thin SWF strokes occupy one raster pixel instead of one magnified SVG unit', async () => {
+  const config = appearance();
+  config.parts.p3 = 3;
+  const before = loads.length;
+  const holder = new FighterHolder(application(), config, { current: 1 }, 2.75);
+  await holder.ready;
+  let checked = 0;
+  const source = Symbol385.parts.find((part) => part.type === 'svg').svg;
+  const signature = source.match(/\bd="([^"]+)"/)[1];
+  const authored = [...source.matchAll(/\sstroke-width="([^"]+)"/g)].map((match) => Number(match[1]));
+
+  for (const request of loads.slice(before)) {
+    const svg = decodeURIComponent(request.src.slice(request.src.indexOf(',') + 1));
+    if (!svg.includes(signature)) continue;
+    const widths = [...svg.matchAll(/\sstroke-width="([^"]+)"/g)].map((match) => Number(match[1]));
+
+    for (let index = 0; index < widths.length; index++) {
+      const expected = Math.max(authored[index], 1 / request.data.resolution);
+      assert.ok(Math.abs(widths[index] - expected) < 1e-10, 'A thin stroke used the wrong coordinate space');
+      checked++;
+    }
+  }
+
+  assert.ok(checked > 0, 'The regression did not rasterize any thin outlines');
+  holder.destroy();
 });
 
 test('supports seeking, playback restoration, equipment changes and reverse events', async () => {
@@ -191,7 +226,8 @@ test('recolors the current pose without replacing sprites, loading assets or adv
   assert.deepEqual(holder.capturePlaybackFrame(), pose);
   assert.deepEqual(holder.svgs, sprites);
   assert.equal(loads.length, assetLoadCount);
-  assert.ok(holder.svgs.some((sprite) => sprite.visible && sprite.tint === 0x00ff00));
+  assert.ok(colorBakes.some((bake) => bake.matrices.some((matrix) =>
+    matrix[4] === -1 && matrix[9] === 0 && matrix[14] === -1)));
 
   app.ticker.tick();
   assert.deepEqual(holder.capturePlaybackFrame(), pose);
@@ -203,6 +239,83 @@ test('recolors the current pose without replacing sprites, loading assets or adv
 
   holder.destroy();
   assert.doesNotThrow(() => holder.setColors(green));
+});
+
+test('armor 6 colors reused shapes by placement rather than their shared symbol name', async () => {
+  const config = appearance();
+  config.parts.p7 = 6;
+  config.colors.col0 = '#112233';
+  config.colors.col2 = '#ee7744';
+  const holder = new FighterHolder(application(), config, { current: 1 });
+  await holder.ready;
+  const before = colorBakes.length;
+  holder.setAnimation('idle');
+
+  const offsets = colorBakes.slice(before).filter((bake) => bake.name === 'Symbol81')
+    .flatMap((bake) => bake.matrices).map((matrix) => Math.round(matrix[4] * 255));
+
+  assert.ok(offsets.includes(0x11 - 255), 'Skin placement lost its color slot');
+  assert.ok(offsets.includes(0xee - 255), 'Armor placement incorrectly reused the skin color slot');
+  holder.destroy();
+});
+
+test('steady playback reuses colored textures and does not serialize filter settings', async () => {
+  const config = appearance();
+  config.parts.p3 = 3;
+  config.colors = Object.fromEntries(Object.keys(config.colors).map((key) => [key, '#dd8844']));
+  const holder = new FighterHolder(application(), config, { current: 1 });
+  await holder.ready;
+  for (let frame = 0; frame < 16; frame++) holder.setAnimation('fist', frame);
+  const baked = colorBakes.length;
+  const loaded = loads.length;
+  const stringify = JSON.stringify;
+  let serializations = 0;
+
+  try {
+    JSON.stringify = (...args) => { serializations++; return stringify(...args); };
+    for (let frame = 0; frame < 160; frame++) holder.setAnimation('fist', frame % 16);
+  } finally {
+    JSON.stringify = stringify;
+  }
+
+  assert.equal(serializations, 0, 'Playback serialized static placement metadata');
+  assert.equal(colorBakes.length, baked, 'Playback regenerated an unchanged colored texture');
+  assert.equal(loads.length, loaded, 'Playback reloaded SVG assets');
+  holder.destroy();
+});
+
+test('body selection always wraps by the source timeline frame count', async () => {
+  const visibleArt = (container) => container.visible
+    ? [container.label, ...container.children.flatMap(visibleArt)] : [];
+  const counts = [];
+
+  for (const variation of [0, 1, 3]) {
+    const config = appearance();
+    config.parts.p7 = 5;
+    config.parts.p1 = variation;
+    const holder = new FighterHolder(application(), config, { current: 1 });
+    await holder.ready;
+    holder.setAnimation('idle');
+    counts.push(visibleArt(holder.container).filter((label) => label === 'Symbol24').length);
+    holder.destroy();
+  }
+
+  assert.ok(counts[0] > 0, 'Flash wrapping removed a one-frame sleeve');
+  assert.deepEqual(counts, [counts[0], counts[0], counts[0]], 'A selector hid the one-frame sleeve');
+});
+
+test('male monk keeps all source frames available but loops at the authored jump', async () => {
+  const app = application();
+  const holder = new FighterHolder(app, appearance(), { current: 1 });
+  await holder.ready;
+  holder.setAnimation('monk', 57);
+  app.ticker.tick();
+  app.ticker.tick();
+  assert.equal(holder.capturePlaybackFrame().frame, 6);
+
+  holder.setAnimation('monk', 62);
+  assert.equal(holder.capturePlaybackFrame().frame, 62, 'Manual inspection lost a source frame');
+  holder.destroy();
 });
 
 test('destroy during loading does not attach a ticker later', async () => {

@@ -1,24 +1,16 @@
-import { Symbol } from '../common';
-
+// Generated from mini_perso.swf by npm run export:swf.
+import type { Symbol } from '../common';
+import { Symbol901 } from './Symbol901';
 
 export const Symbol902: Symbol = {
   "type": "symbol",
   "name": "Symbol902",
   "parts": [
-    {
-      "type": "svg",
-      "name": "Symbol901",
-      "svg": "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>\r\n<svg xmlns:ffdec=\"https://www.free-decompiler.com/flash\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" ffdec:objectType=\"shape\" height=\"14.4px\" width=\"15.7px\" xmlns=\"http://www.w3.org/2000/svg\">\r\n  <g transform=\"matrix(1.0, 0.0, 0.0, 1.0, 7.85, 7.2)\">\r\n    <path d=\"M6.85 3.75 Q6.0 4.7 4.7 3.4 1.25 0.15 0.8 -4.5 0.7 -5.35 0.9 -6.2 1.15 -0.05 6.4 3.2 L6.85 3.75 M-2.7 -1.45 Q0.15 3.05 5.1 5.15 0.25 4.3 -2.2 -0.05 L-2.7 -1.45 M-6.6 -0.55 Q-4.6 3.6 -0.45 5.55 0.2 5.8 0.8 6.2 -4.05 5.05 -6.65 0.6 L-6.85 0.05 -6.6 -0.55\" fill=\"#ffffff\" fill-rule=\"evenodd\" stroke=\"none\"/>\r\n  </g>\r\n</svg>\r\n",
-      "offset": {
-        "x": 7.85,
-        "y": 7.2
-      }
-    }
+    Symbol901
   ],
   "frames": [
     [
       {
-        "type": "svg",
         "name": "Symbol901"
       }
     ]

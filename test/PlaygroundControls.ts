@@ -273,12 +273,26 @@ export class PlaygroundControls {
       control.dataset.part = key;
       control.disabled = count <= 1;
 
-      for (let index = 0; index < count; index++) {
-        control.add(new Option(`Variation ${index + 1}`, String(index)));
+      if (key === 'p8') {
+        label.title = 'The five source frames contain identical placements, so this selector has no visual effect.';
+      } else if (key === 'p1a' || key === 'p1b') {
+        label.title = this.state.model === 'female'
+          ? 'The female source symbols do not use this selector.'
+          : 'Only used in armor 2. Its one-frame artwork wraps to the same frame, so this selector has no visual effect.';
       }
 
-      control.value = String(this.state.parts[key]);
+      for (let index = 0; index < count; index++) {
+        control.add(new Option(`Variation ${index}`, String(index)));
+      }
+
+      control.value = String(this.state.parts[key] % count);
       label.appendChild(control);
+
+      if (label.title) {
+        const note = document.createElement('small');
+        note.textContent = label.title;
+        label.appendChild(note);
+      }
       fields.appendChild(label);
     }
 
@@ -318,16 +332,15 @@ export class PlaygroundControls {
 
   private importBody(preview: PlaygroundPreview): void {
     const value = this.fields.bodyString.value.trim();
-    const counts = partCounts(animationModel(this.state.model));
     const parts = readBodyString(value) as Record<string, number>;
-    const valid = /^[\da-f]{11}$/i.test(value) && partKeys.every((key) => parts[key] < counts[key]);
+    const valid = /^[\da-f]{11}$/i.test(value);
 
     this.fields.bodyString.setCustomValidity(
-      valid ? '' : 'Use 11 hexadecimal digits with supported variations.',
+      valid ? '' : 'Use 11 hexadecimal digits.',
     );
 
     if (!valid) {
-      this.callbacks.onStatus('Body string is incomplete or has unsupported variations.', true);
+      this.callbacks.onStatus('Use a complete body string of 11 hexadecimal digits.', true);
       return;
     }
 

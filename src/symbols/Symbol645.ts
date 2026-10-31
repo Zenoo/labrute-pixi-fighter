@@ -1,44 +1,27 @@
-import { Symbol } from '../common';
-import { Symbol644 } from './Symbol644';
-import { Symbol642 } from './Symbol642';
-import { Symbol637 } from './Symbol637';
+// Generated from mini_perso.swf by npm run export:swf.
+import type { Symbol } from '../common';
 import { Symbol635 } from './Symbol635';
+import { Symbol637 } from './Symbol637';
+import { Symbol638 } from './Symbol638';
+import { Symbol642 } from './Symbol642';
+import { Symbol644 } from './Symbol644';
 
 export const Symbol645: Symbol = {
   "type": "symbol",
   "name": "Symbol645",
   "parts": [
-    {
-      ...Symbol644,
-      "colorIdx": "_col3"
-    },
-    {
-      ...Symbol642
-    },
-    {
-      ...Symbol637,
-      "partIdx": "_p1"
-    },
-    {
-      ...Symbol635,
-      "partIdx": "_p1"
-    },
-    {
-      "type": "svg",
-      "name": "Symbol638",
-      "svg": "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>\r\n<svg xmlns:ffdec=\"https://www.free-decompiler.com/flash\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" ffdec:objectType=\"shape\" height=\"13.95px\" width=\"3.35px\" xmlns=\"http://www.w3.org/2000/svg\">\r\n  <g transform=\"matrix(1.0, 0.0, 0.0, 1.0, 6.5, 20.45)\">\r\n    <path d=\"M-4.35 -16.8 L-4.45 -14.1 -4.15 -9.15 Q-4.15 -7.5 -4.8 -7.5 -5.45 -7.5 -5.5 -9.7 L-5.25 -12.95 -5.0 -16.25 -5.2 -17.0 -4.95 -19.45 -4.9 -19.45 Q-4.35 -18.4 -4.35 -16.8\" fill=\"#ffffff\" fill-opacity=\"0.7019608\" fill-rule=\"evenodd\" stroke=\"none\"/>\r\n  </g>\r\n</svg>\r\n",
-      "offset": {
-        "x": 6.5,
-        "y": 20.45
-      }
-    }
+    Symbol635,
+    Symbol637,
+    Symbol638,
+    Symbol642,
+    Symbol644
   ],
   "frames": [
     [],
     [
       {
-        "type": "symbol",
         "name": "Symbol635",
+        "partIdx": "_p1",
         "transform": {
           "tx": -0.35,
           "ty": -7.4
@@ -49,12 +32,11 @@ export const Symbol645: Symbol = {
     [],
     [
       {
-        "type": "svg",
         "name": "Symbol638"
       },
       {
-        "type": "symbol",
         "name": "Symbol637",
+        "partIdx": "_p1",
         "transform": {
           "tx": -0.1,
           "ty": -16.65
@@ -63,20 +45,19 @@ export const Symbol645: Symbol = {
     ],
     [
       {
-        "type": "symbol",
         "name": "Symbol642",
         "transform": {
-          "tx": -5.05,
-          "ty": -2,
           "a": 0.832427978515625,
-          "d": 0.832427978515625
+          "d": 0.832427978515625,
+          "tx": -5.05,
+          "ty": -2
         }
       }
     ],
     [
       {
-        "type": "symbol",
         "name": "Symbol644",
+        "colorIdx": "_col3",
         "transform": {
           "tx": -0.35,
           "ty": -7.4

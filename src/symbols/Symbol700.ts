@@ -1,94 +1,60 @@
-import { Symbol } from '../common';
+// Generated from mini_perso.swf by npm run export:swf.
+import type { Symbol } from '../common';
 import { Symbol699 } from './Symbol699';
 
 export const Symbol700: Symbol = {
   "type": "symbol",
   "name": "Symbol700",
   "parts": [
-    {
-      ...Symbol699,
-      "partIdx": "_p6"
-    }
+    Symbol699
   ],
   "frames": [
     [
       {
-        "type": "symbol",
         "name": "Symbol699",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "partIdx": "_p6"
       }
     ],
     [
       {
-        "type": "symbol",
         "name": "Symbol699",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "partIdx": "_p6"
       }
     ],
     [
       {
-        "type": "symbol",
         "name": "Symbol699",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "partIdx": "_p6"
       }
     ],
     [
       {
-        "type": "symbol",
         "name": "Symbol699",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "partIdx": "_p6"
       }
     ],
     [
       {
-        "type": "symbol",
         "name": "Symbol699",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "partIdx": "_p6"
       }
     ],
     [
       {
-        "type": "symbol",
         "name": "Symbol699",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "partIdx": "_p6"
       }
     ],
     [
       {
-        "type": "symbol",
         "name": "Symbol699",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "partIdx": "_p6"
       }
     ],
     [
       {
-        "type": "symbol",
         "name": "Symbol699",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "partIdx": "_p6"
       }
     ]
   ]

@@ -1,4 +1,5 @@
-import { Symbol } from '../common';
+// Generated from mini_perso.swf by npm run export:swf.
+import type { Symbol } from '../common';
 
 
 export const Symbol487: Symbol = {
@@ -8,17 +9,16 @@ export const Symbol487: Symbol = {
     {
       "type": "svg",
       "name": "Symbol487",
-      "svg": "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>\r\n<svg xmlns:ffdec=\"https://www.free-decompiler.com/flash\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" ffdec:objectType=\"shape\" height=\"2.4px\" width=\"2.55px\" xmlns=\"http://www.w3.org/2000/svg\">\r\n  <g transform=\"matrix(1.0, 0.0, 0.0, 1.0, 44.35, 16.65)\">\r\n    <path d=\"M-43.2 -15.25 L-43.35 -15.65 -42.8 -15.45 -43.2 -15.25\" fill=\"#ffffff\" fill-rule=\"evenodd\" stroke=\"none\"/>\r\n  </g>\r\n</svg>\r\n",
+      "svg": "<svg height=\"4.4px\" width=\"4.55px\" xmlns=\"http://www.w3.org/2000/svg\"><g transform=\"matrix(1.0, 0.0, 0.0, 1.0, 45.35, 17.65)\"><path d=\"M-43.2 -15.25 L-43.35 -15.65 -42.8 -15.45 -43.2 -15.25\" fill=\"#ffffff\" fill-rule=\"evenodd\" stroke=\"none\"/></g></svg>",
       "offset": {
-        "x": 44.35,
-        "y": 16.65
+        "x": 45.35,
+        "y": 17.65
       }
     }
   ],
   "frames": [
     [
       {
-        "type": "svg",
         "name": "Symbol487"
       }
     ]

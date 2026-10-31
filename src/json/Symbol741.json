@@ -8,8 +8,7 @@
     },
     {
       "type": "symbol",
-      "name": "Symbol739",
-      "colorIdx": "_col2"
+      "name": "Symbol739"
     },
     {
       "type": "symbol",
@@ -19,28 +18,18 @@
   "frames": [
     [
       {
-        "type": "symbol",
-        "name": "Symbol740",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol740"
       },
       {
-        "type": "symbol",
         "name": "Symbol739",
+        "colorIdx": "_col2",
         "transform": {
           "tx": -9.4,
           "ty": 0.3
         }
       },
       {
-        "type": "symbol",
-        "name": "Symbol737",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol737"
       }
     ]
   ]

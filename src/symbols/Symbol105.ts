@@ -1,24 +1,18 @@
-import { Symbol } from '../common';
+// Generated from mini_perso.swf by npm run export:swf.
+import type { Symbol } from '../common';
 import { Symbol104 } from './Symbol104';
 
 export const Symbol105: Symbol = {
   "type": "symbol",
   "name": "Symbol105",
   "parts": [
-    {
-      ...Symbol104,
-      "partIdx": "_p2"
-    }
+    Symbol104
   ],
   "frames": [
     [
       {
-        "type": "symbol",
         "name": "Symbol104",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "partIdx": "_p2"
       }
     ]
   ]

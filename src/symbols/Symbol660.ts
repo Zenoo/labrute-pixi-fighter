@@ -1,55 +1,42 @@
-import { Symbol } from '../common';
-import { Symbol659 } from './Symbol659';
-import { Symbol186 } from './Symbol186';
+// Generated from mini_perso.swf by npm run export:swf.
+import type { Symbol } from '../common';
 import { Symbol185 } from './Symbol185';
+import { Symbol186 } from './Symbol186';
+import { Symbol659 } from './Symbol659';
 
 export const Symbol660: Symbol = {
   "type": "symbol",
   "name": "Symbol660",
   "parts": [
-    {
-      ...Symbol659,
-      "partIdx": "_p1"
-    },
-    {
-      ...Symbol186
-    },
-    {
-      ...Symbol185,
-      "partIdx": "_p1"
-    }
+    Symbol185,
+    Symbol186,
+    Symbol659
   ],
   "frames": [
     [
       {
-        "type": "symbol",
         "name": "Symbol185",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "partIdx": "_p1"
       }
     ],
     [],
     [
       {
-        "type": "symbol",
-        "name": "Symbol186",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol186"
       }
     ],
     [
       {
-        "type": "symbol",
         "name": "Symbol659",
+        "partIdx": "_p1",
         "transform": {
           "tx": -13.15,
           "ty": -19.4
         }
       }
-    ]
+    ],
+    [],
+    [],
+    []
   ]
 };

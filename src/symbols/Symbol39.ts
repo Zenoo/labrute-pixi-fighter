@@ -1,0 +1,26 @@
+// Generated from mini_perso.swf by npm run export:swf.
+import type { Symbol } from '../common';
+
+
+export const Symbol39: Symbol = {
+  "type": "symbol",
+  "name": "Symbol39",
+  "parts": [
+    {
+      "type": "svg",
+      "name": "Symbol39",
+      "svg": "<svg height=\"130.95px\" width=\"250.65px\" xmlns=\"http://www.w3.org/2000/svg\"><g transform=\"matrix(1.0, 0.0, 0.0, 1.0, 29.5, 15.2)\"><path d=\"M219.15 67.3 L200.5 105.55 112.35 83.7 105.15 113.75 -27.5 81.85 Q-24.75 62.95 -18.0 44.2 -32.7 31.15 -24.2 9.7 L-24.3 8.65 Q-21.85 -8.45 -6.9 0.4 -6.15 1.45 -5.65 2.8 L-3.4 8.4 -3.7 9.05 -4.4 9.3 -5.6 8.55 -7.05 8.55 -8.55 9.65 -8.15 13.6 -2.05 16.55 0.5 15.3 1.35 13.75 1.95 12.0 Q3.5 8.8 5.45 7.05 6.3 6.25 6.8 6.2 L8.3 3.65 21.85 -13.2 137.7 14.65 130.15 45.95 219.15 67.3\" fill=\"#00ff00\" fill-rule=\"evenodd\" stroke=\"none\"/></g></svg>",
+      "offset": {
+        "x": 29.5,
+        "y": 15.2
+      }
+    }
+  ],
+  "frames": [
+    [
+      {
+        "name": "Symbol39"
+      }
+    ]
+  ]
+};

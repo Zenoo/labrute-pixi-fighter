@@ -1,29 +1,30 @@
-import { Symbol } from '../common';
+// Generated from mini_perso.swf by npm run export:swf.
+import type { Symbol } from '../common';
 import { Symbol34 } from './Symbol34';
 
 export const Symbol35: Symbol = {
   "type": "symbol",
   "name": "Symbol35",
   "parts": [
-    {
-      ...Symbol34,
-      "colorIdx": "_col2"
-    }
+    Symbol34
   ],
   "frames": [
     [],
     [
       {
-        "type": "symbol",
         "name": "Symbol34",
-        "colorOffset": {
-          "r": -16,
-          "g": -50,
-          "b": -80
-        },
+        "colorIdx": "_col2",
         "transform": {
           "tx": -0.15,
           "ty": -0.2
+        },
+        "colorTransform": {
+          "add": [
+            -16,
+            -50,
+            -80,
+            0
+          ]
         }
       }
     ]

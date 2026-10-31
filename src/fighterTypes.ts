@@ -1,5 +1,5 @@
 import type { Filter } from 'pixi.js';
-import type { FramePart } from './common';
+import type { ColorOffset } from './common';
 
 export type Animation = 'idle' | 'monk' | 'fist' | 'arrive' | 'hit-0' | 'hit-1' | 'hit-2'
   | 'run' | 'equip' | 'evade' | 'block' | 'trash' | 'death' | 'estoc' | 'slash'
@@ -34,7 +34,7 @@ export interface FighterAppearance {
   height: number;
   idleAnimation?: Animation;
   /** Optional replacement for timeline color offsets, e.g. a panther's tint. */
-  colorOffset?: FramePart['colorOffset'];
+  colorOffset?: ColorOffset;
   /** Caller-created filters, e.g. boss or pet color adjustments. */
   filters?: Filter[];
 }

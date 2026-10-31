@@ -1,4 +1,5 @@
-import { Symbol } from '../common';
+// Generated from mini_perso.swf by npm run export:swf.
+import type { FramePart, Symbol } from '../common';
 import { Symbol30 } from './Symbol30';
 import { Symbol68 } from './Symbol68';
 import { Symbol80 } from './Symbol80';
@@ -18,6543 +19,3075 @@ import { Symbol426 } from './Symbol426';
 import { Symbol452 } from './Symbol452';
 import { Symbol474 } from './Symbol474';
 
+const placement0: FramePart = {
+  "name": "Symbol122",
+  "transform": {
+    "a": 0.3983001708984375,
+    "d": 0.3983001708984375,
+    "tx": 14,
+    "ty": -7.95
+  }
+};
+
+const placement1: FramePart = {
+  "name": "Symbol218",
+  "transform": {
+    "a": -0.3987274169921875,
+    "d": 0.3987274169921875,
+    "tx": 1.7,
+    "ty": -21
+  }
+};
+
+const placement2: FramePart = {
+  "name": "Symbol218",
+  "transform": {
+    "a": -0.3987274169921875,
+    "d": 0.3987274169921875,
+    "tx": 1.7,
+    "ty": -21.05
+  }
+};
+
+const placement3: FramePart = {
+  "name": "Symbol474",
+  "transform": {
+    "a": -0.38726806640625,
+    "b": 0.1916046142578125,
+    "c": 0.1916046142578125,
+    "d": 0.3872833251953125,
+    "tx": 8.75,
+    "ty": -26.55
+  }
+};
+
+const placement4: FramePart = {
+  "name": "Symbol452",
+  "transform": {
+    "a": -0.280975341796875,
+    "b": -0.279815673828125,
+    "c": -0.2798004150390625,
+    "d": 0.280975341796875,
+    "tx": 2.25,
+    "ty": -32.15
+  }
+};
+
+const placement5: FramePart = {
+  "name": "Symbol426",
+  "transform": {
+    "a": -0.40753173828125,
+    "b": 0.1468658447265625,
+    "c": 0.1468658447265625,
+    "d": 0.40753173828125,
+    "tx": 4.55,
+    "ty": -29.5
+  }
+};
+
+const placement6: FramePart = {
+  "name": "Symbol421",
+  "transform": {
+    "a": -0.2419891357421875,
+    "b": 0.3573455810546875,
+    "c": 0.3573455810546875,
+    "d": 0.2419891357421875,
+    "tx": 11.65,
+    "ty": -24.65
+  }
+};
+
+const placement7: FramePart = {
+  "name": "Symbol411",
+  "transform": {
+    "a": -0.3322601318359375,
+    "b": -0.0527191162109375,
+    "c": -0.0527191162109375,
+    "d": 0.3322601318359375,
+    "tx": 11.2,
+    "ty": -47.05
+  }
+};
+
+const placement8: FramePart = {
+  "name": "Symbol342",
+  "transform": {
+    "a": -0.3492279052734375,
+    "b": -0.2001800537109375,
+    "c": -0.2001800537109375,
+    "d": 0.3492431640625,
+    "tx": 4.85,
+    "ty": -29.35
+  }
+};
+
+const placement9: FramePart = {
+  "name": "Symbol277",
+  "transform": {
+    "a": -0.3446044921875,
+    "b": -0.197509765625,
+    "c": -0.2125244140625,
+    "d": 0.335845947265625,
+    "tx": 3.2,
+    "ty": -23.85
+  }
+};
+
+const placement10: FramePart = {
+  "name": "Symbol242",
+  "transform": {
+    "a": -0.2886962890625,
+    "b": -0.270111083984375,
+    "c": -0.176483154296875,
+    "d": 0.1886138916015625,
+    "tx": 0.55,
+    "ty": -18.65
+  }
+};
+
+const placement11: FramePart = {
+  "name": "Symbol218",
+  "transform": {
+    "a": -0.3987274169921875,
+    "d": 0.3987274169921875,
+    "tx": 1.7,
+    "ty": -21.1
+  }
+};
+
+const placement12: FramePart = {
+  "name": "Symbol209",
+  "transform": {
+    "a": -0.3404541015625,
+    "b": -0.2012786865234375,
+    "c": -0.2012786865234375,
+    "d": 0.3404541015625,
+    "tx": -3.65,
+    "ty": -14.05
+  }
+};
+
+const placement13: FramePart = {
+  "name": "Symbol191",
+  "transform": {
+    "a": -0.3973388671875,
+    "b": -0.0261077880859375,
+    "c": -0.0261077880859375,
+    "d": 0.3973388671875,
+    "tx": -11.55,
+    "ty": -0.45
+  }
+};
+
+const placement14: FramePart = {
+  "name": "Symbol176",
+  "transform": {
+    "a": -0.133636474609375,
+    "b": 0.3713531494140625,
+    "c": 0.3713531494140625,
+    "d": 0.133636474609375,
+    "tx": 1.55,
+    "ty": -19.95
+  }
+};
+
+const placement15: FramePart = {
+  "name": "Symbol148",
+  "transform": {
+    "a": -0.3936767578125,
+    "b": 0.041473388671875,
+    "c": 0.0259552001953125,
+    "d": 0.2463226318359375,
+    "tx": 13.35,
+    "ty": -16.55
+  }
+};
+
+const placement16: FramePart = {
+  "name": "Symbol105",
+  "transform": {
+    "a": -0.354827880859375,
+    "b": 0.1772918701171875,
+    "c": 0.1772918701171875,
+    "d": 0.354827880859375,
+    "tx": 9.5,
+    "ty": -34.95
+  }
+};
+
+const placement17: FramePart = {
+  "name": "Symbol80",
+  "transform": {
+    "a": 0.010528564453125,
+    "b": 0.3974761962890625,
+    "c": 0.3974761962890625,
+    "d": -0.010528564453125,
+    "tx": 15.1,
+    "ty": -34.25
+  }
+};
+
+const placement18: FramePart = {
+  "name": "Symbol68",
+  "transform": {
+    "a": 0.289031982421875,
+    "b": -0.272979736328125,
+    "c": 0.272979736328125,
+    "d": 0.289031982421875,
+    "tx": 26.95,
+    "ty": -30.75
+  }
+};
+
+const placement19: FramePart = {
+  "name": "Symbol30",
+  "transform": {
+    "a": -0.2193756103515625,
+    "b": 0.3303680419921875,
+    "c": 0.3303680419921875,
+    "d": 0.2193756103515625,
+    "tx": 22.3,
+    "ty": -32.6
+  }
+};
+
+const placement20: FramePart = {
+  "name": "Symbol474",
+  "transform": {
+    "a": -0.3645477294921875,
+    "b": 0.230682373046875,
+    "c": 0.230682373046875,
+    "d": 0.3645782470703125,
+    "tx": 7.8,
+    "ty": -26.45
+  }
+};
+
+const placement21: FramePart = {
+  "name": "Symbol452",
+  "transform": {
+    "a": -0.30828857421875,
+    "b": -0.248382568359375,
+    "c": -0.24835205078125,
+    "d": 0.3082733154296875,
+    "tx": 0.9,
+    "ty": -31.3
+  }
+};
+
+const placement22: FramePart = {
+  "name": "Symbol426",
+  "transform": {
+    "a": -0.3894805908203125,
+    "b": 0.1883087158203125,
+    "c": 0.1883087158203125,
+    "d": 0.3894805908203125,
+    "tx": 3.35,
+    "ty": -28.9
+  }
+};
+
+const placement23: FramePart = {
+  "name": "Symbol421",
+  "transform": {
+    "a": -0.2027740478515625,
+    "b": 0.380279541015625,
+    "c": 0.380279541015625,
+    "d": 0.2027740478515625,
+    "tx": 10.85,
+    "ty": -24.85
+  }
+};
+
+const placement24: FramePart = {
+  "name": "Symbol411",
+  "transform": {
+    "a": -0.3331146240234375,
+    "b": -0.04571533203125,
+    "c": -0.04571533203125,
+    "d": 0.3331146240234375,
+    "tx": 8.75,
+    "ty": -46.9
+  }
+};
+
+const placement25: FramePart = {
+  "name": "Symbol342",
+  "transform": {
+    "a": -0.3678436279296875,
+    "b": -0.1622314453125,
+    "c": -0.1622161865234375,
+    "d": 0.3678436279296875,
+    "tx": 3.65,
+    "ty": -28.8
+  }
+};
+
+const placement26: FramePart = {
+  "name": "Symbol277",
+  "transform": {
+    "a": -0.3629608154296875,
+    "b": -0.160064697265625,
+    "c": -0.175872802734375,
+    "d": 0.3558197021484375,
+    "tx": 2.65,
+    "ty": -23.3
+  }
+};
+
+const placement27: FramePart = {
+  "name": "Symbol242",
+  "transform": {
+    "a": -0.28814697265625,
+    "b": -0.269744873046875,
+    "c": -0.176239013671875,
+    "d": 0.188262939453125,
+    "tx": 0.5,
+    "ty": -18.65
+  }
+};
+
+const placement28: FramePart = {
+  "name": "Symbol209",
+  "transform": {
+    "a": -0.34002685546875,
+    "b": -0.2008819580078125,
+    "c": -0.2008819580078125,
+    "d": 0.34002685546875,
+    "tx": -3.6,
+    "ty": -14.05
+  }
+};
+
+const placement29: FramePart = {
+  "name": "Symbol191",
+  "transform": {
+    "a": -0.397247314453125,
+    "b": -0.02606201171875,
+    "c": -0.02606201171875,
+    "d": 0.397247314453125,
+    "tx": -11.6,
+    "ty": -0.45
+  }
+};
+
+const placement30: FramePart = {
+  "name": "Symbol176",
+  "transform": {
+    "a": -0.1334381103515625,
+    "b": 0.371002197265625,
+    "c": 0.371002197265625,
+    "d": 0.1334381103515625,
+    "tx": 1.6,
+    "ty": -19.95
+  }
+};
+
+const placement31: FramePart = {
+  "name": "Symbol148",
+  "transform": {
+    "a": -0.3935394287109375,
+    "b": 0.0413970947265625,
+    "c": 0.025909423828125,
+    "d": 0.246246337890625,
+    "tx": 13.35,
+    "ty": -16.6
+  }
+};
+
+const placement32: FramePart = {
+  "name": "Symbol105",
+  "transform": {
+    "a": -0.3337860107421875,
+    "b": 0.2131805419921875,
+    "c": 0.2131805419921875,
+    "d": 0.3337860107421875,
+    "tx": 7.65,
+    "ty": -34.85
+  }
+};
+
+const placement33: FramePart = {
+  "name": "Symbol80",
+  "transform": {
+    "a": 0.0174102783203125,
+    "b": 0.39715576171875,
+    "c": 0.39715576171875,
+    "d": -0.0174102783203125,
+    "tx": 13.85,
+    "ty": -34.65
+  }
+};
+
+const placement34: FramePart = {
+  "name": "Symbol68",
+  "transform": {
+    "a": 0.25836181640625,
+    "b": -0.3012847900390625,
+    "c": 0.3012847900390625,
+    "d": 0.25836181640625,
+    "tx": 25.95,
+    "ty": -31.8
+  }
+};
+
+const placement35: FramePart = {
+  "name": "Symbol30",
+  "transform": {
+    "a": -0.2131500244140625,
+    "b": 0.33367919921875,
+    "c": 0.33367919921875,
+    "d": 0.2131500244140625,
+    "tx": 21.15,
+    "ty": -33.15
+  }
+};
+
+const placement36: FramePart = {
+  "name": "Symbol474",
+  "transform": {
+    "a": -0.338287353515625,
+    "b": 0.267608642578125,
+    "c": 0.267608642578125,
+    "d": 0.338287353515625,
+    "tx": 6.9,
+    "ty": -26.3
+  }
+};
+
+const placement37: FramePart = {
+  "name": "Symbol452",
+  "transform": {
+    "a": -0.332672119140625,
+    "b": -0.2146453857421875,
+    "c": -0.214630126953125,
+    "d": 0.3326568603515625,
+    "tx": -0.6,
+    "ty": -30.4
+  }
+};
+
+const placement38: FramePart = {
+  "name": "Symbol426",
+  "transform": {
+    "a": -0.3674774169921875,
+    "b": 0.228057861328125,
+    "c": 0.228057861328125,
+    "d": 0.3674774169921875,
+    "tx": 2.1,
+    "ty": -28.25
+  }
+};
+
+const placement39: FramePart = {
+  "name": "Symbol421",
+  "transform": {
+    "a": -0.16180419921875,
+    "b": 0.3995208740234375,
+    "c": 0.3995208740234375,
+    "d": 0.16180419921875,
+    "tx": 10.05,
+    "ty": -25.15
+  }
+};
+
+const placement40: FramePart = {
+  "name": "Symbol411",
+  "transform": {
+    "a": -0.3338623046875,
+    "b": -0.0398712158203125,
+    "c": -0.0398712158203125,
+    "d": 0.3338623046875,
+    "tx": 6.3,
+    "ty": -46.8
+  }
+};
+
+const placement41: FramePart = {
+  "name": "Symbol342",
+  "transform": {
+    "a": -0.3828887939453125,
+    "b": -0.1227874755859375,
+    "c": -0.1227874755859375,
+    "d": 0.382904052734375,
+    "tx": 2.55,
+    "ty": -28.25
+  }
+};
+
+const placement42: FramePart = {
+  "name": "Symbol277",
+  "transform": {
+    "a": -0.3778228759765625,
+    "b": -0.1211395263671875,
+    "c": -0.13763427734375,
+    "d": 0.372344970703125,
+    "tx": 2.1,
+    "ty": -22.6
+  }
+};
+
+const placement43: FramePart = {
+  "name": "Symbol105",
+  "transform": {
+    "a": -0.3094940185546875,
+    "b": 0.2469940185546875,
+    "c": 0.2469940185546875,
+    "d": 0.3094940185546875,
+    "tx": 5.8,
+    "ty": -34.65
+  }
+};
+
+const placement44: FramePart = {
+  "name": "Symbol80",
+  "transform": {
+    "a": 0.0243682861328125,
+    "b": 0.3967132568359375,
+    "c": 0.3967132568359375,
+    "d": -0.0243682861328125,
+    "tx": 12.6,
+    "ty": -35
+  }
+};
+
+const placement45: FramePart = {
+  "name": "Symbol68",
+  "transform": {
+    "a": 0.2253265380859375,
+    "b": -0.326751708984375,
+    "c": 0.326751708984375,
+    "d": 0.2253265380859375,
+    "tx": 25,
+    "ty": -32.85
+  }
+};
+
+const placement46: FramePart = {
+  "name": "Symbol30",
+  "transform": {
+    "a": -0.2072601318359375,
+    "b": 0.3373565673828125,
+    "c": 0.3373565673828125,
+    "d": 0.2072601318359375,
+    "tx": 20.05,
+    "ty": -33.8
+  }
+};
+
+const placement47: FramePart = {
+  "name": "Symbol474",
+  "transform": {
+    "a": -0.308746337890625,
+    "b": 0.302154541015625,
+    "c": 0.302154541015625,
+    "d": 0.3087615966796875,
+    "tx": 5.9,
+    "ty": -26.25
+  }
+};
+
+const placement48: FramePart = {
+  "name": "Symbol452",
+  "transform": {
+    "a": -0.35382080078125,
+    "b": -0.17889404296875,
+    "c": -0.1788787841796875,
+    "d": 0.35382080078125,
+    "tx": -2,
+    "ty": -29.55
+  }
+};
+
+const placement49: FramePart = {
+  "name": "Symbol426",
+  "transform": {
+    "a": -0.3418731689453125,
+    "b": 0.2659149169921875,
+    "c": 0.2659149169921875,
+    "d": 0.3418731689453125,
+    "tx": 0.95,
+    "ty": -27.7
+  }
+};
+
+const placement50: FramePart = {
+  "name": "Symbol421",
+  "transform": {
+    "a": -0.1192779541015625,
+    "b": 0.4146881103515625,
+    "c": 0.4146881103515625,
+    "d": 0.1192779541015625,
+    "tx": 9.2,
+    "ty": -25.3
+  }
+};
+
+const placement51: FramePart = {
+  "name": "Symbol411",
+  "transform": {
+    "a": -0.33453369140625,
+    "b": -0.034881591796875,
+    "c": -0.034881591796875,
+    "d": 0.33453369140625,
+    "tx": 3.8,
+    "ty": -46.6
+  }
+};
+
+const placement52: FramePart = {
+  "name": "Symbol342",
+  "transform": {
+    "a": -0.3939971923828125,
+    "b": -0.0820465087890625,
+    "c": -0.0820465087890625,
+    "d": 0.394012451171875,
+    "tx": 1.3,
+    "ty": -27.7
+  }
+};
+
+const placement53: FramePart = {
+  "name": "Symbol277",
+  "transform": {
+    "a": -0.3887786865234375,
+    "b": -0.0809478759765625,
+    "c": -0.097930908203125,
+    "d": 0.3851165771484375,
+    "tx": 1.45,
+    "ty": -22
+  }
+};
+
+const placement54: FramePart = {
+  "name": "Symbol105",
+  "transform": {
+    "a": -0.2823486328125,
+    "b": 0.27850341796875,
+    "c": 0.27850341796875,
+    "d": 0.2823486328125,
+    "tx": 4,
+    "ty": -34.45
+  }
+};
+
+const placement55: FramePart = {
+  "name": "Symbol80",
+  "transform": {
+    "a": 0.0317230224609375,
+    "b": 0.3962554931640625,
+    "c": 0.3962554931640625,
+    "d": -0.0317230224609375,
+    "tx": 11.35,
+    "ty": -35.45
+  }
+};
+
+const placement56: FramePart = {
+  "name": "Symbol68",
+  "transform": {
+    "a": 0.190155029296875,
+    "b": -0.34906005859375,
+    "c": 0.34906005859375,
+    "d": 0.190155029296875,
+    "tx": 24,
+    "ty": -33.95
+  }
+};
+
+const placement57: FramePart = {
+  "name": "Symbol30",
+  "transform": {
+    "a": -0.2014007568359375,
+    "b": 0.3415374755859375,
+    "c": 0.3415374755859375,
+    "d": 0.2014007568359375,
+    "tx": 18.95,
+    "ty": -34.3
+  }
+};
+
+const frame0: FramePart[] = [
+  placement3,
+  placement4,
+  placement5,
+  placement6,
+  placement7,
+  placement8,
+  placement9,
+  placement10,
+  placement11,
+  placement12,
+  placement13,
+  placement14,
+  placement15,
+  placement0,
+  placement16,
+  placement17,
+  placement18,
+  placement19
+];
+
+const frame1: FramePart[] = [
+  placement20,
+  placement21,
+  placement22,
+  placement23,
+  placement24,
+  placement25,
+  placement26,
+  placement27,
+  placement11,
+  placement28,
+  placement29,
+  placement30,
+  placement31,
+  placement0,
+  placement32,
+  placement33,
+  placement34,
+  placement35
+];
+
+const frame2: FramePart[] = [
+  placement36,
+  placement37,
+  placement38,
+  placement39,
+  placement40,
+  placement41,
+  placement42,
+  placement27,
+  placement11,
+  placement28,
+  placement29,
+  placement30,
+  placement31,
+  placement0,
+  placement43,
+  placement44,
+  placement45,
+  placement46
+];
+
+const frame3: FramePart[] = [
+  placement47,
+  placement48,
+  placement49,
+  placement50,
+  placement51,
+  placement52,
+  placement53,
+  placement10,
+  placement11,
+  placement12,
+  placement13,
+  placement14,
+  placement15,
+  placement0,
+  placement54,
+  placement55,
+  placement56,
+  placement57
+];
+
 export const Symbol508: Symbol = {
   "type": "symbol",
   "name": "Symbol508",
   "parts": [
-    {
-      ...Symbol30
-    },
-    {
-      ...Symbol30
-    },
-    {
-      ...Symbol30
-    },
-    {
-      ...Symbol30
-    },
-    {
-      ...Symbol30
-    },
-    {
-      ...Symbol30
-    },
-    {
-      ...Symbol30
-    },
-    {
-      ...Symbol30
-    },
-    {
-      ...Symbol30
-    },
-    {
-      ...Symbol30
-    },
-    {
-      ...Symbol30
-    },
-    {
-      ...Symbol30
-    },
-    {
-      ...Symbol30
-    },
-    {
-      ...Symbol30
-    },
-    {
-      ...Symbol30
-    },
-    {
-      ...Symbol30
-    },
-    {
-      ...Symbol30
-    },
-    {
-      ...Symbol30
-    },
-    {
-      ...Symbol30
-    },
-    {
-      ...Symbol30
-    },
-    {
-      ...Symbol30
-    },
-    {
-      ...Symbol30
-    },
-    {
-      ...Symbol30
-    },
-    {
-      ...Symbol30
-    },
-    {
-      ...Symbol30
-    },
-    {
-      ...Symbol68
-    },
-    {
-      ...Symbol68
-    },
-    {
-      ...Symbol68
-    },
-    {
-      ...Symbol68
-    },
-    {
-      ...Symbol68
-    },
-    {
-      ...Symbol68
-    },
-    {
-      ...Symbol68
-    },
-    {
-      ...Symbol68
-    },
-    {
-      ...Symbol68
-    },
-    {
-      ...Symbol68
-    },
-    {
-      ...Symbol68
-    },
-    {
-      ...Symbol68
-    },
-    {
-      ...Symbol68
-    },
-    {
-      ...Symbol68
-    },
-    {
-      ...Symbol68
-    },
-    {
-      ...Symbol68
-    },
-    {
-      ...Symbol68
-    },
-    {
-      ...Symbol68
-    },
-    {
-      ...Symbol68
-    },
-    {
-      ...Symbol68
-    },
-    {
-      ...Symbol68
-    },
-    {
-      ...Symbol68
-    },
-    {
-      ...Symbol68
-    },
-    {
-      ...Symbol68
-    },
-    {
-      ...Symbol68
-    },
-    {
-      ...Symbol80
-    },
-    {
-      ...Symbol80
-    },
-    {
-      ...Symbol80
-    },
-    {
-      ...Symbol80
-    },
-    {
-      ...Symbol80
-    },
-    {
-      ...Symbol80
-    },
-    {
-      ...Symbol80
-    },
-    {
-      ...Symbol80
-    },
-    {
-      ...Symbol80
-    },
-    {
-      ...Symbol80
-    },
-    {
-      ...Symbol80
-    },
-    {
-      ...Symbol80
-    },
-    {
-      ...Symbol80
-    },
-    {
-      ...Symbol80
-    },
-    {
-      ...Symbol80
-    },
-    {
-      ...Symbol80
-    },
-    {
-      ...Symbol80
-    },
-    {
-      ...Symbol80
-    },
-    {
-      ...Symbol80
-    },
-    {
-      ...Symbol80
-    },
-    {
-      ...Symbol80
-    },
-    {
-      ...Symbol80
-    },
-    {
-      ...Symbol80
-    },
-    {
-      ...Symbol80
-    },
-    {
-      ...Symbol80
-    },
-    {
-      ...Symbol105
-    },
-    {
-      ...Symbol105
-    },
-    {
-      ...Symbol105
-    },
-    {
-      ...Symbol105
-    },
-    {
-      ...Symbol105
-    },
-    {
-      ...Symbol105
-    },
-    {
-      ...Symbol105
-    },
-    {
-      ...Symbol105
-    },
-    {
-      ...Symbol105
-    },
-    {
-      ...Symbol105
-    },
-    {
-      ...Symbol105
-    },
-    {
-      ...Symbol105
-    },
-    {
-      ...Symbol105
-    },
-    {
-      ...Symbol105
-    },
-    {
-      ...Symbol105
-    },
-    {
-      ...Symbol105
-    },
-    {
-      ...Symbol105
-    },
-    {
-      ...Symbol105
-    },
-    {
-      ...Symbol105
-    },
-    {
-      ...Symbol105
-    },
-    {
-      ...Symbol105
-    },
-    {
-      ...Symbol105
-    },
-    {
-      ...Symbol105
-    },
-    {
-      ...Symbol105
-    },
-    {
-      ...Symbol105
-    },
-    {
-      ...Symbol122
-    },
-    {
-      ...Symbol122
-    },
-    {
-      ...Symbol122
-    },
-    {
-      ...Symbol122
-    },
-    {
-      ...Symbol122
-    },
-    {
-      ...Symbol122
-    },
-    {
-      ...Symbol148
-    },
-    {
-      ...Symbol148
-    },
-    {
-      ...Symbol148
-    },
-    {
-      ...Symbol148
-    },
-    {
-      ...Symbol148
-    },
-    {
-      ...Symbol148
-    },
-    {
-      ...Symbol148
-    },
-    {
-      ...Symbol148
-    },
-    {
-      ...Symbol148
-    },
-    {
-      ...Symbol148
-    },
-    {
-      ...Symbol148
-    },
-    {
-      ...Symbol148
-    },
-    {
-      ...Symbol148
-    },
-    {
-      ...Symbol148
-    },
-    {
-      ...Symbol148
-    },
-    {
-      ...Symbol148
-    },
-    {
-      ...Symbol148
-    },
-    {
-      ...Symbol148
-    },
-    {
-      ...Symbol148
-    },
-    {
-      ...Symbol148
-    },
-    {
-      ...Symbol148
-    },
-    {
-      ...Symbol176
-    },
-    {
-      ...Symbol176
-    },
-    {
-      ...Symbol176
-    },
-    {
-      ...Symbol176
-    },
-    {
-      ...Symbol176
-    },
-    {
-      ...Symbol176
-    },
-    {
-      ...Symbol176
-    },
-    {
-      ...Symbol176
-    },
-    {
-      ...Symbol176
-    },
-    {
-      ...Symbol176
-    },
-    {
-      ...Symbol176
-    },
-    {
-      ...Symbol176
-    },
-    {
-      ...Symbol176
-    },
-    {
-      ...Symbol176
-    },
-    {
-      ...Symbol176
-    },
-    {
-      ...Symbol176
-    },
-    {
-      ...Symbol176
-    },
-    {
-      ...Symbol176
-    },
-    {
-      ...Symbol176
-    },
-    {
-      ...Symbol176
-    },
-    {
-      ...Symbol176
-    },
-    {
-      ...Symbol191
-    },
-    {
-      ...Symbol191
-    },
-    {
-      ...Symbol191
-    },
-    {
-      ...Symbol191
-    },
-    {
-      ...Symbol191
-    },
-    {
-      ...Symbol191
-    },
-    {
-      ...Symbol191
-    },
-    {
-      ...Symbol191
-    },
-    {
-      ...Symbol191
-    },
-    {
-      ...Symbol191
-    },
-    {
-      ...Symbol191
-    },
-    {
-      ...Symbol191
-    },
-    {
-      ...Symbol191
-    },
-    {
-      ...Symbol191
-    },
-    {
-      ...Symbol191
-    },
-    {
-      ...Symbol191
-    },
-    {
-      ...Symbol191
-    },
-    {
-      ...Symbol191
-    },
-    {
-      ...Symbol191
-    },
-    {
-      ...Symbol191
-    },
-    {
-      ...Symbol191
-    },
-    {
-      ...Symbol209
-    },
-    {
-      ...Symbol209
-    },
-    {
-      ...Symbol209
-    },
-    {
-      ...Symbol209
-    },
-    {
-      ...Symbol209
-    },
-    {
-      ...Symbol209
-    },
-    {
-      ...Symbol209
-    },
-    {
-      ...Symbol209
-    },
-    {
-      ...Symbol209
-    },
-    {
-      ...Symbol209
-    },
-    {
-      ...Symbol209
-    },
-    {
-      ...Symbol209
-    },
-    {
-      ...Symbol209
-    },
-    {
-      ...Symbol209
-    },
-    {
-      ...Symbol209
-    },
-    {
-      ...Symbol209
-    },
-    {
-      ...Symbol209
-    },
-    {
-      ...Symbol209
-    },
-    {
-      ...Symbol209
-    },
-    {
-      ...Symbol209
-    },
-    {
-      ...Symbol209
-    },
-    {
-      ...Symbol218
-    },
-    {
-      ...Symbol218
-    },
-    {
-      ...Symbol218
-    },
-    {
-      ...Symbol218
-    },
-    {
-      ...Symbol218
-    },
-    {
-      ...Symbol218
-    },
-    {
-      ...Symbol218
-    },
-    {
-      ...Symbol218
-    },
-    {
-      ...Symbol242
-    },
-    {
-      ...Symbol242
-    },
-    {
-      ...Symbol242
-    },
-    {
-      ...Symbol242
-    },
-    {
-      ...Symbol242
-    },
-    {
-      ...Symbol242
-    },
-    {
-      ...Symbol242
-    },
-    {
-      ...Symbol242
-    },
-    {
-      ...Symbol242
-    },
-    {
-      ...Symbol242
-    },
-    {
-      ...Symbol242
-    },
-    {
-      ...Symbol242
-    },
-    {
-      ...Symbol242
-    },
-    {
-      ...Symbol242
-    },
-    {
-      ...Symbol242
-    },
-    {
-      ...Symbol242
-    },
-    {
-      ...Symbol242
-    },
-    {
-      ...Symbol242
-    },
-    {
-      ...Symbol242
-    },
-    {
-      ...Symbol242
-    },
-    {
-      ...Symbol242
-    },
-    {
-      ...Symbol277
-    },
-    {
-      ...Symbol277
-    },
-    {
-      ...Symbol277
-    },
-    {
-      ...Symbol277
-    },
-    {
-      ...Symbol277
-    },
-    {
-      ...Symbol277
-    },
-    {
-      ...Symbol277
-    },
-    {
-      ...Symbol277
-    },
-    {
-      ...Symbol277
-    },
-    {
-      ...Symbol277
-    },
-    {
-      ...Symbol277
-    },
-    {
-      ...Symbol277
-    },
-    {
-      ...Symbol277
-    },
-    {
-      ...Symbol277
-    },
-    {
-      ...Symbol277
-    },
-    {
-      ...Symbol277
-    },
-    {
-      ...Symbol277
-    },
-    {
-      ...Symbol277
-    },
-    {
-      ...Symbol277
-    },
-    {
-      ...Symbol277
-    },
-    {
-      ...Symbol277
-    },
-    {
-      ...Symbol277
-    },
-    {
-      ...Symbol277
-    },
-    {
-      ...Symbol277
-    },
-    {
-      ...Symbol277
-    },
-    {
-      ...Symbol342
-    },
-    {
-      ...Symbol342
-    },
-    {
-      ...Symbol342
-    },
-    {
-      ...Symbol342
-    },
-    {
-      ...Symbol342
-    },
-    {
-      ...Symbol342
-    },
-    {
-      ...Symbol342
-    },
-    {
-      ...Symbol342
-    },
-    {
-      ...Symbol342
-    },
-    {
-      ...Symbol342
-    },
-    {
-      ...Symbol342
-    },
-    {
-      ...Symbol342
-    },
-    {
-      ...Symbol342
-    },
-    {
-      ...Symbol342
-    },
-    {
-      ...Symbol342
-    },
-    {
-      ...Symbol342
-    },
-    {
-      ...Symbol342
-    },
-    {
-      ...Symbol342
-    },
-    {
-      ...Symbol342
-    },
-    {
-      ...Symbol342
-    },
-    {
-      ...Symbol342
-    },
-    {
-      ...Symbol342
-    },
-    {
-      ...Symbol342
-    },
-    {
-      ...Symbol342
-    },
-    {
-      ...Symbol342
-    },
-    {
-      ...Symbol411
-    },
-    {
-      ...Symbol411
-    },
-    {
-      ...Symbol411
-    },
-    {
-      ...Symbol411
-    },
-    {
-      ...Symbol411
-    },
-    {
-      ...Symbol411
-    },
-    {
-      ...Symbol411
-    },
-    {
-      ...Symbol411
-    },
-    {
-      ...Symbol411
-    },
-    {
-      ...Symbol411
-    },
-    {
-      ...Symbol411
-    },
-    {
-      ...Symbol411
-    },
-    {
-      ...Symbol411
-    },
-    {
-      ...Symbol411
-    },
-    {
-      ...Symbol411
-    },
-    {
-      ...Symbol411
-    },
-    {
-      ...Symbol411
-    },
-    {
-      ...Symbol411
-    },
-    {
-      ...Symbol411
-    },
-    {
-      ...Symbol411
-    },
-    {
-      ...Symbol411
-    },
-    {
-      ...Symbol411
-    },
-    {
-      ...Symbol411
-    },
-    {
-      ...Symbol411
-    },
-    {
-      ...Symbol411
-    },
-    {
-      ...Symbol421
-    },
-    {
-      ...Symbol421
-    },
-    {
-      ...Symbol421
-    },
-    {
-      ...Symbol421
-    },
-    {
-      ...Symbol421
-    },
-    {
-      ...Symbol421
-    },
-    {
-      ...Symbol421
-    },
-    {
-      ...Symbol421
-    },
-    {
-      ...Symbol421
-    },
-    {
-      ...Symbol421
-    },
-    {
-      ...Symbol421
-    },
-    {
-      ...Symbol421
-    },
-    {
-      ...Symbol421
-    },
-    {
-      ...Symbol421
-    },
-    {
-      ...Symbol421
-    },
-    {
-      ...Symbol421
-    },
-    {
-      ...Symbol421
-    },
-    {
-      ...Symbol421
-    },
-    {
-      ...Symbol421
-    },
-    {
-      ...Symbol421
-    },
-    {
-      ...Symbol421
-    },
-    {
-      ...Symbol421
-    },
-    {
-      ...Symbol421
-    },
-    {
-      ...Symbol421
-    },
-    {
-      ...Symbol421
-    },
-    {
-      ...Symbol426
-    },
-    {
-      ...Symbol426
-    },
-    {
-      ...Symbol426
-    },
-    {
-      ...Symbol426
-    },
-    {
-      ...Symbol426
-    },
-    {
-      ...Symbol426
-    },
-    {
-      ...Symbol426
-    },
-    {
-      ...Symbol426
-    },
-    {
-      ...Symbol426
-    },
-    {
-      ...Symbol426
-    },
-    {
-      ...Symbol426
-    },
-    {
-      ...Symbol426
-    },
-    {
-      ...Symbol426
-    },
-    {
-      ...Symbol426
-    },
-    {
-      ...Symbol426
-    },
-    {
-      ...Symbol426
-    },
-    {
-      ...Symbol426
-    },
-    {
-      ...Symbol426
-    },
-    {
-      ...Symbol426
-    },
-    {
-      ...Symbol426
-    },
-    {
-      ...Symbol426
-    },
-    {
-      ...Symbol426
-    },
-    {
-      ...Symbol426
-    },
-    {
-      ...Symbol426
-    },
-    {
-      ...Symbol426
-    },
-    {
-      ...Symbol452
-    },
-    {
-      ...Symbol452
-    },
-    {
-      ...Symbol452
-    },
-    {
-      ...Symbol452
-    },
-    {
-      ...Symbol452
-    },
-    {
-      ...Symbol452
-    },
-    {
-      ...Symbol452
-    },
-    {
-      ...Symbol452
-    },
-    {
-      ...Symbol452
-    },
-    {
-      ...Symbol452
-    },
-    {
-      ...Symbol452
-    },
-    {
-      ...Symbol452
-    },
-    {
-      ...Symbol452
-    },
-    {
-      ...Symbol452
-    },
-    {
-      ...Symbol452
-    },
-    {
-      ...Symbol452
-    },
-    {
-      ...Symbol452
-    },
-    {
-      ...Symbol452
-    },
-    {
-      ...Symbol452
-    },
-    {
-      ...Symbol452
-    },
-    {
-      ...Symbol452
-    },
-    {
-      ...Symbol452
-    },
-    {
-      ...Symbol452
-    },
-    {
-      ...Symbol452
-    },
-    {
-      ...Symbol452
-    },
-    {
-      ...Symbol474
-    },
-    {
-      ...Symbol474
-    },
-    {
-      ...Symbol474
-    },
-    {
-      ...Symbol474
-    },
-    {
-      ...Symbol474
-    },
-    {
-      ...Symbol474
-    },
-    {
-      ...Symbol474
-    },
-    {
-      ...Symbol474
-    },
-    {
-      ...Symbol474
-    },
-    {
-      ...Symbol474
-    },
-    {
-      ...Symbol474
-    },
-    {
-      ...Symbol474
-    },
-    {
-      ...Symbol474
-    },
-    {
-      ...Symbol474
-    },
-    {
-      ...Symbol474
-    },
-    {
-      ...Symbol474
-    },
-    {
-      ...Symbol474
-    },
-    {
-      ...Symbol474
-    },
-    {
-      ...Symbol474
-    },
-    {
-      ...Symbol474
-    },
-    {
-      ...Symbol474
-    },
-    {
-      ...Symbol474
-    },
-    {
-      ...Symbol474
-    },
-    {
-      ...Symbol474
-    },
-    {
-      ...Symbol474
-    }
+    Symbol30,
+    Symbol68,
+    Symbol80,
+    Symbol105,
+    Symbol122,
+    Symbol148,
+    Symbol176,
+    Symbol191,
+    Symbol209,
+    Symbol218,
+    Symbol242,
+    Symbol277,
+    Symbol342,
+    Symbol411,
+    Symbol421,
+    Symbol426,
+    Symbol452,
+    Symbol474
   ],
   "frames": [
     [
       {
-        "type": "symbol",
         "name": "Symbol474",
         "transform": {
-          "tx": -12.7,
-          "ty": -34.35,
           "a": -0.1993560791015625,
-          "d": 0.199371337890625,
           "b": -0.345306396484375,
-          "c": -0.345306396484375
+          "c": -0.345306396484375,
+          "d": 0.199371337890625,
+          "tx": -12.7,
+          "ty": -34.35
         }
       },
       {
-        "type": "symbol",
         "name": "Symbol452",
         "transform": {
-          "tx": 0.35,
-          "ty": -33.65,
           "a": -0.0908203125,
-          "d": 0.0908355712890625,
           "b": -0.38763427734375,
-          "c": -0.3876495361328125
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol426",
-        "transform": {
-          "tx": -5.3,
-          "ty": -34.85,
-          "a": 0,
-          "d": 0,
-          "b": -0.3987274169921875,
-          "c": -0.3987274169921875
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol421",
-        "transform": {
-          "tx": -16.85,
-          "ty": -31.05,
-          "a": -0.3719024658203125,
-          "d": 0.3719024658203125,
-          "b": -0.1423187255859375,
-          "c": -0.1423187255859375
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol411",
-        "transform": {
-          "tx": 11.5,
-          "ty": -44.5,
-          "a": -0.332550048828125,
-          "d": 0.332550048828125,
-          "b": -0.0538787841796875,
-          "c": -0.0538787841796875
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol342",
-        "transform": {
-          "tx": 4.6,
-          "ty": -29.15,
-          "a": -0.345306396484375,
-          "d": 0.3453216552734375,
-          "b": -0.1993560791015625,
-          "c": -0.1993560791015625
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol277",
-        "transform": {
-          "tx": 3,
-          "ty": -23.65,
-          "a": -0.3453216552734375,
-          "d": 0.3370361328125,
-          "b": -0.199371337890625,
-          "c": -0.2136993408203125
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol242",
-        "transform": {
-          "tx": 2.55,
-          "ty": -17.5,
-          "a": -0.2879791259765625,
-          "d": 0.1842803955078125,
-          "b": -0.2735137939453125,
-          "c": -0.1750335693359375
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol218",
-        "transform": {
-          "tx": 1.7,
-          "ty": -20.95,
-          "a": -0.3987274169921875,
-          "d": 0.3987274169921875
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol209",
-        "transform": {
-          "tx": -1.45,
-          "ty": -13,
-          "a": -0.3391571044921875,
-          "d": 0.3391571044921875,
-          "b": -0.2064971923828125,
-          "c": -0.2064971923828125
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol191",
-        "transform": {
-          "tx": -9.4,
-          "ty": 0.55,
-          "a": -0.397491455078125,
-          "d": 0.397491455078125,
-          "b": -0.02777099609375,
-          "c": -0.02777099609375
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol176",
-        "transform": {
-          "tx": 1.5,
-          "ty": -19.85,
-          "a": -0.1261444091796875,
-          "d": 0.1261444091796875,
-          "b": 0.3752288818359375,
-          "c": 0.3752288818359375
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol148",
-        "transform": {
-          "tx": 13.35,
-          "ty": -16.55,
-          "a": -0.394439697265625,
-          "d": 0.246795654296875,
-          "b": 0.0379486083984375,
-          "c": 0.02374267578125
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol122",
-        "transform": {
-          "tx": 14,
-          "ty": -7.95,
-          "a": 0.3983001708984375,
-          "d": 0.3983001708984375
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol105",
-        "transform": {
-          "tx": 9.5,
-          "ty": -34.9,
-          "a": -0.356170654296875,
-          "d": 0.356170654296875,
-          "b": 0.177825927734375,
-          "c": 0.177825927734375
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol80",
-        "transform": {
-          "tx": 11.75,
-          "ty": -35.55,
-          "a": 0.07958984375,
-          "d": -0.07958984375,
-          "b": 0.3900604248046875,
-          "c": 0.3900604248046875
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol68",
-        "transform": {
-          "tx": 18.7,
-          "ty": -30.65,
-          "a": 0.3876953125,
-          "d": 0.3876953125,
-          "b": -0.0930938720703125,
-          "c": 0.0930938720703125
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol30",
-        "transform": {
-          "tx": 15.45,
-          "ty": -34.8,
-          "a": -0.356170654296875,
-          "d": 0.356170654296875,
-          "b": 0.177825927734375,
-          "c": 0.177825927734375
-        }
-      }
-    ],
-    [
-      {
-        "type": "symbol",
-        "name": "Symbol474",
-        "transform": {
-          "tx": -12.7,
-          "ty": -33.65,
-          "a": -0.198089599609375,
-          "d": 0.198089599609375,
-          "b": -0.34521484375,
-          "c": -0.3451995849609375
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol452",
-        "transform": {
-          "tx": 0.4,
-          "ty": -32.85,
-          "a": -0.089813232421875,
-          "d": 0.089813232421875,
-          "b": -0.3874664306640625,
-          "c": -0.3874969482421875
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol426",
-        "transform": {
-          "tx": -5.3,
-          "ty": -34.1,
-          "a": -0.0000152587890625,
-          "d": 0.0000152587890625,
-          "b": -0.3987274169921875,
-          "c": -0.3987274169921875
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol421",
-        "transform": {
-          "tx": -16.9,
-          "ty": -30.3,
-          "a": -0.3716888427734375,
-          "d": 0.3716888427734375,
-          "b": -0.14129638671875,
-          "c": -0.14129638671875
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol411",
-        "transform": {
-          "tx": 11.5,
-          "ty": -43.75,
-          "a": -0.3325042724609375,
-          "d": 0.3325042724609375,
-          "b": -0.0529327392578125,
-          "c": -0.0529327392578125
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol342",
-        "transform": {
-          "tx": 4.65,
-          "ty": -28.45,
-          "a": -0.3452301025390625,
-          "d": 0.345245361328125,
-          "b": -0.1981201171875,
-          "c": -0.1981353759765625
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol277",
-        "transform": {
-          "tx": 3,
-          "ty": -22.9,
-          "a": -0.3451995849609375,
-          "d": 0.3365478515625,
-          "b": -0.1981048583984375,
-          "c": -0.2130279541015625
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol242",
-        "transform": {
-          "tx": 2.5,
-          "ty": -16.7,
-          "a": -0.287017822265625,
-          "d": 0.1837005615234375,
-          "b": -0.2733001708984375,
-          "c": -0.1749420166015625
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol218",
-        "transform": {
-          "tx": 1.7,
-          "ty": -20.2,
-          "a": -0.3987274169921875,
-          "d": 0.3987274169921875
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol209",
-        "transform": {
-          "tx": -1.45,
-          "ty": -12.35,
-          "a": -0.33856201171875,
-          "d": 0.33856201171875,
-          "b": -0.206024169921875,
-          "c": -0.206024169921875
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol191",
-        "transform": {
-          "tx": -9.35,
-          "ty": 1.3,
-          "a": -0.3974609375,
-          "d": 0.3974609375,
-          "b": -0.026397705078125,
-          "c": -0.026397705078125
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol176",
-        "transform": {
-          "tx": 1.55,
-          "ty": -19.1,
-          "a": -0.125701904296875,
-          "d": 0.125701904296875,
-          "b": 0.374847412109375,
-          "c": 0.374847412109375
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol148",
-        "transform": {
-          "tx": 13.35,
-          "ty": -15.8,
-          "a": -0.3944091796875,
-          "d": 0.2467803955078125,
-          "b": 0.03668212890625,
-          "c": 0.02294921875
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol122",
-        "transform": {
-          "tx": 14,
-          "ty": -7.2,
-          "a": 0.3983001708984375,
-          "d": 0.3983001708984375
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol105",
-        "transform": {
-          "tx": 9.5,
-          "ty": -34.15,
-          "a": -0.35552978515625,
-          "d": 0.35552978515625,
-          "b": 0.1776275634765625,
-          "c": 0.1776275634765625
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol80",
-        "transform": {
-          "tx": 11.8,
-          "ty": -34.75,
-          "a": 0.07940673828125,
-          "d": -0.07940673828125,
-          "b": 0.3897705078125,
-          "c": 0.3897705078125
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol68",
-        "transform": {
-          "tx": 18.7,
-          "ty": -29.85,
-          "a": 0.3873138427734375,
-          "d": 0.3873138427734375,
-          "b": -0.0930633544921875,
-          "c": 0.0930633544921875
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol30",
-        "transform": {
-          "tx": 15.45,
-          "ty": -34.1,
-          "a": -0.35552978515625,
-          "d": 0.35552978515625,
-          "b": 0.1776275634765625,
-          "c": 0.1776275634765625
-        }
-      }
-    ],
-    [
-      {
-        "type": "symbol",
-        "name": "Symbol474",
-        "transform": {
-          "tx": -12.7,
-          "ty": -31.4,
-          "a": -0.19805908203125,
-          "d": 0.1980743408203125,
-          "b": -0.3452606201171875,
-          "c": -0.3452606201171875
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol452",
-        "transform": {
+          "c": -0.3876495361328125,
+          "d": 0.0908355712890625,
           "tx": 0.35,
-          "ty": -30.6,
-          "a": -0.0899505615234375,
-          "d": 0.0899505615234375,
-          "b": -0.387451171875,
-          "c": -0.3874664306640625
+          "ty": -33.65
         }
       },
       {
-        "type": "symbol",
         "name": "Symbol426",
         "transform": {
+          "a": 0,
+          "b": -0.3987274169921875,
+          "c": -0.3987274169921875,
+          "d": 0,
           "tx": -5.3,
-          "ty": -31.85,
-          "a": -0.000152587890625,
-          "d": 0.000152587890625,
-          "b": -0.3986968994140625,
-          "c": -0.3986968994140625
+          "ty": -34.85
         }
       },
       {
-        "type": "symbol",
         "name": "Symbol421",
         "transform": {
-          "tx": -16.9,
-          "ty": -28.05,
-          "a": -0.3717041015625,
-          "d": 0.3717041015625,
-          "b": -0.1414031982421875,
-          "c": -0.1414031982421875
+          "a": -0.3719024658203125,
+          "b": -0.1423187255859375,
+          "c": -0.1423187255859375,
+          "d": 0.3719024658203125,
+          "tx": -16.85,
+          "ty": -31.05
         }
       },
       {
-        "type": "symbol",
         "name": "Symbol411",
         "transform": {
+          "a": -0.332550048828125,
+          "b": -0.0538787841796875,
+          "c": -0.0538787841796875,
+          "d": 0.332550048828125,
           "tx": 11.5,
-          "ty": -41.5,
-          "a": -0.3325042724609375,
-          "d": 0.3325042724609375,
-          "b": -0.0529632568359375,
-          "c": -0.0529632568359375
+          "ty": -44.5
         }
       },
       {
-        "type": "symbol",
         "name": "Symbol342",
         "transform": {
-          "tx": 4.65,
-          "ty": -26.15,
-          "a": -0.34539794921875,
-          "d": 0.3454132080078125,
-          "b": -0.1982269287109375,
-          "c": -0.1982574462890625
+          "a": -0.345306396484375,
+          "b": -0.1993560791015625,
+          "c": -0.1993560791015625,
+          "d": 0.3453216552734375,
+          "tx": 4.6,
+          "ty": -29.15
         }
       },
       {
-        "type": "symbol",
         "name": "Symbol277",
         "transform": {
+          "a": -0.3453216552734375,
+          "b": -0.199371337890625,
+          "c": -0.2136993408203125,
+          "d": 0.3370361328125,
           "tx": 3,
-          "ty": -20.65,
-          "a": -0.345245361328125,
-          "d": 0.336578369140625,
-          "b": -0.198150634765625,
-          "c": -0.21307373046875
+          "ty": -23.65
         }
       },
       {
-        "type": "symbol",
         "name": "Symbol242",
         "transform": {
-          "tx": 2.5,
-          "ty": -14.55,
-          "a": -0.2870941162109375,
-          "d": 0.1838836669921875,
-          "b": -0.2733001708984375,
-          "c": -0.175048828125
+          "a": -0.2879791259765625,
+          "b": -0.2735137939453125,
+          "c": -0.1750335693359375,
+          "d": 0.1842803955078125,
+          "tx": 2.55,
+          "ty": -17.5
         }
       },
       {
-        "type": "symbol",
         "name": "Symbol218",
         "transform": {
-          "tx": 1.7,
-          "ty": -17.95,
           "a": -0.3987274169921875,
-          "d": 0.3987274169921875
+          "d": 0.3987274169921875,
+          "tx": 1.7,
+          "ty": -20.95
         }
       },
       {
-        "type": "symbol",
         "name": "Symbol209",
         "transform": {
-          "tx": -1.55,
-          "ty": -10.1,
-          "a": -0.3386383056640625,
-          "d": 0.3386383056640625,
-          "b": -0.2060089111328125,
-          "c": -0.2060089111328125
+          "a": -0.3391571044921875,
+          "b": -0.2064971923828125,
+          "c": -0.2064971923828125,
+          "d": 0.3391571044921875,
+          "tx": -1.45,
+          "ty": -13
         }
       },
       {
-        "type": "symbol",
         "name": "Symbol191",
         "transform": {
-          "tx": -9.45,
-          "ty": 3.5,
-          "a": -0.3974761962890625,
-          "d": 0.3974761962890625,
-          "b": -0.0264434814453125,
-          "c": -0.0264434814453125
+          "a": -0.397491455078125,
+          "b": -0.02777099609375,
+          "c": -0.02777099609375,
+          "d": 0.397491455078125,
+          "tx": -9.4,
+          "ty": 0.55
         }
       },
       {
-        "type": "symbol",
         "name": "Symbol176",
         "transform": {
-          "tx": 1.55,
-          "ty": -16.85,
-          "a": -0.1257781982421875,
-          "d": 0.1257781982421875,
-          "b": 0.3748626708984375,
-          "c": 0.3748626708984375
+          "a": -0.1261444091796875,
+          "b": 0.3752288818359375,
+          "c": 0.3752288818359375,
+          "d": 0.1261444091796875,
+          "tx": 1.5,
+          "ty": -19.85
         }
       },
       {
-        "type": "symbol",
         "name": "Symbol148",
         "transform": {
+          "a": -0.394439697265625,
+          "b": 0.0379486083984375,
+          "c": 0.02374267578125,
+          "d": 0.246795654296875,
           "tx": 13.35,
-          "ty": -13.55,
-          "a": -0.3943023681640625,
-          "d": 0.2467041015625,
-          "b": 0.0379791259765625,
-          "c": 0.0237579345703125
+          "ty": -16.55
         }
       },
+      placement0,
       {
-        "type": "symbol",
-        "name": "Symbol122",
-        "transform": {
-          "tx": 14,
-          "ty": -4.95,
-          "a": 0.3983001708984375,
-          "d": 0.3983001708984375
-        }
-      },
-      {
-        "type": "symbol",
         "name": "Symbol105",
         "transform": {
+          "a": -0.356170654296875,
+          "b": 0.177825927734375,
+          "c": 0.177825927734375,
+          "d": 0.356170654296875,
           "tx": 9.5,
-          "ty": -31.9,
-          "a": -0.355560302734375,
-          "d": 0.355560302734375,
-          "b": 0.177642822265625,
-          "c": 0.177642822265625
+          "ty": -34.9
         }
       },
       {
-        "type": "symbol",
         "name": "Symbol80",
         "transform": {
-          "tx": 11.8,
-          "ty": -32.5,
-          "a": 0.07940673828125,
-          "d": -0.07940673828125,
-          "b": 0.389801025390625,
-          "c": 0.389801025390625
+          "a": 0.07958984375,
+          "b": 0.3900604248046875,
+          "c": 0.3900604248046875,
+          "d": -0.07958984375,
+          "tx": 11.75,
+          "ty": -35.55
         }
       },
       {
-        "type": "symbol",
         "name": "Symbol68",
         "transform": {
+          "a": 0.3876953125,
+          "b": -0.0930938720703125,
+          "c": 0.0930938720703125,
+          "d": 0.3876953125,
           "tx": 18.7,
-          "ty": -27.6,
-          "a": 0.3873443603515625,
-          "d": 0.3873443603515625,
-          "b": -0.09307861328125,
-          "c": 0.09307861328125
+          "ty": -30.65
         }
       },
       {
-        "type": "symbol",
         "name": "Symbol30",
         "transform": {
-          "tx": 15.5,
-          "ty": -31.85,
-          "a": -0.355560302734375,
-          "d": 0.355560302734375,
-          "b": 0.177642822265625,
-          "c": 0.177642822265625
-        }
-      }
-    ],
-    [
-      {
-        "type": "symbol",
-        "name": "Symbol474",
-        "transform": {
-          "tx": -5.05,
-          "ty": -29.4,
-          "a": -0.3583221435546875,
-          "d": 0.35833740234375,
-          "b": -0.1991119384765625,
-          "c": -0.199127197265625
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol452",
-        "transform": {
-          "tx": 1.1,
-          "ty": -30.7,
-          "a": -0.1602783203125,
-          "d": 0.1602783203125,
-          "b": -0.36346435546875,
-          "c": -0.3634796142578125
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol426",
-        "transform": {
-          "tx": -1.8,
-          "ty": -30.7,
-          "a": -0.254730224609375,
-          "d": 0.254730224609375,
-          "b": -0.3219451904296875,
-          "c": -0.3219451904296875
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol421",
-        "transform": {
-          "tx": -6.7,
-          "ty": -26.6,
-          "a": -0.407318115234375,
-          "d": 0.407318115234375,
-          "b": 0.0468292236328125,
-          "c": 0.0468292236328125
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol411",
-        "transform": {
-          "tx": 11.5,
-          "ty": -42.95,
-          "a": -0.332366943359375,
-          "d": 0.332366943359375,
-          "b": -0.052734375,
-          "c": -0.052734375
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol342",
-        "transform": {
-          "tx": 4.7,
-          "ty": -26.95,
-          "a": -0.3452301025390625,
-          "d": 0.3452606201171875,
-          "b": -0.1978912353515625,
-          "c": -0.1979217529296875
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol277",
-        "transform": {
-          "tx": 3,
-          "ty": -21.4,
-          "a": -0.3448486328125,
-          "d": 0.33612060546875,
-          "b": -0.19769287109375,
-          "c": -0.2126922607421875
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol242",
-        "transform": {
-          "tx": 2.4,
-          "ty": -15.3,
-          "a": -0.2865753173828125,
-          "d": 0.1837310791015625,
-          "b": -0.27288818359375,
-          "c": -0.174957275390625
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol218",
-        "transform": {
-          "tx": 1.7,
-          "ty": -18.65,
-          "a": -0.3987274169921875,
-          "d": 0.3987274169921875
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol209",
-        "transform": {
-          "tx": -1.65,
-          "ty": -10.85,
-          "a": -0.338165283203125,
-          "d": 0.338165283203125,
-          "b": -0.2056427001953125,
-          "c": -0.2056427001953125
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol191",
-        "transform": {
-          "tx": -9.55,
-          "ty": 2.75,
-          "a": -0.39739990234375,
-          "d": 0.39739990234375,
-          "b": -0.026153564453125,
-          "c": -0.026153564453125
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol176",
-        "transform": {
-          "tx": 1.55,
-          "ty": -17.6,
-          "a": -0.125640869140625,
-          "d": 0.125640869140625,
-          "b": 0.3744964599609375,
-          "c": 0.3744964599609375
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol148",
-        "transform": {
-          "tx": 13.35,
-          "ty": -14.25,
-          "a": -0.3941802978515625,
-          "d": 0.2466278076171875,
-          "b": 0.0379791259765625,
-          "c": 0.023773193359375
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol122",
-        "transform": {
-          "tx": 14,
-          "ty": -5.65,
-          "a": 0.3983001708984375,
-          "d": 0.3983001708984375
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol105",
-        "transform": {
-          "tx": 9.55,
-          "ty": -32.6,
-          "a": -0.3550872802734375,
-          "d": 0.3550872802734375,
-          "b": 0.1774139404296875,
-          "c": 0.1774139404296875
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol80",
-        "transform": {
-          "tx": 13,
-          "ty": -32.75,
-          "a": 0.0540313720703125,
-          "d": -0.0540313720703125,
-          "b": 0.393951416015625,
-          "c": 0.393951416015625
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol68",
-        "transform": {
-          "tx": 21.65,
-          "ty": -28.3,
-          "a": 0.363311767578125,
-          "d": 0.363311767578125,
-          "b": -0.1622467041015625,
-          "c": 0.1622467041015625
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol30",
-        "transform": {
-          "tx": 18,
-          "ty": -31.7,
-          "a": -0.31646728515625,
-          "d": 0.31646728515625,
-          "b": 0.239410400390625,
-          "c": 0.239410400390625
-        }
-      }
-    ],
-    [
-      {
-        "type": "symbol",
-        "name": "Symbol474",
-        "transform": {
-          "tx": 5.7,
-          "ty": -26.5,
-          "a": -0.4135894775390625,
-          "d": 0.413604736328125,
-          "b": 0.1091766357421875,
-          "c": 0.1091766357421875
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol452",
-        "transform": {
-          "tx": 2.1,
-          "ty": -30.9,
-          "a": -0.24920654296875,
-          "d": 0.24920654296875,
-          "b": -0.3090972900390625,
-          "c": -0.3090972900390625
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol426",
-        "transform": {
-          "tx": 3.25,
-          "ty": -29,
-          "a": -0.4283599853515625,
-          "d": 0.4283599853515625,
-          "b": 0.0187530517578125,
-          "c": 0.0187530517578125
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol421",
-        "transform": {
-          "tx": 7.55,
-          "ty": -24.35,
-          "a": -0.2985992431640625,
-          "d": 0.2985992431640625,
-          "b": 0.3052520751953125,
-          "c": 0.3052520751953125
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol411",
-        "transform": {
-          "tx": 11.45,
-          "ty": -45,
-          "a": -0.3323516845703125,
-          "d": 0.3323516845703125,
-          "b": -0.052734375,
-          "c": -0.052734375
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol342",
-        "transform": {
-          "tx": 4.7,
-          "ty": -27.9,
-          "a": -0.345550537109375,
-          "d": 0.3455810546875,
-          "b": -0.198089599609375,
-          "c": -0.198089599609375
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol277",
-        "transform": {
-          "tx": 3.05,
-          "ty": -22.45,
-          "a": -0.3448486328125,
-          "d": 0.3361053466796875,
-          "b": -0.1976776123046875,
-          "c": -0.212677001953125
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol242",
-        "transform": {
-          "tx": 2.25,
-          "ty": -16.4,
-          "a": -0.28753662109375,
-          "d": 0.1846160888671875,
-          "b": -0.2718353271484375,
-          "c": -0.1745452880859375
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol218",
-        "transform": {
-          "tx": 1.7,
-          "ty": -19.7,
-          "a": -0.3987274169921875,
-          "d": 0.3987274169921875
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol209",
-        "transform": {
-          "tx": -1.8,
-          "ty": -11.9,
-          "a": -0.3389129638671875,
-          "d": 0.3389129638671875,
-          "b": -0.2044219970703125,
-          "c": -0.2044219970703125
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol191",
-        "transform": {
-          "tx": -9.7,
-          "ty": 1.7,
-          "a": -0.39739990234375,
-          "d": 0.39739990234375,
-          "b": -0.026153564453125,
-          "c": -0.026153564453125
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol176",
-        "transform": {
-          "tx": 1.55,
-          "ty": -18.6,
-          "a": -0.1257781982421875,
-          "d": 0.1257781982421875,
-          "b": 0.374420166015625,
-          "c": 0.374420166015625
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol148",
-        "transform": {
-          "tx": 13.4,
-          "ty": -15.25,
-          "a": -0.3941650390625,
-          "d": 0.246612548828125,
-          "b": 0.0380096435546875,
-          "c": 0.023773193359375
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol122",
-        "transform": {
-          "tx": 14,
-          "ty": -6.65,
-          "a": 0.3983001708984375,
-          "d": 0.3983001708984375
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol105",
-        "transform": {
-          "tx": 9.55,
-          "ty": -33.6,
-          "a": -0.355072021484375,
-          "d": 0.355072021484375,
-          "b": 0.1774139404296875,
-          "c": 0.1774139404296875
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol80",
-        "transform": {
-          "tx": 14.6,
-          "ty": -33.05,
-          "a": 0.0194854736328125,
-          "d": -0.0194854736328125,
-          "b": 0.3972625732421875,
-          "c": 0.3972625732421875
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol68",
-        "transform": {
-          "tx": 25.95,
-          "ty": -29.3,
-          "a": 0.308624267578125,
-          "d": 0.308624267578125,
-          "b": -0.2508544921875,
-          "c": 0.2508544921875
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol30",
-        "transform": {
-          "tx": 21.55,
-          "ty": -31.55,
-          "a": -0.24346923828125,
-          "d": 0.24346923828125,
-          "b": 0.3133544921875,
-          "c": 0.3133544921875
-        }
-      }
-    ],
-    [
-      {
-        "type": "symbol",
-        "name": "Symbol474",
-        "transform": {
-          "tx": 19.6,
-          "ty": -22.9,
-          "a": -0.141815185546875,
-          "d": 0.141815185546875,
-          "b": 0.428009033203125,
-          "c": 0.428009033203125
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol452",
-        "transform": {
-          "tx": 3.45,
-          "ty": -31.1,
-          "a": -0.33929443359375,
-          "d": 0.33929443359375,
-          "b": -0.207366943359375,
-          "c": -0.207366943359375
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol426",
-        "transform": {
-          "tx": 9.75,
-          "ty": -26.8,
-          "a": -0.1350860595703125,
-          "d": 0.1350860595703125,
-          "b": 0.430999755859375,
-          "c": 0.430999755859375
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol421",
-        "transform": {
-          "tx": 26.1,
-          "ty": -21.6,
-          "a": 0.0470733642578125,
-          "d": -0.0470733642578125,
-          "b": 0.447998046875,
-          "c": 0.447998046875
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol411",
-        "transform": {
-          "tx": 11.4,
-          "ty": -47.65,
-          "a": -0.332489013671875,
-          "d": 0.332489013671875,
-          "b": -0.0529632568359375,
-          "c": -0.0529632568359375
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol342",
-        "transform": {
-          "tx": 4.7,
-          "ty": -29.25,
-          "a": -0.3463592529296875,
-          "d": 0.3463592529296875,
-          "b": -0.19879150390625,
-          "c": -0.1988067626953125
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol277",
-        "transform": {
-          "tx": 3.05,
-          "ty": -23.7,
-          "a": -0.3451995849609375,
-          "d": 0.3365478515625,
-          "b": -0.1981353759765625,
-          "c": -0.213043212890625
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol242",
-        "transform": {
-          "tx": 2.05,
-          "ty": -17.8,
-          "a": -0.2880706787109375,
-          "d": 0.1853179931640625,
-          "b": -0.2722015380859375,
-          "c": -0.1750946044921875
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol218",
-        "transform": {
-          "tx": 1.7,
-          "ty": -21,
-          "a": -0.3987274169921875,
-          "d": 0.3987274169921875
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol209",
-        "transform": {
-          "tx": -2,
-          "ty": -13.3,
-          "a": -0.3394012451171875,
-          "d": 0.3394012451171875,
-          "b": -0.2046966552734375,
-          "c": -0.2046966552734375
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol191",
-        "transform": {
-          "tx": -9.9,
-          "ty": 0.3,
-          "a": -0.3974609375,
-          "d": 0.3974609375,
-          "b": -0.0264434814453125,
-          "c": -0.0264434814453125
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol176",
-        "transform": {
-          "tx": 1.55,
-          "ty": -19.85,
-          "a": -0.127471923828125,
-          "d": 0.127471923828125,
-          "b": 0.3742218017578125,
-          "c": 0.3742218017578125
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol148",
-        "transform": {
-          "tx": 13.4,
-          "ty": -16.55,
-          "a": -0.394256591796875,
-          "d": 0.246673583984375,
-          "b": 0.038238525390625,
-          "c": 0.02392578125
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol122",
-        "transform": {
-          "tx": 14,
-          "ty": -7.95,
-          "a": 0.3983001708984375,
-          "d": 0.3983001708984375
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol105",
-        "transform": {
-          "tx": 9.5,
-          "ty": -34.9,
-          "a": -0.3555450439453125,
-          "d": 0.3555450439453125,
-          "b": 0.1776275634765625,
-          "c": 0.1776275634765625
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol80",
-        "transform": {
-          "tx": 16.8,
-          "ty": -33.55,
-          "a": -0.024169921875,
-          "d": 0.024169921875,
-          "b": 0.3970489501953125,
-          "c": 0.3970489501953125
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol68",
-        "transform": {
-          "tx": 31.45,
-          "ty": -30.55,
-          "a": 0.20806884765625,
-          "d": 0.20806884765625,
-          "b": -0.339691162109375,
-          "c": 0.339691162109375
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol30",
-        "transform": {
-          "tx": 26.1,
-          "ty": -31.3,
-          "a": -0.1258087158203125,
-          "d": 0.1258087158203125,
-          "b": 0.3769989013671875,
-          "c": 0.3769989013671875
-        }
-      }
-    ],
-    [
-      {
-        "type": "symbol",
-        "name": "Symbol474",
-        "transform": {
-          "tx": 18,
-          "ty": -23.45,
-          "a": -0.1894989013671875,
-          "d": 0.1894989013671875,
-          "b": 0.4054412841796875,
-          "c": 0.4054412841796875
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol452",
-        "transform": {
-          "tx": 3.3,
-          "ty": -31.25,
-          "a": -0.3314971923828125,
-          "d": 0.3314971923828125,
-          "b": -0.21820068359375,
-          "c": -0.21820068359375
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol426",
-        "transform": {
-          "tx": 8.95,
-          "ty": -27.2,
-          "a": -0.190155029296875,
-          "d": 0.190155029296875,
-          "b": 0.4060516357421875,
-          "c": 0.4060516357421875
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol421",
-        "transform": {
-          "tx": 24,
-          "ty": -22.05,
-          "a": 0.0000762939453125,
-          "d": -0.0000762939453125,
-          "b": 0.447662353515625,
-          "c": 0.447662353515625
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol411",
-        "transform": {
-          "tx": 11.35,
-          "ty": -47.55,
-          "a": -0.332305908203125,
-          "d": 0.332305908203125,
-          "b": -0.052734375,
-          "c": -0.052734375
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol342",
-        "transform": {
-          "tx": 4.7,
-          "ty": -29.25,
-          "a": -0.3463897705078125,
-          "d": 0.346405029296875,
-          "b": -0.19854736328125,
-          "c": -0.1985626220703125
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol277",
-        "transform": {
-          "tx": 3.05,
-          "ty": -23.7,
-          "a": -0.3447113037109375,
-          "d": 0.3359832763671875,
-          "b": -0.197601318359375,
-          "c": -0.2126007080078125
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol242",
-        "transform": {
-          "tx": 1.85,
-          "ty": -17.95,
-          "a": -0.287567138671875,
-          "d": 0.1854400634765625,
-          "b": -0.2715606689453125,
-          "c": -0.17510986328125
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol218",
-        "transform": {
-          "tx": 1.7,
-          "ty": -21,
-          "a": -0.3987274169921875,
-          "d": 0.3987274169921875
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol209",
-        "transform": {
-          "tx": -2.25,
-          "ty": -13.4,
-          "a": -0.3389434814453125,
-          "d": 0.3389434814453125,
-          "b": -0.2040863037109375,
-          "c": -0.2040863037109375
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol191",
-        "transform": {
-          "tx": -10.15,
-          "ty": 0.2,
-          "a": -0.397369384765625,
-          "d": 0.397369384765625,
-          "b": -0.0261383056640625,
-          "c": -0.0261383056640625
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol176",
-        "transform": {
-          "tx": 1.55,
-          "ty": -19.85,
-          "a": -0.1273651123046875,
-          "d": 0.1273651123046875,
-          "b": 0.37371826171875,
-          "c": 0.37371826171875
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol148",
-        "transform": {
-          "tx": 13.35,
-          "ty": -16.5,
-          "a": -0.3940887451171875,
-          "d": 0.24658203125,
-          "b": 0.03814697265625,
-          "c": 0.02386474609375
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol122",
-        "transform": {
-          "tx": 14,
-          "ty": -7.95,
-          "a": 0.3983001708984375,
-          "d": 0.3983001708984375
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol105",
-        "transform": {
-          "tx": 9.5,
-          "ty": -34.9,
-          "a": -0.354949951171875,
-          "d": 0.354949951171875,
-          "b": 0.1773529052734375,
-          "c": 0.1773529052734375
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol80",
-        "transform": {
-          "tx": 16.5,
-          "ty": -33.65,
-          "a": -0.01776123046875,
-          "d": 0.01776123046875,
-          "b": 0.3973236083984375,
-          "c": 0.3973236083984375
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol68",
-        "transform": {
-          "tx": 30.85,
-          "ty": -30.6,
-          "a": 0.2201385498046875,
-          "d": 0.2201385498046875,
-          "b": -0.33111572265625,
-          "c": 0.33111572265625
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol30",
-        "transform": {
-          "tx": 25.55,
-          "ty": -31.5,
-          "a": -0.1394805908203125,
-          "d": 0.1394805908203125,
-          "b": 0.3715667724609375,
-          "c": 0.3715667724609375
-        }
-      }
-    ],
-    [
-      {
-        "type": "symbol",
-        "name": "Symbol474",
-        "transform": {
-          "tx": 16.1,
-          "ty": -24.15,
-          "a": -0.2422943115234375,
-          "d": 0.2423095703125,
-          "b": 0.3722076416015625,
-          "c": 0.3722076416015625
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol452",
-        "transform": {
-          "tx": 3.1,
-          "ty": -31.5,
-          "a": -0.321624755859375,
-          "d": 0.3216094970703125,
-          "b": -0.2321929931640625,
-          "c": -0.2321624755859375
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol426",
-        "transform": {
-          "tx": 8.1,
-          "ty": -27.65,
-          "a": -0.2524566650390625,
-          "d": 0.2524566650390625,
-          "b": 0.3664398193359375,
-          "c": 0.3664398193359375
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol421",
-        "transform": {
-          "tx": 21.45,
-          "ty": -22.6,
-          "a": -0.0541534423828125,
-          "d": 0.0541534423828125,
-          "b": 0.44085693359375,
-          "c": 0.44085693359375
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol411",
-        "transform": {
-          "tx": 11.35,
-          "ty": -47.45,
-          "a": -0.3322601318359375,
-          "d": 0.3322601318359375,
-          "b": -0.0527191162109375,
-          "c": -0.0527191162109375
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol342",
-        "transform": {
-          "tx": 4.75,
-          "ty": -29.35,
-          "a": -0.3468780517578125,
-          "d": 0.346893310546875,
-          "b": -0.1988067626953125,
-          "c": -0.198822021484375
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol277",
-        "transform": {
-          "tx": 3.15,
-          "ty": -23.8,
-          "a": -0.3445892333984375,
-          "d": 0.335845947265625,
-          "b": -0.197509765625,
-          "c": -0.2125244140625
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol242",
-        "transform": {
-          "tx": 1.55,
-          "ty": -18.05,
-          "a": -0.287506103515625,
-          "d": 0.1858978271484375,
-          "b": -0.271392822265625,
-          "c": -0.17547607421875
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol218",
-        "transform": {
-          "tx": 1.7,
-          "ty": -21.05,
-          "a": -0.3987274169921875,
-          "d": 0.3987274169921875
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol209",
-        "transform": {
-          "tx": -2.55,
-          "ty": -13.55,
-          "a": -0.3395538330078125,
-          "d": 0.3395538330078125,
-          "b": -0.202789306640625,
-          "c": -0.202789306640625
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol191",
-        "transform": {
-          "tx": -10.45,
-          "ty": 0.05,
-          "a": -0.3973388671875,
-          "d": 0.3973388671875,
-          "b": -0.0261077880859375,
-          "c": -0.0261077880859375
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol176",
-        "transform": {
-          "tx": 1.6,
-          "ty": -19.95,
-          "a": -0.12884521484375,
-          "d": 0.12884521484375,
-          "b": 0.3730926513671875,
-          "c": 0.3730926513671875
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol148",
-        "transform": {
-          "tx": 13.4,
-          "ty": -16.5,
-          "a": -0.3940582275390625,
-          "d": 0.246551513671875,
-          "b": 0.038299560546875,
-          "c": 0.023956298828125
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol122",
-        "transform": {
-          "tx": 14,
-          "ty": -7.95,
-          "a": 0.3983001708984375,
-          "d": 0.3983001708984375
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol105",
-        "transform": {
-          "tx": 9.5,
-          "ty": -34.9,
-          "a": -0.354827880859375,
-          "d": 0.354827880859375,
-          "b": 0.1772918701171875,
-          "c": 0.1772918701171875
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol80",
-        "transform": {
-          "tx": 16.25,
-          "ty": -33.8,
-          "a": -0.0123443603515625,
-          "d": 0.0123443603515625,
-          "b": 0.397491455078125,
-          "c": 0.397491455078125
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol68",
-        "transform": {
-          "tx": 30.05,
-          "ty": -30.55,
-          "a": 0.2356109619140625,
-          "d": 0.2356109619140625,
-          "b": -0.320098876953125,
-          "c": 0.320098876953125
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol30",
-        "transform": {
-          "tx": 24.85,
-          "ty": -31.7,
-          "a": -0.156951904296875,
-          "d": 0.156951904296875,
-          "b": 0.36431884765625,
-          "c": 0.36431884765625
-        }
-      }
-    ],
-    [
-      {
-        "type": "symbol",
-        "name": "Symbol474",
-        "transform": {
-          "tx": 13.85,
-          "ty": -24.8,
-          "a": -0.29534912109375,
-          "d": 0.2953338623046875,
-          "b": 0.3265380859375,
-          "c": 0.3265380859375
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol452",
-        "transform": {
-          "tx": 2.8,
-          "ty": -31.6,
-          "a": -0.3099365234375,
-          "d": 0.3099365234375,
-          "b": -0.2471771240234375,
-          "c": -0.247161865234375
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol426",
-        "transform": {
-          "tx": 7.05,
-          "ty": -28.2,
-          "a": -0.312713623046875,
-          "d": 0.312713623046875,
-          "b": 0.311279296875,
-          "c": 0.311279296875
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol421",
-        "transform": {
-          "tx": 18.45,
-          "ty": -23.2,
-          "a": -0.114166259765625,
-          "d": 0.114166259765625,
-          "b": 0.42510986328125,
-          "c": 0.42510986328125
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol411",
-        "transform": {
-          "tx": 11.3,
-          "ty": -47.35,
-          "a": -0.33221435546875,
-          "d": 0.33221435546875,
-          "b": -0.0526885986328125,
-          "c": -0.0526885986328125
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol342",
-        "transform": {
-          "tx": 4.85,
-          "ty": -29.3,
-          "a": -0.347442626953125,
-          "d": 0.347442626953125,
-          "b": -0.199127197265625,
-          "c": -0.1991424560546875
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol277",
-        "transform": {
-          "tx": 3.2,
-          "ty": -23.85,
-          "a": -0.3444671630859375,
-          "d": 0.335693359375,
-          "b": -0.1974334716796875,
-          "c": -0.2124176025390625
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol242",
-        "transform": {
-          "tx": 1.25,
-          "ty": -18.15,
-          "a": -0.288330078125,
-          "d": 0.18701171875,
-          "b": -0.2702178955078125,
-          "c": -0.175262451171875
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol218",
-        "transform": {
-          "tx": 1.7,
-          "ty": -21.05,
-          "a": -0.3987274169921875,
-          "d": 0.3987274169921875
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol209",
-        "transform": {
-          "tx": -2.85,
-          "ty": -13.65,
-          "a": -0.3394927978515625,
-          "d": 0.3394927978515625,
-          "b": -0.2025299072265625,
-          "c": -0.2025299072265625
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol191",
-        "transform": {
-          "tx": -10.75,
-          "ty": -0.1,
-          "a": -0.3973236083984375,
-          "d": 0.3973236083984375,
-          "b": -0.026092529296875,
-          "c": -0.026092529296875
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol176",
-        "transform": {
-          "tx": 1.55,
-          "ty": -19.9,
-          "a": -0.1303558349609375,
-          "d": 0.1303558349609375,
-          "b": 0.3724212646484375,
-          "c": 0.3724212646484375
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol148",
-        "transform": {
-          "tx": 13.4,
-          "ty": -16.55,
-          "a": -0.3938446044921875,
-          "d": 0.246429443359375,
-          "b": 0.03973388671875,
-          "c": 0.0248565673828125
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol122",
-        "transform": {
-          "tx": 14,
-          "ty": -7.95,
-          "a": 0.3983001708984375,
-          "d": 0.3983001708984375
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol105",
-        "transform": {
-          "tx": 9.5,
-          "ty": -34.9,
-          "a": -0.3546905517578125,
-          "d": 0.3546905517578125,
-          "b": 0.1772308349609375,
-          "c": 0.1772308349609375
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol80",
-        "transform": {
-          "tx": 15.9,
-          "ty": -33.9,
-          "a": -0.005401611328125,
-          "d": 0.005401611328125,
-          "b": 0.3976593017578125,
-          "c": 0.3976593017578125
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol68",
-        "transform": {
-          "tx": 29.1,
-          "ty": -30.65,
-          "a": 0.252044677734375,
-          "d": 0.252044677734375,
-          "b": -0.3071136474609375,
-          "c": 0.3071136474609375
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol30",
-        "transform": {
-          "tx": 24.1,
-          "ty": -32.1,
-          "a": -0.1758270263671875,
-          "d": 0.1758270263671875,
-          "b": 0.3553466796875,
-          "c": 0.3553466796875
-        }
-      }
-    ],
-    [
-      {
-        "type": "symbol",
-        "name": "Symbol474",
-        "transform": {
-          "tx": 11.45,
-          "ty": -25.7,
-          "a": -0.3455352783203125,
-          "d": 0.345550537109375,
-          "b": 0.2659912109375,
-          "c": 0.2660064697265625
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol452",
-        "transform": {
-          "tx": 2.6,
-          "ty": -31.9,
-          "a": -0.296295166015625,
-          "d": 0.2962799072265625,
-          "b": -0.26300048828125,
-          "c": -0.2629852294921875
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol426",
-        "transform": {
-          "tx": 5.85,
-          "ty": -28.85,
-          "a": -0.367218017578125,
-          "d": 0.367218017578125,
-          "b": 0.2371063232421875,
-          "c": 0.2371063232421875
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol421",
-        "transform": {
-          "tx": 15.25,
-          "ty": -23.9,
-          "a": -0.177703857421875,
-          "d": 0.177703857421875,
-          "b": 0.3978424072265625,
-          "c": 0.3978424072265625
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol411",
-        "transform": {
-          "tx": 11.25,
-          "ty": -47.25,
-          "a": -0.3321380615234375,
-          "d": 0.3321380615234375,
-          "b": -0.05267333984375,
-          "c": -0.05267333984375
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol342",
-        "transform": {
-          "tx": 4.8,
-          "ty": -29.35,
-          "a": -0.34808349609375,
-          "d": 0.3480682373046875,
-          "b": -0.1994781494140625,
-          "c": -0.1994781494140625
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol277",
-        "transform": {
-          "tx": 3.2,
-          "ty": -23.8,
-          "a": -0.34429931640625,
-          "d": 0.335540771484375,
-          "b": -0.1973114013671875,
-          "c": -0.212310791015625
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol242",
-        "transform": {
-          "tx": 0.9,
-          "ty": -18.35,
-          "a": -0.2882537841796875,
-          "d": 0.1876068115234375,
-          "b": -0.2700042724609375,
-          "c": -0.1757354736328125
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol218",
-        "transform": {
-          "tx": 1.7,
-          "ty": -21.05,
-          "a": -0.3987274169921875,
-          "d": 0.3987274169921875
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol209",
-        "transform": {
-          "tx": -3.25,
-          "ty": -13.9,
-          "a": -0.340118408203125,
-          "d": 0.340118408203125,
-          "b": -0.201171875,
-          "c": -0.201171875
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol191",
-        "transform": {
-          "tx": -11.15,
-          "ty": -0.25,
-          "a": -0.39727783203125,
-          "d": 0.39727783203125,
-          "b": -0.0260772705078125,
-          "c": -0.0260772705078125
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol176",
-        "transform": {
-          "tx": 1.55,
-          "ty": -19.95,
-          "a": -0.1318817138671875,
-          "d": 0.1318817138671875,
-          "b": 0.3717193603515625,
-          "c": 0.3717193603515625
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol148",
-        "transform": {
-          "tx": 13.4,
-          "ty": -16.55,
-          "a": -0.393768310546875,
-          "d": 0.2463836669921875,
-          "b": 0.0399169921875,
-          "c": 0.0249786376953125
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol122",
-        "transform": {
-          "tx": 14,
-          "ty": -7.95,
-          "a": 0.3983001708984375,
-          "d": 0.3983001708984375
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol105",
-        "transform": {
-          "tx": 9.5,
-          "ty": -34.9,
-          "a": -0.3545379638671875,
-          "d": 0.3545379638671875,
-          "b": 0.1771392822265625,
-          "c": 0.1771392822265625
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol80",
-        "transform": {
+          "a": -0.356170654296875,
+          "b": 0.177825927734375,
+          "c": 0.177825927734375,
+          "d": 0.356170654296875,
           "tx": 15.45,
-          "ty": -34.1,
-          "a": 0.0017852783203125,
-          "d": -0.0017852783203125,
-          "b": 0.39764404296875,
-          "c": 0.39764404296875
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol68",
-        "transform": {
-          "tx": 28.05,
-          "ty": -30.7,
-          "a": 0.2701568603515625,
-          "d": 0.2701568603515625,
-          "b": -0.2910614013671875,
-          "c": 0.2910614013671875
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol30",
-        "transform": {
-          "tx": 23.3,
-          "ty": -32.25,
-          "a": -0.1970062255859375,
-          "d": 0.1970062255859375,
-          "b": 0.343780517578125,
-          "c": 0.343780517578125
+          "ty": -34.8
         }
       }
     ],
     [
       {
-        "type": "symbol",
         "name": "Symbol474",
         "transform": {
-          "tx": 8.75,
-          "ty": -26.55,
-          "a": -0.38726806640625,
-          "d": 0.3872833251953125,
-          "b": 0.1916046142578125,
-          "c": 0.1916046142578125
+          "a": -0.198089599609375,
+          "b": -0.34521484375,
+          "c": -0.3451995849609375,
+          "d": 0.198089599609375,
+          "tx": -12.7,
+          "ty": -33.65
         }
       },
       {
-        "type": "symbol",
         "name": "Symbol452",
         "transform": {
-          "tx": 2.25,
-          "ty": -32.15,
-          "a": -0.280975341796875,
-          "d": 0.280975341796875,
-          "b": -0.279815673828125,
-          "c": -0.2798004150390625
+          "a": -0.089813232421875,
+          "b": -0.3874664306640625,
+          "c": -0.3874969482421875,
+          "d": 0.089813232421875,
+          "tx": 0.4,
+          "ty": -32.85
         }
       },
       {
-        "type": "symbol",
         "name": "Symbol426",
         "transform": {
-          "tx": 4.55,
-          "ty": -29.5,
-          "a": -0.40753173828125,
-          "d": 0.40753173828125,
-          "b": 0.1468658447265625,
-          "c": 0.1468658447265625
+          "a": -0.0000152587890625,
+          "b": -0.3987274169921875,
+          "c": -0.3987274169921875,
+          "d": 0.0000152587890625,
+          "tx": -5.3,
+          "ty": -34.1
         }
       },
       {
-        "type": "symbol",
         "name": "Symbol421",
         "transform": {
-          "tx": 11.65,
-          "ty": -24.65,
-          "a": -0.2419891357421875,
-          "d": 0.2419891357421875,
-          "b": 0.3573455810546875,
-          "c": 0.3573455810546875
+          "a": -0.3716888427734375,
+          "b": -0.14129638671875,
+          "c": -0.14129638671875,
+          "d": 0.3716888427734375,
+          "tx": -16.9,
+          "ty": -30.3
         }
       },
       {
-        "type": "symbol",
         "name": "Symbol411",
         "transform": {
-          "tx": 11.2,
-          "ty": -47.05,
-          "a": -0.3322601318359375,
-          "d": 0.3322601318359375,
-          "b": -0.0527191162109375,
-          "c": -0.0527191162109375
+          "a": -0.3325042724609375,
+          "b": -0.0529327392578125,
+          "c": -0.0529327392578125,
+          "d": 0.3325042724609375,
+          "tx": 11.5,
+          "ty": -43.75
         }
       },
       {
-        "type": "symbol",
         "name": "Symbol342",
         "transform": {
-          "tx": 4.85,
-          "ty": -29.35,
-          "a": -0.3492279052734375,
-          "d": 0.3492431640625,
-          "b": -0.2001800537109375,
-          "c": -0.2001800537109375
+          "a": -0.3452301025390625,
+          "b": -0.1981201171875,
+          "c": -0.1981353759765625,
+          "d": 0.345245361328125,
+          "tx": 4.65,
+          "ty": -28.45
         }
       },
       {
-        "type": "symbol",
         "name": "Symbol277",
         "transform": {
-          "tx": 3.2,
-          "ty": -23.85,
-          "a": -0.3446044921875,
-          "d": 0.335845947265625,
-          "b": -0.197509765625,
-          "c": -0.2125244140625
+          "a": -0.3451995849609375,
+          "b": -0.1981048583984375,
+          "c": -0.2130279541015625,
+          "d": 0.3365478515625,
+          "tx": 3,
+          "ty": -22.9
         }
       },
       {
-        "type": "symbol",
         "name": "Symbol242",
         "transform": {
-          "tx": 0.55,
-          "ty": -18.65,
-          "a": -0.2886962890625,
-          "d": 0.1886138916015625,
-          "b": -0.270111083984375,
-          "c": -0.176483154296875
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol218",
-        "transform": {
-          "tx": 1.7,
-          "ty": -21.1,
-          "a": -0.3987274169921875,
-          "d": 0.3987274169921875
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol209",
-        "transform": {
-          "tx": -3.65,
-          "ty": -14.05,
-          "a": -0.3404541015625,
-          "d": 0.3404541015625,
-          "b": -0.2012786865234375,
-          "c": -0.2012786865234375
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol191",
-        "transform": {
-          "tx": -11.55,
-          "ty": -0.45,
-          "a": -0.3973388671875,
-          "d": 0.3973388671875,
-          "b": -0.0261077880859375,
-          "c": -0.0261077880859375
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol176",
-        "transform": {
-          "tx": 1.55,
-          "ty": -19.95,
-          "a": -0.133636474609375,
-          "d": 0.133636474609375,
-          "b": 0.3713531494140625,
-          "c": 0.3713531494140625
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol148",
-        "transform": {
-          "tx": 13.35,
-          "ty": -16.55,
-          "a": -0.3936767578125,
-          "d": 0.2463226318359375,
-          "b": 0.041473388671875,
-          "c": 0.0259552001953125
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol122",
-        "transform": {
-          "tx": 14,
-          "ty": -7.95,
-          "a": 0.3983001708984375,
-          "d": 0.3983001708984375
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol105",
-        "transform": {
-          "tx": 9.5,
-          "ty": -34.95,
-          "a": -0.354827880859375,
-          "d": 0.354827880859375,
-          "b": 0.1772918701171875,
-          "c": 0.1772918701171875
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol80",
-        "transform": {
-          "tx": 15.1,
-          "ty": -34.25,
-          "a": 0.010528564453125,
-          "d": -0.010528564453125,
-          "b": 0.3974761962890625,
-          "c": 0.3974761962890625
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol68",
-        "transform": {
-          "tx": 26.95,
-          "ty": -30.75,
-          "a": 0.289031982421875,
-          "d": 0.289031982421875,
-          "b": -0.272979736328125,
-          "c": 0.272979736328125
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol30",
-        "transform": {
-          "tx": 22.3,
-          "ty": -32.6,
-          "a": -0.2193756103515625,
-          "d": 0.2193756103515625,
-          "b": 0.3303680419921875,
-          "c": 0.3303680419921875
-        }
-      }
-    ],
-    [
-      {
-        "type": "symbol",
-        "name": "Symbol474",
-        "transform": {
-          "tx": 7.8,
-          "ty": -26.45,
-          "a": -0.3645477294921875,
-          "d": 0.3645782470703125,
-          "b": 0.230682373046875,
-          "c": 0.230682373046875
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol452",
-        "transform": {
-          "tx": 0.9,
-          "ty": -31.3,
-          "a": -0.30828857421875,
-          "d": 0.3082733154296875,
-          "b": -0.248382568359375,
-          "c": -0.24835205078125
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol426",
-        "transform": {
-          "tx": 3.35,
-          "ty": -28.9,
-          "a": -0.3894805908203125,
-          "d": 0.3894805908203125,
-          "b": 0.1883087158203125,
-          "c": 0.1883087158203125
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol421",
-        "transform": {
-          "tx": 10.85,
-          "ty": -24.85,
-          "a": -0.2027740478515625,
-          "d": 0.2027740478515625,
-          "b": 0.380279541015625,
-          "c": 0.380279541015625
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol411",
-        "transform": {
-          "tx": 8.75,
-          "ty": -46.9,
-          "a": -0.3331146240234375,
-          "d": 0.3331146240234375,
-          "b": -0.04571533203125,
-          "c": -0.04571533203125
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol342",
-        "transform": {
-          "tx": 3.65,
-          "ty": -28.8,
-          "a": -0.3678436279296875,
-          "d": 0.3678436279296875,
-          "b": -0.1622314453125,
-          "c": -0.1622161865234375
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol277",
-        "transform": {
-          "tx": 2.65,
-          "ty": -23.3,
-          "a": -0.3629608154296875,
-          "d": 0.3558197021484375,
-          "b": -0.160064697265625,
-          "c": -0.175872802734375
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol242",
-        "transform": {
-          "tx": 0.5,
-          "ty": -18.65,
-          "a": -0.28814697265625,
-          "d": 0.188262939453125,
-          "b": -0.269744873046875,
-          "c": -0.176239013671875
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol218",
-        "transform": {
-          "tx": 1.7,
-          "ty": -21.1,
-          "a": -0.3987274169921875,
-          "d": 0.3987274169921875
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol209",
-        "transform": {
-          "tx": -3.6,
-          "ty": -14.05,
-          "a": -0.34002685546875,
-          "d": 0.34002685546875,
-          "b": -0.2008819580078125,
-          "c": -0.2008819580078125
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol191",
-        "transform": {
-          "tx": -11.6,
-          "ty": -0.45,
-          "a": -0.397247314453125,
-          "d": 0.397247314453125,
-          "b": -0.02606201171875,
-          "c": -0.02606201171875
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol176",
-        "transform": {
-          "tx": 1.6,
-          "ty": -19.95,
-          "a": -0.1334381103515625,
-          "d": 0.1334381103515625,
-          "b": 0.371002197265625,
-          "c": 0.371002197265625
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol148",
-        "transform": {
-          "tx": 13.35,
-          "ty": -16.6,
-          "a": -0.3935394287109375,
-          "d": 0.246246337890625,
-          "b": 0.0413970947265625,
-          "c": 0.025909423828125
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol122",
-        "transform": {
-          "tx": 14,
-          "ty": -7.95,
-          "a": 0.3983001708984375,
-          "d": 0.3983001708984375
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol105",
-        "transform": {
-          "tx": 7.65,
-          "ty": -34.85,
-          "a": -0.3337860107421875,
-          "d": 0.3337860107421875,
-          "b": 0.2131805419921875,
-          "c": 0.2131805419921875
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol80",
-        "transform": {
-          "tx": 13.85,
-          "ty": -34.65,
-          "a": 0.0174102783203125,
-          "d": -0.0174102783203125,
-          "b": 0.39715576171875,
-          "c": 0.39715576171875
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol68",
-        "transform": {
-          "tx": 25.95,
-          "ty": -31.8,
-          "a": 0.25836181640625,
-          "d": 0.25836181640625,
-          "b": -0.3012847900390625,
-          "c": 0.3012847900390625
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol30",
-        "transform": {
-          "tx": 21.15,
-          "ty": -33.15,
-          "a": -0.2131500244140625,
-          "d": 0.2131500244140625,
-          "b": 0.33367919921875,
-          "c": 0.33367919921875
-        }
-      }
-    ],
-    [
-      {
-        "type": "symbol",
-        "name": "Symbol474",
-        "transform": {
-          "tx": 6.9,
-          "ty": -26.3,
-          "a": -0.338287353515625,
-          "d": 0.338287353515625,
-          "b": 0.267608642578125,
-          "c": 0.267608642578125
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol452",
-        "transform": {
-          "tx": -0.6,
-          "ty": -30.4,
-          "a": -0.332672119140625,
-          "d": 0.3326568603515625,
-          "b": -0.2146453857421875,
-          "c": -0.214630126953125
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol426",
-        "transform": {
-          "tx": 2.1,
-          "ty": -28.25,
-          "a": -0.3674774169921875,
-          "d": 0.3674774169921875,
-          "b": 0.228057861328125,
-          "c": 0.228057861328125
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol421",
-        "transform": {
-          "tx": 10.05,
-          "ty": -25.15,
-          "a": -0.16180419921875,
-          "d": 0.16180419921875,
-          "b": 0.3995208740234375,
-          "c": 0.3995208740234375
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol411",
-        "transform": {
-          "tx": 6.3,
-          "ty": -46.8,
-          "a": -0.3338623046875,
-          "d": 0.3338623046875,
-          "b": -0.0398712158203125,
-          "c": -0.0398712158203125
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol342",
-        "transform": {
-          "tx": 2.55,
-          "ty": -28.25,
-          "a": -0.3828887939453125,
-          "d": 0.382904052734375,
-          "b": -0.1227874755859375,
-          "c": -0.1227874755859375
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol277",
-        "transform": {
-          "tx": 2.1,
-          "ty": -22.6,
-          "a": -0.3778228759765625,
-          "d": 0.372344970703125,
-          "b": -0.1211395263671875,
-          "c": -0.13763427734375
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol242",
-        "transform": {
-          "tx": 0.5,
-          "ty": -18.65,
-          "a": -0.28814697265625,
-          "d": 0.188262939453125,
-          "b": -0.269744873046875,
-          "c": -0.176239013671875
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol218",
-        "transform": {
-          "tx": 1.7,
-          "ty": -21.1,
-          "a": -0.3987274169921875,
-          "d": 0.3987274169921875
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol209",
-        "transform": {
-          "tx": -3.6,
-          "ty": -14.05,
-          "a": -0.34002685546875,
-          "d": 0.34002685546875,
-          "b": -0.2008819580078125,
-          "c": -0.2008819580078125
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol191",
-        "transform": {
-          "tx": -11.6,
-          "ty": -0.45,
-          "a": -0.397247314453125,
-          "d": 0.397247314453125,
-          "b": -0.02606201171875,
-          "c": -0.02606201171875
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol176",
-        "transform": {
-          "tx": 1.6,
-          "ty": -19.95,
-          "a": -0.1334381103515625,
-          "d": 0.1334381103515625,
-          "b": 0.371002197265625,
-          "c": 0.371002197265625
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol148",
-        "transform": {
-          "tx": 13.35,
-          "ty": -16.6,
-          "a": -0.3935394287109375,
-          "d": 0.246246337890625,
-          "b": 0.0413970947265625,
-          "c": 0.025909423828125
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol122",
-        "transform": {
-          "tx": 14,
-          "ty": -7.95,
-          "a": 0.3983001708984375,
-          "d": 0.3983001708984375
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol105",
-        "transform": {
-          "tx": 5.8,
-          "ty": -34.65,
-          "a": -0.3094940185546875,
-          "d": 0.3094940185546875,
-          "b": 0.2469940185546875,
-          "c": 0.2469940185546875
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol80",
-        "transform": {
-          "tx": 12.6,
-          "ty": -35,
-          "a": 0.0243682861328125,
-          "d": -0.0243682861328125,
-          "b": 0.3967132568359375,
-          "c": 0.3967132568359375
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol68",
-        "transform": {
-          "tx": 25,
-          "ty": -32.85,
-          "a": 0.2253265380859375,
-          "d": 0.2253265380859375,
-          "b": -0.326751708984375,
-          "c": 0.326751708984375
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol30",
-        "transform": {
-          "tx": 20.05,
-          "ty": -33.8,
-          "a": -0.2072601318359375,
-          "d": 0.2072601318359375,
-          "b": 0.3373565673828125,
-          "c": 0.3373565673828125
-        }
-      }
-    ],
-    [
-      {
-        "type": "symbol",
-        "name": "Symbol474",
-        "transform": {
-          "tx": 5.9,
-          "ty": -26.25,
-          "a": -0.308746337890625,
-          "d": 0.3087615966796875,
-          "b": 0.302154541015625,
-          "c": 0.302154541015625
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol452",
-        "transform": {
-          "tx": -2,
-          "ty": -29.55,
-          "a": -0.35382080078125,
-          "d": 0.35382080078125,
-          "b": -0.17889404296875,
-          "c": -0.1788787841796875
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol426",
-        "transform": {
-          "tx": 0.95,
-          "ty": -27.7,
-          "a": -0.3418731689453125,
-          "d": 0.3418731689453125,
-          "b": 0.2659149169921875,
-          "c": 0.2659149169921875
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol421",
-        "transform": {
-          "tx": 9.2,
-          "ty": -25.3,
-          "a": -0.1192779541015625,
-          "d": 0.1192779541015625,
-          "b": 0.4146881103515625,
-          "c": 0.4146881103515625
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol411",
-        "transform": {
-          "tx": 3.8,
-          "ty": -46.6,
-          "a": -0.33453369140625,
-          "d": 0.33453369140625,
-          "b": -0.034881591796875,
-          "c": -0.034881591796875
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol342",
-        "transform": {
-          "tx": 1.3,
-          "ty": -27.7,
-          "a": -0.3939971923828125,
-          "d": 0.394012451171875,
-          "b": -0.0820465087890625,
-          "c": -0.0820465087890625
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol277",
-        "transform": {
-          "tx": 1.45,
-          "ty": -22,
-          "a": -0.3887786865234375,
-          "d": 0.3851165771484375,
-          "b": -0.0809478759765625,
-          "c": -0.097930908203125
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol242",
-        "transform": {
-          "tx": 0.55,
-          "ty": -18.65,
-          "a": -0.2886962890625,
-          "d": 0.1886138916015625,
-          "b": -0.270111083984375,
-          "c": -0.176483154296875
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol218",
-        "transform": {
-          "tx": 1.7,
-          "ty": -21.1,
-          "a": -0.3987274169921875,
-          "d": 0.3987274169921875
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol209",
-        "transform": {
-          "tx": -3.65,
-          "ty": -14.05,
-          "a": -0.3404541015625,
-          "d": 0.3404541015625,
-          "b": -0.2012786865234375,
-          "c": -0.2012786865234375
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol191",
-        "transform": {
-          "tx": -11.55,
-          "ty": -0.45,
-          "a": -0.3973388671875,
-          "d": 0.3973388671875,
-          "b": -0.0261077880859375,
-          "c": -0.0261077880859375
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol176",
-        "transform": {
-          "tx": 1.55,
-          "ty": -19.95,
-          "a": -0.133636474609375,
-          "d": 0.133636474609375,
-          "b": 0.3713531494140625,
-          "c": 0.3713531494140625
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol148",
-        "transform": {
-          "tx": 13.35,
-          "ty": -16.55,
-          "a": -0.3936767578125,
-          "d": 0.2463226318359375,
-          "b": 0.041473388671875,
-          "c": 0.0259552001953125
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol122",
-        "transform": {
-          "tx": 14,
-          "ty": -7.95,
-          "a": 0.3983001708984375,
-          "d": 0.3983001708984375
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol105",
-        "transform": {
-          "tx": 4,
-          "ty": -34.45,
-          "a": -0.2823486328125,
-          "d": 0.2823486328125,
-          "b": 0.27850341796875,
-          "c": 0.27850341796875
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol80",
-        "transform": {
-          "tx": 11.35,
-          "ty": -35.45,
-          "a": 0.0317230224609375,
-          "d": -0.0317230224609375,
-          "b": 0.3962554931640625,
-          "c": 0.3962554931640625
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol68",
-        "transform": {
-          "tx": 24,
-          "ty": -33.95,
-          "a": 0.190155029296875,
-          "d": 0.190155029296875,
-          "b": -0.34906005859375,
-          "c": 0.34906005859375
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol30",
-        "transform": {
-          "tx": 18.95,
-          "ty": -34.3,
-          "a": -0.2014007568359375,
-          "d": 0.2014007568359375,
-          "b": 0.3415374755859375,
-          "c": 0.3415374755859375
-        }
-      }
-    ],
-    [
-      {
-        "type": "symbol",
-        "name": "Symbol474",
-        "transform": {
-          "tx": 7.3,
-          "ty": -26.4,
-          "a": -0.35186767578125,
-          "d": 0.3518829345703125,
-          "b": 0.249542236328125,
-          "c": 0.249542236328125
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol452",
-        "transform": {
-          "tx": 0.1,
-          "ty": -30.85,
-          "a": -0.320953369140625,
-          "d": 0.320953369140625,
-          "b": -0.231781005859375,
-          "c": -0.2317657470703125
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol426",
-        "transform": {
-          "tx": 2.75,
-          "ty": -28.55,
-          "a": -0.37896728515625,
-          "d": 0.37896728515625,
-          "b": 0.2085418701171875,
-          "c": 0.2085418701171875
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol421",
-        "transform": {
-          "tx": 10.45,
-          "ty": -25,
-          "a": -0.1824798583984375,
-          "d": 0.1824798583984375,
-          "b": 0.3904571533203125,
-          "c": 0.3904571533203125
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol411",
-        "transform": {
-          "tx": 7.5,
-          "ty": -46.75,
-          "a": -0.3335113525390625,
-          "d": 0.3335113525390625,
-          "b": -0.0428009033203125,
-          "c": -0.0428009033203125
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol342",
-        "transform": {
-          "tx": 3.1,
-          "ty": -28.5,
-          "a": -0.3759002685546875,
-          "d": 0.37591552734375,
-          "b": -0.14263916015625,
-          "c": -0.14263916015625
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol277",
-        "transform": {
-          "tx": 2.3,
-          "ty": -22.9,
-          "a": -0.37091064453125,
-          "d": 0.3646087646484375,
-          "b": -0.1407470703125,
-          "c": -0.15692138671875
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol242",
-        "transform": {
-          "tx": 0.5,
-          "ty": -18.65,
-          "a": -0.28814697265625,
-          "d": 0.188262939453125,
-          "b": -0.269744873046875,
-          "c": -0.176239013671875
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol218",
-        "transform": {
-          "tx": 1.7,
-          "ty": -21.1,
-          "a": -0.3987274169921875,
-          "d": 0.3987274169921875
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol209",
-        "transform": {
-          "tx": -3.6,
-          "ty": -14.05,
-          "a": -0.34002685546875,
-          "d": 0.34002685546875,
-          "b": -0.2008819580078125,
-          "c": -0.2008819580078125
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol191",
-        "transform": {
-          "tx": -11.6,
-          "ty": -0.45,
-          "a": -0.397247314453125,
-          "d": 0.397247314453125,
-          "b": -0.02606201171875,
-          "c": -0.02606201171875
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol176",
-        "transform": {
-          "tx": 1.6,
-          "ty": -19.95,
-          "a": -0.1334381103515625,
-          "d": 0.1334381103515625,
-          "b": 0.371002197265625,
-          "c": 0.371002197265625
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol148",
-        "transform": {
-          "tx": 13.35,
-          "ty": -16.6,
-          "a": -0.3935394287109375,
-          "d": 0.246246337890625,
-          "b": 0.0413970947265625,
-          "c": 0.025909423828125
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol122",
-        "transform": {
-          "tx": 14,
-          "ty": -7.95,
-          "a": 0.3983001708984375,
-          "d": 0.3983001708984375
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol105",
-        "transform": {
-          "tx": 6.75,
-          "ty": -34.7,
-          "a": -0.3220367431640625,
-          "d": 0.3220367431640625,
-          "b": 0.2304534912109375,
-          "c": 0.2304534912109375
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol80",
-        "transform": {
-          "tx": 13.15,
-          "ty": -34.85,
-          "a": 0.0208892822265625,
-          "d": -0.0208892822265625,
-          "b": 0.3969573974609375,
-          "c": 0.3969573974609375
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol68",
-        "transform": {
-          "tx": 25.4,
-          "ty": -32.4,
-          "a": 0.2421112060546875,
-          "d": 0.2421112060546875,
-          "b": -0.314483642578125,
-          "c": 0.314483642578125
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol30",
-        "transform": {
-          "tx": 20.55,
-          "ty": -33.45,
-          "a": -0.2102203369140625,
-          "d": 0.2102203369140625,
-          "b": 0.3355255126953125,
-          "c": 0.3355255126953125
-        }
-      }
-    ],
-    [
-      {
-        "type": "symbol",
-        "name": "Symbol474",
-        "transform": {
-          "tx": 8.75,
-          "ty": -26.55,
-          "a": -0.38726806640625,
-          "d": 0.3872833251953125,
-          "b": 0.1916046142578125,
-          "c": 0.1916046142578125
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol452",
-        "transform": {
-          "tx": 2.25,
-          "ty": -32.15,
-          "a": -0.280975341796875,
-          "d": 0.280975341796875,
-          "b": -0.279815673828125,
-          "c": -0.2798004150390625
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol426",
-        "transform": {
-          "tx": 4.55,
-          "ty": -29.5,
-          "a": -0.40753173828125,
-          "d": 0.40753173828125,
-          "b": 0.1468658447265625,
-          "c": 0.1468658447265625
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol421",
-        "transform": {
-          "tx": 11.65,
-          "ty": -24.65,
-          "a": -0.2419891357421875,
-          "d": 0.2419891357421875,
-          "b": 0.3573455810546875,
-          "c": 0.3573455810546875
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol411",
-        "transform": {
-          "tx": 11.2,
-          "ty": -47.05,
-          "a": -0.3322601318359375,
-          "d": 0.3322601318359375,
-          "b": -0.0527191162109375,
-          "c": -0.0527191162109375
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol342",
-        "transform": {
-          "tx": 4.85,
-          "ty": -29.35,
-          "a": -0.3492279052734375,
-          "d": 0.3492431640625,
-          "b": -0.2001800537109375,
-          "c": -0.2001800537109375
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol277",
-        "transform": {
-          "tx": 3.2,
-          "ty": -23.85,
-          "a": -0.3446044921875,
-          "d": 0.335845947265625,
-          "b": -0.197509765625,
-          "c": -0.2125244140625
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol242",
-        "transform": {
-          "tx": 0.55,
-          "ty": -18.65,
-          "a": -0.2886962890625,
-          "d": 0.1886138916015625,
-          "b": -0.270111083984375,
-          "c": -0.176483154296875
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol218",
-        "transform": {
-          "tx": 1.7,
-          "ty": -21.1,
-          "a": -0.3987274169921875,
-          "d": 0.3987274169921875
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol209",
-        "transform": {
-          "tx": -3.65,
-          "ty": -14.05,
-          "a": -0.3404541015625,
-          "d": 0.3404541015625,
-          "b": -0.2012786865234375,
-          "c": -0.2012786865234375
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol191",
-        "transform": {
-          "tx": -11.55,
-          "ty": -0.45,
-          "a": -0.3973388671875,
-          "d": 0.3973388671875,
-          "b": -0.0261077880859375,
-          "c": -0.0261077880859375
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol176",
-        "transform": {
-          "tx": 1.55,
-          "ty": -19.95,
-          "a": -0.133636474609375,
-          "d": 0.133636474609375,
-          "b": 0.3713531494140625,
-          "c": 0.3713531494140625
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol148",
-        "transform": {
-          "tx": 13.35,
-          "ty": -16.55,
-          "a": -0.3936767578125,
-          "d": 0.2463226318359375,
-          "b": 0.041473388671875,
-          "c": 0.0259552001953125
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol122",
-        "transform": {
-          "tx": 14,
-          "ty": -7.95,
-          "a": 0.3983001708984375,
-          "d": 0.3983001708984375
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol105",
-        "transform": {
-          "tx": 9.5,
-          "ty": -34.95,
-          "a": -0.354827880859375,
-          "d": 0.354827880859375,
-          "b": 0.1772918701171875,
-          "c": 0.1772918701171875
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol80",
-        "transform": {
-          "tx": 15.1,
-          "ty": -34.25,
-          "a": 0.010528564453125,
-          "d": -0.010528564453125,
-          "b": 0.3974761962890625,
-          "c": 0.3974761962890625
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol68",
-        "transform": {
-          "tx": 26.95,
-          "ty": -30.75,
-          "a": 0.289031982421875,
-          "d": 0.289031982421875,
-          "b": -0.272979736328125,
-          "c": 0.272979736328125
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol30",
-        "transform": {
-          "tx": 22.3,
-          "ty": -32.6,
-          "a": -0.2193756103515625,
-          "d": 0.2193756103515625,
-          "b": 0.3303680419921875,
-          "c": 0.3303680419921875
-        }
-      }
-    ],
-    [
-      {
-        "type": "symbol",
-        "name": "Symbol474",
-        "transform": {
-          "tx": 7.8,
-          "ty": -26.45,
-          "a": -0.3645477294921875,
-          "d": 0.3645782470703125,
-          "b": 0.230682373046875,
-          "c": 0.230682373046875
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol452",
-        "transform": {
-          "tx": 0.9,
-          "ty": -31.3,
-          "a": -0.30828857421875,
-          "d": 0.3082733154296875,
-          "b": -0.248382568359375,
-          "c": -0.24835205078125
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol426",
-        "transform": {
-          "tx": 3.35,
-          "ty": -28.9,
-          "a": -0.3894805908203125,
-          "d": 0.3894805908203125,
-          "b": 0.1883087158203125,
-          "c": 0.1883087158203125
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol421",
-        "transform": {
-          "tx": 10.85,
-          "ty": -24.85,
-          "a": -0.2027740478515625,
-          "d": 0.2027740478515625,
-          "b": 0.380279541015625,
-          "c": 0.380279541015625
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol411",
-        "transform": {
-          "tx": 8.75,
-          "ty": -46.9,
-          "a": -0.3331146240234375,
-          "d": 0.3331146240234375,
-          "b": -0.04571533203125,
-          "c": -0.04571533203125
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol342",
-        "transform": {
-          "tx": 3.65,
-          "ty": -28.8,
-          "a": -0.3678436279296875,
-          "d": 0.3678436279296875,
-          "b": -0.1622314453125,
-          "c": -0.1622161865234375
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol277",
-        "transform": {
-          "tx": 2.65,
-          "ty": -23.3,
-          "a": -0.3629608154296875,
-          "d": 0.3558197021484375,
-          "b": -0.160064697265625,
-          "c": -0.175872802734375
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol242",
-        "transform": {
-          "tx": 0.5,
-          "ty": -18.65,
-          "a": -0.28814697265625,
-          "d": 0.188262939453125,
-          "b": -0.269744873046875,
-          "c": -0.176239013671875
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol218",
-        "transform": {
-          "tx": 1.7,
-          "ty": -21.1,
-          "a": -0.3987274169921875,
-          "d": 0.3987274169921875
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol209",
-        "transform": {
-          "tx": -3.6,
-          "ty": -14.05,
-          "a": -0.34002685546875,
-          "d": 0.34002685546875,
-          "b": -0.2008819580078125,
-          "c": -0.2008819580078125
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol191",
-        "transform": {
-          "tx": -11.6,
-          "ty": -0.45,
-          "a": -0.397247314453125,
-          "d": 0.397247314453125,
-          "b": -0.02606201171875,
-          "c": -0.02606201171875
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol176",
-        "transform": {
-          "tx": 1.6,
-          "ty": -19.95,
-          "a": -0.1334381103515625,
-          "d": 0.1334381103515625,
-          "b": 0.371002197265625,
-          "c": 0.371002197265625
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol148",
-        "transform": {
-          "tx": 13.35,
-          "ty": -16.6,
-          "a": -0.3935394287109375,
-          "d": 0.246246337890625,
-          "b": 0.0413970947265625,
-          "c": 0.025909423828125
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol122",
-        "transform": {
-          "tx": 14,
-          "ty": -7.95,
-          "a": 0.3983001708984375,
-          "d": 0.3983001708984375
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol105",
-        "transform": {
-          "tx": 7.65,
-          "ty": -34.85,
-          "a": -0.3337860107421875,
-          "d": 0.3337860107421875,
-          "b": 0.2131805419921875,
-          "c": 0.2131805419921875
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol80",
-        "transform": {
-          "tx": 13.85,
-          "ty": -34.65,
-          "a": 0.0174102783203125,
-          "d": -0.0174102783203125,
-          "b": 0.39715576171875,
-          "c": 0.39715576171875
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol68",
-        "transform": {
-          "tx": 25.95,
-          "ty": -31.8,
-          "a": 0.25836181640625,
-          "d": 0.25836181640625,
-          "b": -0.3012847900390625,
-          "c": 0.3012847900390625
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol30",
-        "transform": {
-          "tx": 21.15,
-          "ty": -33.15,
-          "a": -0.2131500244140625,
-          "d": 0.2131500244140625,
-          "b": 0.33367919921875,
-          "c": 0.33367919921875
-        }
-      }
-    ],
-    [
-      {
-        "type": "symbol",
-        "name": "Symbol474",
-        "transform": {
-          "tx": 6.9,
-          "ty": -26.3,
-          "a": -0.338287353515625,
-          "d": 0.338287353515625,
-          "b": 0.267608642578125,
-          "c": 0.267608642578125
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol452",
-        "transform": {
-          "tx": -0.6,
-          "ty": -30.4,
-          "a": -0.332672119140625,
-          "d": 0.3326568603515625,
-          "b": -0.2146453857421875,
-          "c": -0.214630126953125
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol426",
-        "transform": {
-          "tx": 2.1,
-          "ty": -28.25,
-          "a": -0.3674774169921875,
-          "d": 0.3674774169921875,
-          "b": 0.228057861328125,
-          "c": 0.228057861328125
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol421",
-        "transform": {
-          "tx": 10.05,
-          "ty": -25.15,
-          "a": -0.16180419921875,
-          "d": 0.16180419921875,
-          "b": 0.3995208740234375,
-          "c": 0.3995208740234375
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol411",
-        "transform": {
-          "tx": 6.3,
-          "ty": -46.8,
-          "a": -0.3338623046875,
-          "d": 0.3338623046875,
-          "b": -0.0398712158203125,
-          "c": -0.0398712158203125
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol342",
-        "transform": {
-          "tx": 2.55,
-          "ty": -28.25,
-          "a": -0.3828887939453125,
-          "d": 0.382904052734375,
-          "b": -0.1227874755859375,
-          "c": -0.1227874755859375
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol277",
-        "transform": {
-          "tx": 2.1,
-          "ty": -22.6,
-          "a": -0.3778228759765625,
-          "d": 0.372344970703125,
-          "b": -0.1211395263671875,
-          "c": -0.13763427734375
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol242",
-        "transform": {
-          "tx": 0.5,
-          "ty": -18.65,
-          "a": -0.28814697265625,
-          "d": 0.188262939453125,
-          "b": -0.269744873046875,
-          "c": -0.176239013671875
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol218",
-        "transform": {
-          "tx": 1.7,
-          "ty": -21.1,
-          "a": -0.3987274169921875,
-          "d": 0.3987274169921875
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol209",
-        "transform": {
-          "tx": -3.6,
-          "ty": -14.05,
-          "a": -0.34002685546875,
-          "d": 0.34002685546875,
-          "b": -0.2008819580078125,
-          "c": -0.2008819580078125
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol191",
-        "transform": {
-          "tx": -11.6,
-          "ty": -0.45,
-          "a": -0.397247314453125,
-          "d": 0.397247314453125,
-          "b": -0.02606201171875,
-          "c": -0.02606201171875
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol176",
-        "transform": {
-          "tx": 1.6,
-          "ty": -19.95,
-          "a": -0.1334381103515625,
-          "d": 0.1334381103515625,
-          "b": 0.371002197265625,
-          "c": 0.371002197265625
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol148",
-        "transform": {
-          "tx": 13.35,
-          "ty": -16.6,
-          "a": -0.3935394287109375,
-          "d": 0.246246337890625,
-          "b": 0.0413970947265625,
-          "c": 0.025909423828125
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol122",
-        "transform": {
-          "tx": 14,
-          "ty": -7.95,
-          "a": 0.3983001708984375,
-          "d": 0.3983001708984375
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol105",
-        "transform": {
-          "tx": 5.8,
-          "ty": -34.65,
-          "a": -0.3094940185546875,
-          "d": 0.3094940185546875,
-          "b": 0.2469940185546875,
-          "c": 0.2469940185546875
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol80",
-        "transform": {
-          "tx": 12.6,
-          "ty": -35,
-          "a": 0.0243682861328125,
-          "d": -0.0243682861328125,
-          "b": 0.3967132568359375,
-          "c": 0.3967132568359375
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol68",
-        "transform": {
-          "tx": 25,
-          "ty": -32.85,
-          "a": 0.2253265380859375,
-          "d": 0.2253265380859375,
-          "b": -0.326751708984375,
-          "c": 0.326751708984375
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol30",
-        "transform": {
-          "tx": 20.05,
-          "ty": -33.8,
-          "a": -0.2072601318359375,
-          "d": 0.2072601318359375,
-          "b": 0.3373565673828125,
-          "c": 0.3373565673828125
-        }
-      }
-    ],
-    [
-      {
-        "type": "symbol",
-        "name": "Symbol474",
-        "transform": {
-          "tx": 5.9,
-          "ty": -26.25,
-          "a": -0.308746337890625,
-          "d": 0.3087615966796875,
-          "b": 0.302154541015625,
-          "c": 0.302154541015625
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol452",
-        "transform": {
-          "tx": -2,
-          "ty": -29.55,
-          "a": -0.35382080078125,
-          "d": 0.35382080078125,
-          "b": -0.17889404296875,
-          "c": -0.1788787841796875
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol426",
-        "transform": {
-          "tx": 0.95,
-          "ty": -27.7,
-          "a": -0.3418731689453125,
-          "d": 0.3418731689453125,
-          "b": 0.2659149169921875,
-          "c": 0.2659149169921875
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol421",
-        "transform": {
-          "tx": 9.2,
-          "ty": -25.3,
-          "a": -0.1192779541015625,
-          "d": 0.1192779541015625,
-          "b": 0.4146881103515625,
-          "c": 0.4146881103515625
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol411",
-        "transform": {
-          "tx": 3.8,
-          "ty": -46.6,
-          "a": -0.33453369140625,
-          "d": 0.33453369140625,
-          "b": -0.034881591796875,
-          "c": -0.034881591796875
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol342",
-        "transform": {
-          "tx": 1.3,
-          "ty": -27.7,
-          "a": -0.3939971923828125,
-          "d": 0.394012451171875,
-          "b": -0.0820465087890625,
-          "c": -0.0820465087890625
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol277",
-        "transform": {
-          "tx": 1.45,
-          "ty": -22,
-          "a": -0.3887786865234375,
-          "d": 0.3851165771484375,
-          "b": -0.0809478759765625,
-          "c": -0.097930908203125
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol242",
-        "transform": {
-          "tx": 0.55,
-          "ty": -18.65,
-          "a": -0.2886962890625,
-          "d": 0.1886138916015625,
-          "b": -0.270111083984375,
-          "c": -0.176483154296875
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol218",
-        "transform": {
-          "tx": 1.7,
-          "ty": -21.1,
-          "a": -0.3987274169921875,
-          "d": 0.3987274169921875
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol209",
-        "transform": {
-          "tx": -3.65,
-          "ty": -14.05,
-          "a": -0.3404541015625,
-          "d": 0.3404541015625,
-          "b": -0.2012786865234375,
-          "c": -0.2012786865234375
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol191",
-        "transform": {
-          "tx": -11.55,
-          "ty": -0.45,
-          "a": -0.3973388671875,
-          "d": 0.3973388671875,
-          "b": -0.0261077880859375,
-          "c": -0.0261077880859375
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol176",
-        "transform": {
-          "tx": 1.55,
-          "ty": -19.95,
-          "a": -0.133636474609375,
-          "d": 0.133636474609375,
-          "b": 0.3713531494140625,
-          "c": 0.3713531494140625
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol148",
-        "transform": {
-          "tx": 13.35,
-          "ty": -16.55,
-          "a": -0.3936767578125,
-          "d": 0.2463226318359375,
-          "b": 0.041473388671875,
-          "c": 0.0259552001953125
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol122",
-        "transform": {
-          "tx": 14,
-          "ty": -7.95,
-          "a": 0.3983001708984375,
-          "d": 0.3983001708984375
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol105",
-        "transform": {
-          "tx": 4,
-          "ty": -34.45,
-          "a": -0.2823486328125,
-          "d": 0.2823486328125,
-          "b": 0.27850341796875,
-          "c": 0.27850341796875
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol80",
-        "transform": {
-          "tx": 11.35,
-          "ty": -35.45,
-          "a": 0.0317230224609375,
-          "d": -0.0317230224609375,
-          "b": 0.3962554931640625,
-          "c": 0.3962554931640625
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol68",
-        "transform": {
-          "tx": 24,
-          "ty": -33.95,
-          "a": 0.190155029296875,
-          "d": 0.190155029296875,
-          "b": -0.34906005859375,
-          "c": 0.34906005859375
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol30",
-        "transform": {
-          "tx": 18.95,
-          "ty": -34.3,
-          "a": -0.2014007568359375,
-          "d": 0.2014007568359375,
-          "b": 0.3415374755859375,
-          "c": 0.3415374755859375
-        }
-      }
-    ],
-    [
-      {
-        "type": "symbol",
-        "name": "Symbol474",
-        "transform": {
-          "tx": 6.9,
-          "ty": -26.35,
-          "a": -0.3381500244140625,
-          "d": 0.338134765625,
-          "b": 0.2678070068359375,
-          "c": 0.2678070068359375
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol452",
-        "transform": {
-          "tx": -0.55,
-          "ty": -30.4,
-          "a": -0.33349609375,
-          "d": 0.3334808349609375,
-          "b": -0.2133636474609375,
-          "c": -0.2133636474609375
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol426",
-        "transform": {
-          "tx": 2.2,
-          "ty": -28.3,
-          "a": -0.367340087890625,
-          "d": 0.367340087890625,
-          "b": 0.228271484375,
-          "c": 0.228271484375
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol421",
-        "transform": {
-          "tx": 10.05,
-          "ty": -25.1,
-          "a": -0.1602630615234375,
-          "d": 0.1602630615234375,
-          "b": 0.400146484375,
-          "c": 0.400146484375
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol411",
-        "transform": {
-          "tx": 6.2,
-          "ty": -46.8,
-          "a": -0.3338623046875,
-          "d": 0.3338623046875,
-          "b": -0.0398406982421875,
-          "c": -0.0398406982421875
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol342",
-        "transform": {
+          "a": -0.287017822265625,
+          "b": -0.2733001708984375,
+          "c": -0.1749420166015625,
+          "d": 0.1837005615234375,
           "tx": 2.5,
-          "ty": -28.2,
-          "a": -0.38336181640625,
-          "d": 0.3833770751953125,
-          "b": -0.1213226318359375,
-          "c": -0.1213226318359375
+          "ty": -16.7
         }
       },
       {
-        "type": "symbol",
-        "name": "Symbol277",
-        "transform": {
-          "tx": 1.95,
-          "ty": -22.6,
-          "a": -0.3782958984375,
-          "d": 0.3728790283203125,
-          "b": -0.1197052001953125,
-          "c": -0.136199951171875
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol242",
-        "transform": {
-          "tx": 0.5,
-          "ty": -18.65,
-          "a": -0.28814697265625,
-          "d": 0.188262939453125,
-          "b": -0.269744873046875,
-          "c": -0.176239013671875
-        }
-      },
-      {
-        "type": "symbol",
         "name": "Symbol218",
         "transform": {
-          "tx": 1.7,
-          "ty": -21.1,
           "a": -0.3987274169921875,
-          "d": 0.3987274169921875
+          "d": 0.3987274169921875,
+          "tx": 1.7,
+          "ty": -20.2
         }
       },
       {
-        "type": "symbol",
         "name": "Symbol209",
         "transform": {
-          "tx": -3.6,
-          "ty": -14.05,
-          "a": -0.34002685546875,
-          "d": 0.34002685546875,
-          "b": -0.2008819580078125,
-          "c": -0.2008819580078125
+          "a": -0.33856201171875,
+          "b": -0.206024169921875,
+          "c": -0.206024169921875,
+          "d": 0.33856201171875,
+          "tx": -1.45,
+          "ty": -12.35
         }
       },
       {
-        "type": "symbol",
         "name": "Symbol191",
         "transform": {
-          "tx": -11.6,
-          "ty": -0.45,
-          "a": -0.397247314453125,
-          "d": 0.397247314453125,
-          "b": -0.02606201171875,
-          "c": -0.02606201171875
+          "a": -0.3974609375,
+          "b": -0.026397705078125,
+          "c": -0.026397705078125,
+          "d": 0.3974609375,
+          "tx": -9.35,
+          "ty": 1.3
         }
       },
       {
-        "type": "symbol",
         "name": "Symbol176",
         "transform": {
-          "tx": 1.6,
-          "ty": -19.95,
-          "a": -0.1334381103515625,
-          "d": 0.1334381103515625,
-          "b": 0.371002197265625,
-          "c": 0.371002197265625
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol148",
-        "transform": {
-          "tx": 13.35,
-          "ty": -16.6,
-          "a": -0.3935394287109375,
-          "d": 0.246246337890625,
-          "b": 0.0413970947265625,
-          "c": 0.025909423828125
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol122",
-        "transform": {
-          "tx": 14,
-          "ty": -7.95,
-          "a": 0.3983001708984375,
-          "d": 0.3983001708984375
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol105",
-        "transform": {
-          "tx": 5.75,
-          "ty": -34.6,
-          "a": -0.309356689453125,
-          "d": 0.309356689453125,
-          "b": 0.247161865234375,
-          "c": 0.247161865234375
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol80",
-        "transform": {
-          "tx": 12.6,
-          "ty": -35.05,
-          "a": 0.0243988037109375,
-          "d": -0.0243988037109375,
-          "b": 0.3967132568359375,
-          "c": 0.3967132568359375
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol68",
-        "transform": {
-          "tx": 24.9,
-          "ty": -32.95,
-          "a": 0.22406005859375,
-          "d": 0.22406005859375,
-          "b": -0.3276214599609375,
-          "c": 0.3276214599609375
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol30",
-        "transform": {
-          "tx": 20,
-          "ty": -33.75,
-          "a": -0.20721435546875,
-          "d": 0.20721435546875,
-          "b": 0.3373870849609375,
-          "c": 0.3373870849609375
-        }
-      }
-    ],
-    [
-      {
-        "type": "symbol",
-        "name": "Symbol474",
-        "transform": {
-          "tx": 7.85,
-          "ty": -26.45,
-          "a": -0.3644256591796875,
-          "d": 0.36444091796875,
-          "b": 0.2308807373046875,
-          "c": 0.23089599609375
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol452",
-        "transform": {
-          "tx": 0.85,
-          "ty": -31.25,
-          "a": -0.3092498779296875,
-          "d": 0.309234619140625,
-          "b": -0.2471771240234375,
-          "c": -0.247161865234375
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol426",
-        "transform": {
-          "tx": 3.35,
-          "ty": -28.85,
-          "a": -0.3893585205078125,
-          "d": 0.3893585205078125,
-          "b": 0.18853759765625,
-          "c": 0.18853759765625
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol421",
-        "transform": {
-          "tx": 10.8,
-          "ty": -24.85,
-          "a": -0.2013092041015625,
-          "d": 0.2013092041015625,
-          "b": 0.38104248046875,
-          "c": 0.38104248046875
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol411",
-        "transform": {
-          "tx": 8.7,
-          "ty": -46.9,
-          "a": -0.3331298828125,
-          "d": 0.3331298828125,
-          "b": -0.045684814453125,
-          "c": -0.045684814453125
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol342",
-        "transform": {
-          "tx": 3.65,
-          "ty": -28.8,
-          "a": -0.36846923828125,
-          "d": 0.36846923828125,
-          "b": -0.160797119140625,
-          "c": -0.1608123779296875
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol277",
-        "transform": {
-          "tx": 2.55,
-          "ty": -23.2,
-          "a": -0.36358642578125,
-          "d": 0.3564910888671875,
-          "b": -0.1586761474609375,
-          "c": -0.1745147705078125
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol242",
-        "transform": {
-          "tx": 0.5,
-          "ty": -18.65,
-          "a": -0.28814697265625,
-          "d": 0.188262939453125,
-          "b": -0.269744873046875,
-          "c": -0.176239013671875
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol218",
-        "transform": {
-          "tx": 1.7,
-          "ty": -21.1,
-          "a": -0.3987274169921875,
-          "d": 0.3987274169921875
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol209",
-        "transform": {
-          "tx": -3.6,
-          "ty": -14.05,
-          "a": -0.34002685546875,
-          "d": 0.34002685546875,
-          "b": -0.2008819580078125,
-          "c": -0.2008819580078125
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol191",
-        "transform": {
-          "tx": -11.6,
-          "ty": -0.45,
-          "a": -0.397247314453125,
-          "d": 0.397247314453125,
-          "b": -0.02606201171875,
-          "c": -0.02606201171875
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol176",
-        "transform": {
-          "tx": 1.6,
-          "ty": -19.95,
-          "a": -0.1334381103515625,
-          "d": 0.1334381103515625,
-          "b": 0.371002197265625,
-          "c": 0.371002197265625
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol148",
-        "transform": {
-          "tx": 13.35,
-          "ty": -16.6,
-          "a": -0.3935394287109375,
-          "d": 0.246246337890625,
-          "b": 0.0413970947265625,
-          "c": 0.025909423828125
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol122",
-        "transform": {
-          "tx": 14,
-          "ty": -7.95,
-          "a": 0.3983001708984375,
-          "d": 0.3983001708984375
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol105",
-        "transform": {
-          "tx": 7.6,
-          "ty": -34.8,
-          "a": -0.333648681640625,
-          "d": 0.333648681640625,
-          "b": 0.21337890625,
-          "c": 0.21337890625
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol80",
-        "transform": {
-          "tx": 13.85,
-          "ty": -34.7,
-          "a": 0.0174407958984375,
-          "d": -0.0174407958984375,
-          "b": 0.39715576171875,
-          "c": 0.39715576171875
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol68",
-        "transform": {
-          "tx": 25.95,
-          "ty": -31.85,
-          "a": 0.2581787109375,
-          "d": 0.2581787109375,
-          "b": -0.3014373779296875,
-          "c": 0.3014373779296875
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol30",
-        "transform": {
-          "tx": 21.15,
-          "ty": -33.2,
-          "a": -0.213134765625,
-          "d": 0.213134765625,
-          "b": 0.333709716796875,
-          "c": 0.333709716796875
-        }
-      }
-    ],
-    [
-      {
-        "type": "symbol",
-        "name": "Symbol474",
-        "transform": {
-          "tx": 8.75,
-          "ty": -26.55,
-          "a": -0.38726806640625,
-          "d": 0.3872833251953125,
-          "b": 0.1916046142578125,
-          "c": 0.1916046142578125
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol452",
-        "transform": {
-          "tx": 2.25,
-          "ty": -32.15,
-          "a": -0.280975341796875,
-          "d": 0.280975341796875,
-          "b": -0.279815673828125,
-          "c": -0.2798004150390625
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol426",
-        "transform": {
-          "tx": 4.55,
-          "ty": -29.5,
-          "a": -0.40753173828125,
-          "d": 0.40753173828125,
-          "b": 0.1468658447265625,
-          "c": 0.1468658447265625
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol421",
-        "transform": {
-          "tx": 11.65,
-          "ty": -24.65,
-          "a": -0.2419891357421875,
-          "d": 0.2419891357421875,
-          "b": 0.3573455810546875,
-          "c": 0.3573455810546875
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol411",
-        "transform": {
-          "tx": 11.2,
-          "ty": -47.05,
-          "a": -0.3322601318359375,
-          "d": 0.3322601318359375,
-          "b": -0.0527191162109375,
-          "c": -0.0527191162109375
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol342",
-        "transform": {
-          "tx": 4.85,
-          "ty": -29.35,
-          "a": -0.3492279052734375,
-          "d": 0.3492431640625,
-          "b": -0.2001800537109375,
-          "c": -0.2001800537109375
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol277",
-        "transform": {
-          "tx": 3.2,
-          "ty": -23.85,
-          "a": -0.3446044921875,
-          "d": 0.335845947265625,
-          "b": -0.197509765625,
-          "c": -0.2125244140625
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol242",
-        "transform": {
-          "tx": 0.55,
-          "ty": -18.65,
-          "a": -0.2886962890625,
-          "d": 0.1886138916015625,
-          "b": -0.270111083984375,
-          "c": -0.176483154296875
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol218",
-        "transform": {
-          "tx": 1.7,
-          "ty": -21.1,
-          "a": -0.3987274169921875,
-          "d": 0.3987274169921875
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol209",
-        "transform": {
-          "tx": -3.65,
-          "ty": -14.05,
-          "a": -0.3404541015625,
-          "d": 0.3404541015625,
-          "b": -0.2012786865234375,
-          "c": -0.2012786865234375
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol191",
-        "transform": {
-          "tx": -11.55,
-          "ty": -0.45,
-          "a": -0.3973388671875,
-          "d": 0.3973388671875,
-          "b": -0.0261077880859375,
-          "c": -0.0261077880859375
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol176",
-        "transform": {
+          "a": -0.125701904296875,
+          "b": 0.374847412109375,
+          "c": 0.374847412109375,
+          "d": 0.125701904296875,
           "tx": 1.55,
-          "ty": -19.95,
-          "a": -0.133636474609375,
-          "d": 0.133636474609375,
-          "b": 0.3713531494140625,
-          "c": 0.3713531494140625
+          "ty": -19.1
         }
       },
       {
-        "type": "symbol",
         "name": "Symbol148",
         "transform": {
+          "a": -0.3944091796875,
+          "b": 0.03668212890625,
+          "c": 0.02294921875,
+          "d": 0.2467803955078125,
           "tx": 13.35,
-          "ty": -16.55,
-          "a": -0.3936767578125,
-          "d": 0.2463226318359375,
-          "b": 0.041473388671875,
-          "c": 0.0259552001953125
+          "ty": -15.8
         }
       },
       {
-        "type": "symbol",
         "name": "Symbol122",
         "transform": {
-          "tx": 14,
-          "ty": -7.95,
           "a": 0.3983001708984375,
-          "d": 0.3983001708984375
+          "d": 0.3983001708984375,
+          "tx": 14,
+          "ty": -7.2
         }
       },
       {
-        "type": "symbol",
         "name": "Symbol105",
         "transform": {
+          "a": -0.35552978515625,
+          "b": 0.1776275634765625,
+          "c": 0.1776275634765625,
+          "d": 0.35552978515625,
           "tx": 9.5,
-          "ty": -34.95,
-          "a": -0.354827880859375,
-          "d": 0.354827880859375,
-          "b": 0.1772918701171875,
-          "c": 0.1772918701171875
+          "ty": -34.15
         }
       },
       {
-        "type": "symbol",
         "name": "Symbol80",
         "transform": {
-          "tx": 15.1,
-          "ty": -34.25,
-          "a": 0.010528564453125,
-          "d": -0.010528564453125,
-          "b": 0.3974761962890625,
-          "c": 0.3974761962890625
+          "a": 0.07940673828125,
+          "b": 0.3897705078125,
+          "c": 0.3897705078125,
+          "d": -0.07940673828125,
+          "tx": 11.8,
+          "ty": -34.75
         }
       },
       {
-        "type": "symbol",
         "name": "Symbol68",
         "transform": {
-          "tx": 26.95,
-          "ty": -30.75,
-          "a": 0.289031982421875,
-          "d": 0.289031982421875,
-          "b": -0.272979736328125,
-          "c": 0.272979736328125
+          "a": 0.3873138427734375,
+          "b": -0.0930633544921875,
+          "c": 0.0930633544921875,
+          "d": 0.3873138427734375,
+          "tx": 18.7,
+          "ty": -29.85
         }
       },
       {
-        "type": "symbol",
         "name": "Symbol30",
         "transform": {
-          "tx": 22.3,
-          "ty": -32.6,
-          "a": -0.2193756103515625,
-          "d": 0.2193756103515625,
-          "b": 0.3303680419921875,
-          "c": 0.3303680419921875
+          "a": -0.35552978515625,
+          "b": 0.1776275634765625,
+          "c": 0.1776275634765625,
+          "d": 0.35552978515625,
+          "tx": 15.45,
+          "ty": -34.1
         }
       }
     ],
     [
       {
-        "type": "symbol",
         "name": "Symbol474",
         "transform": {
-          "tx": 7.8,
-          "ty": -26.45,
-          "a": -0.3645477294921875,
-          "d": 0.3645782470703125,
-          "b": 0.230682373046875,
-          "c": 0.230682373046875
+          "a": -0.19805908203125,
+          "b": -0.3452606201171875,
+          "c": -0.3452606201171875,
+          "d": 0.1980743408203125,
+          "tx": -12.7,
+          "ty": -31.4
         }
       },
       {
-        "type": "symbol",
         "name": "Symbol452",
         "transform": {
-          "tx": 0.9,
-          "ty": -31.3,
-          "a": -0.30828857421875,
-          "d": 0.3082733154296875,
-          "b": -0.248382568359375,
-          "c": -0.24835205078125
+          "a": -0.0899505615234375,
+          "b": -0.387451171875,
+          "c": -0.3874664306640625,
+          "d": 0.0899505615234375,
+          "tx": 0.35,
+          "ty": -30.6
         }
       },
       {
-        "type": "symbol",
         "name": "Symbol426",
         "transform": {
-          "tx": 3.35,
-          "ty": -28.9,
-          "a": -0.3894805908203125,
-          "d": 0.3894805908203125,
-          "b": 0.1883087158203125,
-          "c": 0.1883087158203125
+          "a": -0.000152587890625,
+          "b": -0.3986968994140625,
+          "c": -0.3986968994140625,
+          "d": 0.000152587890625,
+          "tx": -5.3,
+          "ty": -31.85
         }
       },
       {
-        "type": "symbol",
         "name": "Symbol421",
         "transform": {
-          "tx": 10.85,
-          "ty": -24.85,
-          "a": -0.2027740478515625,
-          "d": 0.2027740478515625,
-          "b": 0.380279541015625,
-          "c": 0.380279541015625
+          "a": -0.3717041015625,
+          "b": -0.1414031982421875,
+          "c": -0.1414031982421875,
+          "d": 0.3717041015625,
+          "tx": -16.9,
+          "ty": -28.05
         }
       },
       {
-        "type": "symbol",
         "name": "Symbol411",
         "transform": {
-          "tx": 8.75,
-          "ty": -46.9,
-          "a": -0.3331146240234375,
-          "d": 0.3331146240234375,
-          "b": -0.04571533203125,
-          "c": -0.04571533203125
+          "a": -0.3325042724609375,
+          "b": -0.0529632568359375,
+          "c": -0.0529632568359375,
+          "d": 0.3325042724609375,
+          "tx": 11.5,
+          "ty": -41.5
         }
       },
       {
-        "type": "symbol",
         "name": "Symbol342",
         "transform": {
-          "tx": 3.65,
-          "ty": -28.8,
-          "a": -0.3678436279296875,
-          "d": 0.3678436279296875,
-          "b": -0.1622314453125,
-          "c": -0.1622161865234375
+          "a": -0.34539794921875,
+          "b": -0.1982269287109375,
+          "c": -0.1982574462890625,
+          "d": 0.3454132080078125,
+          "tx": 4.65,
+          "ty": -26.15
         }
       },
       {
-        "type": "symbol",
         "name": "Symbol277",
         "transform": {
-          "tx": 2.65,
-          "ty": -23.3,
-          "a": -0.3629608154296875,
-          "d": 0.3558197021484375,
-          "b": -0.160064697265625,
-          "c": -0.175872802734375
+          "a": -0.345245361328125,
+          "b": -0.198150634765625,
+          "c": -0.21307373046875,
+          "d": 0.336578369140625,
+          "tx": 3,
+          "ty": -20.65
         }
       },
       {
-        "type": "symbol",
         "name": "Symbol242",
         "transform": {
-          "tx": 0.5,
-          "ty": -18.65,
-          "a": -0.28814697265625,
-          "d": 0.188262939453125,
-          "b": -0.269744873046875,
-          "c": -0.176239013671875
+          "a": -0.2870941162109375,
+          "b": -0.2733001708984375,
+          "c": -0.175048828125,
+          "d": 0.1838836669921875,
+          "tx": 2.5,
+          "ty": -14.55
         }
       },
       {
-        "type": "symbol",
         "name": "Symbol218",
         "transform": {
-          "tx": 1.7,
-          "ty": -21.1,
           "a": -0.3987274169921875,
-          "d": 0.3987274169921875
+          "d": 0.3987274169921875,
+          "tx": 1.7,
+          "ty": -17.95
         }
       },
       {
-        "type": "symbol",
         "name": "Symbol209",
         "transform": {
-          "tx": -3.6,
-          "ty": -14.05,
-          "a": -0.34002685546875,
-          "d": 0.34002685546875,
-          "b": -0.2008819580078125,
-          "c": -0.2008819580078125
+          "a": -0.3386383056640625,
+          "b": -0.2060089111328125,
+          "c": -0.2060089111328125,
+          "d": 0.3386383056640625,
+          "tx": -1.55,
+          "ty": -10.1
         }
       },
       {
-        "type": "symbol",
         "name": "Symbol191",
         "transform": {
-          "tx": -11.6,
-          "ty": -0.45,
-          "a": -0.397247314453125,
-          "d": 0.397247314453125,
-          "b": -0.02606201171875,
-          "c": -0.02606201171875
+          "a": -0.3974761962890625,
+          "b": -0.0264434814453125,
+          "c": -0.0264434814453125,
+          "d": 0.3974761962890625,
+          "tx": -9.45,
+          "ty": 3.5
         }
       },
       {
-        "type": "symbol",
         "name": "Symbol176",
         "transform": {
-          "tx": 1.6,
-          "ty": -19.95,
-          "a": -0.1334381103515625,
-          "d": 0.1334381103515625,
-          "b": 0.371002197265625,
-          "c": 0.371002197265625
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol148",
-        "transform": {
-          "tx": 13.35,
-          "ty": -16.6,
-          "a": -0.3935394287109375,
-          "d": 0.246246337890625,
-          "b": 0.0413970947265625,
-          "c": 0.025909423828125
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol122",
-        "transform": {
-          "tx": 14,
-          "ty": -7.95,
-          "a": 0.3983001708984375,
-          "d": 0.3983001708984375
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol105",
-        "transform": {
-          "tx": 7.65,
-          "ty": -34.85,
-          "a": -0.3337860107421875,
-          "d": 0.3337860107421875,
-          "b": 0.2131805419921875,
-          "c": 0.2131805419921875
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol80",
-        "transform": {
-          "tx": 13.85,
-          "ty": -34.65,
-          "a": 0.0174102783203125,
-          "d": -0.0174102783203125,
-          "b": 0.39715576171875,
-          "c": 0.39715576171875
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol68",
-        "transform": {
-          "tx": 25.95,
-          "ty": -31.8,
-          "a": 0.25836181640625,
-          "d": 0.25836181640625,
-          "b": -0.3012847900390625,
-          "c": 0.3012847900390625
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol30",
-        "transform": {
-          "tx": 21.15,
-          "ty": -33.15,
-          "a": -0.2131500244140625,
-          "d": 0.2131500244140625,
-          "b": 0.33367919921875,
-          "c": 0.33367919921875
-        }
-      }
-    ],
-    [
-      {
-        "type": "symbol",
-        "name": "Symbol474",
-        "transform": {
-          "tx": 6.9,
-          "ty": -26.3,
-          "a": -0.338287353515625,
-          "d": 0.338287353515625,
-          "b": 0.267608642578125,
-          "c": 0.267608642578125
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol452",
-        "transform": {
-          "tx": -0.6,
-          "ty": -30.4,
-          "a": -0.332672119140625,
-          "d": 0.3326568603515625,
-          "b": -0.2146453857421875,
-          "c": -0.214630126953125
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol426",
-        "transform": {
-          "tx": 2.1,
-          "ty": -28.25,
-          "a": -0.3674774169921875,
-          "d": 0.3674774169921875,
-          "b": 0.228057861328125,
-          "c": 0.228057861328125
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol421",
-        "transform": {
-          "tx": 10.05,
-          "ty": -25.15,
-          "a": -0.16180419921875,
-          "d": 0.16180419921875,
-          "b": 0.3995208740234375,
-          "c": 0.3995208740234375
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol411",
-        "transform": {
-          "tx": 6.3,
-          "ty": -46.8,
-          "a": -0.3338623046875,
-          "d": 0.3338623046875,
-          "b": -0.0398712158203125,
-          "c": -0.0398712158203125
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol342",
-        "transform": {
-          "tx": 2.55,
-          "ty": -28.25,
-          "a": -0.3828887939453125,
-          "d": 0.382904052734375,
-          "b": -0.1227874755859375,
-          "c": -0.1227874755859375
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol277",
-        "transform": {
-          "tx": 2.1,
-          "ty": -22.6,
-          "a": -0.3778228759765625,
-          "d": 0.372344970703125,
-          "b": -0.1211395263671875,
-          "c": -0.13763427734375
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol242",
-        "transform": {
-          "tx": 0.5,
-          "ty": -18.65,
-          "a": -0.28814697265625,
-          "d": 0.188262939453125,
-          "b": -0.269744873046875,
-          "c": -0.176239013671875
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol218",
-        "transform": {
-          "tx": 1.7,
-          "ty": -21.1,
-          "a": -0.3987274169921875,
-          "d": 0.3987274169921875
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol209",
-        "transform": {
-          "tx": -3.6,
-          "ty": -14.05,
-          "a": -0.34002685546875,
-          "d": 0.34002685546875,
-          "b": -0.2008819580078125,
-          "c": -0.2008819580078125
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol191",
-        "transform": {
-          "tx": -11.6,
-          "ty": -0.45,
-          "a": -0.397247314453125,
-          "d": 0.397247314453125,
-          "b": -0.02606201171875,
-          "c": -0.02606201171875
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol176",
-        "transform": {
-          "tx": 1.6,
-          "ty": -19.95,
-          "a": -0.1334381103515625,
-          "d": 0.1334381103515625,
-          "b": 0.371002197265625,
-          "c": 0.371002197265625
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol148",
-        "transform": {
-          "tx": 13.35,
-          "ty": -16.6,
-          "a": -0.3935394287109375,
-          "d": 0.246246337890625,
-          "b": 0.0413970947265625,
-          "c": 0.025909423828125
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol122",
-        "transform": {
-          "tx": 14,
-          "ty": -7.95,
-          "a": 0.3983001708984375,
-          "d": 0.3983001708984375
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol105",
-        "transform": {
-          "tx": 5.8,
-          "ty": -34.65,
-          "a": -0.3094940185546875,
-          "d": 0.3094940185546875,
-          "b": 0.2469940185546875,
-          "c": 0.2469940185546875
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol80",
-        "transform": {
-          "tx": 12.6,
-          "ty": -35,
-          "a": 0.0243682861328125,
-          "d": -0.0243682861328125,
-          "b": 0.3967132568359375,
-          "c": 0.3967132568359375
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol68",
-        "transform": {
-          "tx": 25,
-          "ty": -32.85,
-          "a": 0.2253265380859375,
-          "d": 0.2253265380859375,
-          "b": -0.326751708984375,
-          "c": 0.326751708984375
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol30",
-        "transform": {
-          "tx": 20.05,
-          "ty": -33.8,
-          "a": -0.2072601318359375,
-          "d": 0.2072601318359375,
-          "b": 0.3373565673828125,
-          "c": 0.3373565673828125
-        }
-      }
-    ],
-    [
-      {
-        "type": "symbol",
-        "name": "Symbol474",
-        "transform": {
-          "tx": 5.9,
-          "ty": -26.25,
-          "a": -0.308746337890625,
-          "d": 0.3087615966796875,
-          "b": 0.302154541015625,
-          "c": 0.302154541015625
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol452",
-        "transform": {
-          "tx": -2,
-          "ty": -29.55,
-          "a": -0.35382080078125,
-          "d": 0.35382080078125,
-          "b": -0.17889404296875,
-          "c": -0.1788787841796875
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol426",
-        "transform": {
-          "tx": 0.95,
-          "ty": -27.7,
-          "a": -0.3418731689453125,
-          "d": 0.3418731689453125,
-          "b": 0.2659149169921875,
-          "c": 0.2659149169921875
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol421",
-        "transform": {
-          "tx": 9.2,
-          "ty": -25.3,
-          "a": -0.1192779541015625,
-          "d": 0.1192779541015625,
-          "b": 0.4146881103515625,
-          "c": 0.4146881103515625
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol411",
-        "transform": {
-          "tx": 3.8,
-          "ty": -46.6,
-          "a": -0.33453369140625,
-          "d": 0.33453369140625,
-          "b": -0.034881591796875,
-          "c": -0.034881591796875
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol342",
-        "transform": {
-          "tx": 1.3,
-          "ty": -27.7,
-          "a": -0.3939971923828125,
-          "d": 0.394012451171875,
-          "b": -0.0820465087890625,
-          "c": -0.0820465087890625
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol277",
-        "transform": {
-          "tx": 1.45,
-          "ty": -22,
-          "a": -0.3887786865234375,
-          "d": 0.3851165771484375,
-          "b": -0.0809478759765625,
-          "c": -0.097930908203125
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol242",
-        "transform": {
-          "tx": 0.55,
-          "ty": -18.65,
-          "a": -0.2886962890625,
-          "d": 0.1886138916015625,
-          "b": -0.270111083984375,
-          "c": -0.176483154296875
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol218",
-        "transform": {
-          "tx": 1.7,
-          "ty": -21.1,
-          "a": -0.3987274169921875,
-          "d": 0.3987274169921875
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol209",
-        "transform": {
-          "tx": -3.65,
-          "ty": -14.05,
-          "a": -0.3404541015625,
-          "d": 0.3404541015625,
-          "b": -0.2012786865234375,
-          "c": -0.2012786865234375
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol191",
-        "transform": {
-          "tx": -11.55,
-          "ty": -0.45,
-          "a": -0.3973388671875,
-          "d": 0.3973388671875,
-          "b": -0.0261077880859375,
-          "c": -0.0261077880859375
-        }
-      },
-      {
-        "type": "symbol",
-        "name": "Symbol176",
-        "transform": {
+          "a": -0.1257781982421875,
+          "b": 0.3748626708984375,
+          "c": 0.3748626708984375,
+          "d": 0.1257781982421875,
           "tx": 1.55,
-          "ty": -19.95,
-          "a": -0.133636474609375,
-          "d": 0.133636474609375,
-          "b": 0.3713531494140625,
-          "c": 0.3713531494140625
+          "ty": -16.85
         }
       },
       {
-        "type": "symbol",
         "name": "Symbol148",
         "transform": {
+          "a": -0.3943023681640625,
+          "b": 0.0379791259765625,
+          "c": 0.0237579345703125,
+          "d": 0.2467041015625,
           "tx": 13.35,
-          "ty": -16.55,
-          "a": -0.3936767578125,
-          "d": 0.2463226318359375,
-          "b": 0.041473388671875,
-          "c": 0.0259552001953125
+          "ty": -13.55
         }
       },
       {
-        "type": "symbol",
         "name": "Symbol122",
         "transform": {
-          "tx": 14,
-          "ty": -7.95,
           "a": 0.3983001708984375,
-          "d": 0.3983001708984375
+          "d": 0.3983001708984375,
+          "tx": 14,
+          "ty": -4.95
         }
       },
       {
-        "type": "symbol",
         "name": "Symbol105",
         "transform": {
-          "tx": 4,
-          "ty": -34.45,
-          "a": -0.2823486328125,
-          "d": 0.2823486328125,
-          "b": 0.27850341796875,
-          "c": 0.27850341796875
+          "a": -0.355560302734375,
+          "b": 0.177642822265625,
+          "c": 0.177642822265625,
+          "d": 0.355560302734375,
+          "tx": 9.5,
+          "ty": -31.9
         }
       },
       {
-        "type": "symbol",
         "name": "Symbol80",
         "transform": {
-          "tx": 11.35,
-          "ty": -35.45,
-          "a": 0.0317230224609375,
-          "d": -0.0317230224609375,
-          "b": 0.3962554931640625,
-          "c": 0.3962554931640625
+          "a": 0.07940673828125,
+          "b": 0.389801025390625,
+          "c": 0.389801025390625,
+          "d": -0.07940673828125,
+          "tx": 11.8,
+          "ty": -32.5
         }
       },
       {
-        "type": "symbol",
         "name": "Symbol68",
         "transform": {
-          "tx": 24,
-          "ty": -33.95,
-          "a": 0.190155029296875,
-          "d": 0.190155029296875,
-          "b": -0.34906005859375,
-          "c": 0.34906005859375
+          "a": 0.3873443603515625,
+          "b": -0.09307861328125,
+          "c": 0.09307861328125,
+          "d": 0.3873443603515625,
+          "tx": 18.7,
+          "ty": -27.6
         }
       },
       {
-        "type": "symbol",
         "name": "Symbol30",
         "transform": {
-          "tx": 18.95,
-          "ty": -34.3,
-          "a": -0.2014007568359375,
-          "d": 0.2014007568359375,
-          "b": 0.3415374755859375,
-          "c": 0.3415374755859375
+          "a": -0.355560302734375,
+          "b": 0.177642822265625,
+          "c": 0.177642822265625,
+          "d": 0.355560302734375,
+          "tx": 15.5,
+          "ty": -31.85
         }
       }
-    ]
+    ],
+    [
+      {
+        "name": "Symbol474",
+        "transform": {
+          "a": -0.3583221435546875,
+          "b": -0.1991119384765625,
+          "c": -0.199127197265625,
+          "d": 0.35833740234375,
+          "tx": -5.05,
+          "ty": -29.4
+        }
+      },
+      {
+        "name": "Symbol452",
+        "transform": {
+          "a": -0.1602783203125,
+          "b": -0.36346435546875,
+          "c": -0.3634796142578125,
+          "d": 0.1602783203125,
+          "tx": 1.1,
+          "ty": -30.7
+        }
+      },
+      {
+        "name": "Symbol426",
+        "transform": {
+          "a": -0.254730224609375,
+          "b": -0.3219451904296875,
+          "c": -0.3219451904296875,
+          "d": 0.254730224609375,
+          "tx": -1.8,
+          "ty": -30.7
+        }
+      },
+      {
+        "name": "Symbol421",
+        "transform": {
+          "a": -0.407318115234375,
+          "b": 0.0468292236328125,
+          "c": 0.0468292236328125,
+          "d": 0.407318115234375,
+          "tx": -6.7,
+          "ty": -26.6
+        }
+      },
+      {
+        "name": "Symbol411",
+        "transform": {
+          "a": -0.332366943359375,
+          "b": -0.052734375,
+          "c": -0.052734375,
+          "d": 0.332366943359375,
+          "tx": 11.5,
+          "ty": -42.95
+        }
+      },
+      {
+        "name": "Symbol342",
+        "transform": {
+          "a": -0.3452301025390625,
+          "b": -0.1978912353515625,
+          "c": -0.1979217529296875,
+          "d": 0.3452606201171875,
+          "tx": 4.7,
+          "ty": -26.95
+        }
+      },
+      {
+        "name": "Symbol277",
+        "transform": {
+          "a": -0.3448486328125,
+          "b": -0.19769287109375,
+          "c": -0.2126922607421875,
+          "d": 0.33612060546875,
+          "tx": 3,
+          "ty": -21.4
+        }
+      },
+      {
+        "name": "Symbol242",
+        "transform": {
+          "a": -0.2865753173828125,
+          "b": -0.27288818359375,
+          "c": -0.174957275390625,
+          "d": 0.1837310791015625,
+          "tx": 2.4,
+          "ty": -15.3
+        }
+      },
+      {
+        "name": "Symbol218",
+        "transform": {
+          "a": -0.3987274169921875,
+          "d": 0.3987274169921875,
+          "tx": 1.7,
+          "ty": -18.65
+        }
+      },
+      {
+        "name": "Symbol209",
+        "transform": {
+          "a": -0.338165283203125,
+          "b": -0.2056427001953125,
+          "c": -0.2056427001953125,
+          "d": 0.338165283203125,
+          "tx": -1.65,
+          "ty": -10.85
+        }
+      },
+      {
+        "name": "Symbol191",
+        "transform": {
+          "a": -0.39739990234375,
+          "b": -0.026153564453125,
+          "c": -0.026153564453125,
+          "d": 0.39739990234375,
+          "tx": -9.55,
+          "ty": 2.75
+        }
+      },
+      {
+        "name": "Symbol176",
+        "transform": {
+          "a": -0.125640869140625,
+          "b": 0.3744964599609375,
+          "c": 0.3744964599609375,
+          "d": 0.125640869140625,
+          "tx": 1.55,
+          "ty": -17.6
+        }
+      },
+      {
+        "name": "Symbol148",
+        "transform": {
+          "a": -0.3941802978515625,
+          "b": 0.0379791259765625,
+          "c": 0.023773193359375,
+          "d": 0.2466278076171875,
+          "tx": 13.35,
+          "ty": -14.25
+        }
+      },
+      {
+        "name": "Symbol122",
+        "transform": {
+          "a": 0.3983001708984375,
+          "d": 0.3983001708984375,
+          "tx": 14,
+          "ty": -5.65
+        }
+      },
+      {
+        "name": "Symbol105",
+        "transform": {
+          "a": -0.3550872802734375,
+          "b": 0.1774139404296875,
+          "c": 0.1774139404296875,
+          "d": 0.3550872802734375,
+          "tx": 9.55,
+          "ty": -32.6
+        }
+      },
+      {
+        "name": "Symbol80",
+        "transform": {
+          "a": 0.0540313720703125,
+          "b": 0.393951416015625,
+          "c": 0.393951416015625,
+          "d": -0.0540313720703125,
+          "tx": 13,
+          "ty": -32.75
+        }
+      },
+      {
+        "name": "Symbol68",
+        "transform": {
+          "a": 0.363311767578125,
+          "b": -0.1622467041015625,
+          "c": 0.1622467041015625,
+          "d": 0.363311767578125,
+          "tx": 21.65,
+          "ty": -28.3
+        }
+      },
+      {
+        "name": "Symbol30",
+        "transform": {
+          "a": -0.31646728515625,
+          "b": 0.239410400390625,
+          "c": 0.239410400390625,
+          "d": 0.31646728515625,
+          "tx": 18,
+          "ty": -31.7
+        }
+      }
+    ],
+    [
+      {
+        "name": "Symbol474",
+        "transform": {
+          "a": -0.4135894775390625,
+          "b": 0.1091766357421875,
+          "c": 0.1091766357421875,
+          "d": 0.413604736328125,
+          "tx": 5.7,
+          "ty": -26.5
+        }
+      },
+      {
+        "name": "Symbol452",
+        "transform": {
+          "a": -0.24920654296875,
+          "b": -0.3090972900390625,
+          "c": -0.3090972900390625,
+          "d": 0.24920654296875,
+          "tx": 2.1,
+          "ty": -30.9
+        }
+      },
+      {
+        "name": "Symbol426",
+        "transform": {
+          "a": -0.4283599853515625,
+          "b": 0.0187530517578125,
+          "c": 0.0187530517578125,
+          "d": 0.4283599853515625,
+          "tx": 3.25,
+          "ty": -29
+        }
+      },
+      {
+        "name": "Symbol421",
+        "transform": {
+          "a": -0.2985992431640625,
+          "b": 0.3052520751953125,
+          "c": 0.3052520751953125,
+          "d": 0.2985992431640625,
+          "tx": 7.55,
+          "ty": -24.35
+        }
+      },
+      {
+        "name": "Symbol411",
+        "transform": {
+          "a": -0.3323516845703125,
+          "b": -0.052734375,
+          "c": -0.052734375,
+          "d": 0.3323516845703125,
+          "tx": 11.45,
+          "ty": -45
+        }
+      },
+      {
+        "name": "Symbol342",
+        "transform": {
+          "a": -0.345550537109375,
+          "b": -0.198089599609375,
+          "c": -0.198089599609375,
+          "d": 0.3455810546875,
+          "tx": 4.7,
+          "ty": -27.9
+        }
+      },
+      {
+        "name": "Symbol277",
+        "transform": {
+          "a": -0.3448486328125,
+          "b": -0.1976776123046875,
+          "c": -0.212677001953125,
+          "d": 0.3361053466796875,
+          "tx": 3.05,
+          "ty": -22.45
+        }
+      },
+      {
+        "name": "Symbol242",
+        "transform": {
+          "a": -0.28753662109375,
+          "b": -0.2718353271484375,
+          "c": -0.1745452880859375,
+          "d": 0.1846160888671875,
+          "tx": 2.25,
+          "ty": -16.4
+        }
+      },
+      {
+        "name": "Symbol218",
+        "transform": {
+          "a": -0.3987274169921875,
+          "d": 0.3987274169921875,
+          "tx": 1.7,
+          "ty": -19.7
+        }
+      },
+      {
+        "name": "Symbol209",
+        "transform": {
+          "a": -0.3389129638671875,
+          "b": -0.2044219970703125,
+          "c": -0.2044219970703125,
+          "d": 0.3389129638671875,
+          "tx": -1.8,
+          "ty": -11.9
+        }
+      },
+      {
+        "name": "Symbol191",
+        "transform": {
+          "a": -0.39739990234375,
+          "b": -0.026153564453125,
+          "c": -0.026153564453125,
+          "d": 0.39739990234375,
+          "tx": -9.7,
+          "ty": 1.7
+        }
+      },
+      {
+        "name": "Symbol176",
+        "transform": {
+          "a": -0.1257781982421875,
+          "b": 0.374420166015625,
+          "c": 0.374420166015625,
+          "d": 0.1257781982421875,
+          "tx": 1.55,
+          "ty": -18.6
+        }
+      },
+      {
+        "name": "Symbol148",
+        "transform": {
+          "a": -0.3941650390625,
+          "b": 0.0380096435546875,
+          "c": 0.023773193359375,
+          "d": 0.246612548828125,
+          "tx": 13.4,
+          "ty": -15.25
+        }
+      },
+      {
+        "name": "Symbol122",
+        "transform": {
+          "a": 0.3983001708984375,
+          "d": 0.3983001708984375,
+          "tx": 14,
+          "ty": -6.65
+        }
+      },
+      {
+        "name": "Symbol105",
+        "transform": {
+          "a": -0.355072021484375,
+          "b": 0.1774139404296875,
+          "c": 0.1774139404296875,
+          "d": 0.355072021484375,
+          "tx": 9.55,
+          "ty": -33.6
+        }
+      },
+      {
+        "name": "Symbol80",
+        "transform": {
+          "a": 0.0194854736328125,
+          "b": 0.3972625732421875,
+          "c": 0.3972625732421875,
+          "d": -0.0194854736328125,
+          "tx": 14.6,
+          "ty": -33.05
+        }
+      },
+      {
+        "name": "Symbol68",
+        "transform": {
+          "a": 0.308624267578125,
+          "b": -0.2508544921875,
+          "c": 0.2508544921875,
+          "d": 0.308624267578125,
+          "tx": 25.95,
+          "ty": -29.3
+        }
+      },
+      {
+        "name": "Symbol30",
+        "transform": {
+          "a": -0.24346923828125,
+          "b": 0.3133544921875,
+          "c": 0.3133544921875,
+          "d": 0.24346923828125,
+          "tx": 21.55,
+          "ty": -31.55
+        }
+      }
+    ],
+    [
+      {
+        "name": "Symbol474",
+        "transform": {
+          "a": -0.141815185546875,
+          "b": 0.428009033203125,
+          "c": 0.428009033203125,
+          "d": 0.141815185546875,
+          "tx": 19.6,
+          "ty": -22.9
+        }
+      },
+      {
+        "name": "Symbol452",
+        "transform": {
+          "a": -0.33929443359375,
+          "b": -0.207366943359375,
+          "c": -0.207366943359375,
+          "d": 0.33929443359375,
+          "tx": 3.45,
+          "ty": -31.1
+        }
+      },
+      {
+        "name": "Symbol426",
+        "transform": {
+          "a": -0.1350860595703125,
+          "b": 0.430999755859375,
+          "c": 0.430999755859375,
+          "d": 0.1350860595703125,
+          "tx": 9.75,
+          "ty": -26.8
+        }
+      },
+      {
+        "name": "Symbol421",
+        "transform": {
+          "a": 0.0470733642578125,
+          "b": 0.447998046875,
+          "c": 0.447998046875,
+          "d": -0.0470733642578125,
+          "tx": 26.1,
+          "ty": -21.6
+        }
+      },
+      {
+        "name": "Symbol411",
+        "transform": {
+          "a": -0.332489013671875,
+          "b": -0.0529632568359375,
+          "c": -0.0529632568359375,
+          "d": 0.332489013671875,
+          "tx": 11.4,
+          "ty": -47.65
+        }
+      },
+      {
+        "name": "Symbol342",
+        "transform": {
+          "a": -0.3463592529296875,
+          "b": -0.19879150390625,
+          "c": -0.1988067626953125,
+          "d": 0.3463592529296875,
+          "tx": 4.7,
+          "ty": -29.25
+        }
+      },
+      {
+        "name": "Symbol277",
+        "transform": {
+          "a": -0.3451995849609375,
+          "b": -0.1981353759765625,
+          "c": -0.213043212890625,
+          "d": 0.3365478515625,
+          "tx": 3.05,
+          "ty": -23.7
+        }
+      },
+      {
+        "name": "Symbol242",
+        "transform": {
+          "a": -0.2880706787109375,
+          "b": -0.2722015380859375,
+          "c": -0.1750946044921875,
+          "d": 0.1853179931640625,
+          "tx": 2.05,
+          "ty": -17.8
+        }
+      },
+      placement1,
+      {
+        "name": "Symbol209",
+        "transform": {
+          "a": -0.3394012451171875,
+          "b": -0.2046966552734375,
+          "c": -0.2046966552734375,
+          "d": 0.3394012451171875,
+          "tx": -2,
+          "ty": -13.3
+        }
+      },
+      {
+        "name": "Symbol191",
+        "transform": {
+          "a": -0.3974609375,
+          "b": -0.0264434814453125,
+          "c": -0.0264434814453125,
+          "d": 0.3974609375,
+          "tx": -9.9,
+          "ty": 0.3
+        }
+      },
+      {
+        "name": "Symbol176",
+        "transform": {
+          "a": -0.127471923828125,
+          "b": 0.3742218017578125,
+          "c": 0.3742218017578125,
+          "d": 0.127471923828125,
+          "tx": 1.55,
+          "ty": -19.85
+        }
+      },
+      {
+        "name": "Symbol148",
+        "transform": {
+          "a": -0.394256591796875,
+          "b": 0.038238525390625,
+          "c": 0.02392578125,
+          "d": 0.246673583984375,
+          "tx": 13.4,
+          "ty": -16.55
+        }
+      },
+      placement0,
+      {
+        "name": "Symbol105",
+        "transform": {
+          "a": -0.3555450439453125,
+          "b": 0.1776275634765625,
+          "c": 0.1776275634765625,
+          "d": 0.3555450439453125,
+          "tx": 9.5,
+          "ty": -34.9
+        }
+      },
+      {
+        "name": "Symbol80",
+        "transform": {
+          "a": -0.024169921875,
+          "b": 0.3970489501953125,
+          "c": 0.3970489501953125,
+          "d": 0.024169921875,
+          "tx": 16.8,
+          "ty": -33.55
+        }
+      },
+      {
+        "name": "Symbol68",
+        "transform": {
+          "a": 0.20806884765625,
+          "b": -0.339691162109375,
+          "c": 0.339691162109375,
+          "d": 0.20806884765625,
+          "tx": 31.45,
+          "ty": -30.55
+        }
+      },
+      {
+        "name": "Symbol30",
+        "transform": {
+          "a": -0.1258087158203125,
+          "b": 0.3769989013671875,
+          "c": 0.3769989013671875,
+          "d": 0.1258087158203125,
+          "tx": 26.1,
+          "ty": -31.3
+        }
+      }
+    ],
+    [
+      {
+        "name": "Symbol474",
+        "transform": {
+          "a": -0.1894989013671875,
+          "b": 0.4054412841796875,
+          "c": 0.4054412841796875,
+          "d": 0.1894989013671875,
+          "tx": 18,
+          "ty": -23.45
+        }
+      },
+      {
+        "name": "Symbol452",
+        "transform": {
+          "a": -0.3314971923828125,
+          "b": -0.21820068359375,
+          "c": -0.21820068359375,
+          "d": 0.3314971923828125,
+          "tx": 3.3,
+          "ty": -31.25
+        }
+      },
+      {
+        "name": "Symbol426",
+        "transform": {
+          "a": -0.190155029296875,
+          "b": 0.4060516357421875,
+          "c": 0.4060516357421875,
+          "d": 0.190155029296875,
+          "tx": 8.95,
+          "ty": -27.2
+        }
+      },
+      {
+        "name": "Symbol421",
+        "transform": {
+          "a": 0.0000762939453125,
+          "b": 0.447662353515625,
+          "c": 0.447662353515625,
+          "d": -0.0000762939453125,
+          "tx": 24,
+          "ty": -22.05
+        }
+      },
+      {
+        "name": "Symbol411",
+        "transform": {
+          "a": -0.332305908203125,
+          "b": -0.052734375,
+          "c": -0.052734375,
+          "d": 0.332305908203125,
+          "tx": 11.35,
+          "ty": -47.55
+        }
+      },
+      {
+        "name": "Symbol342",
+        "transform": {
+          "a": -0.3463897705078125,
+          "b": -0.19854736328125,
+          "c": -0.1985626220703125,
+          "d": 0.346405029296875,
+          "tx": 4.7,
+          "ty": -29.25
+        }
+      },
+      {
+        "name": "Symbol277",
+        "transform": {
+          "a": -0.3447113037109375,
+          "b": -0.197601318359375,
+          "c": -0.2126007080078125,
+          "d": 0.3359832763671875,
+          "tx": 3.05,
+          "ty": -23.7
+        }
+      },
+      {
+        "name": "Symbol242",
+        "transform": {
+          "a": -0.287567138671875,
+          "b": -0.2715606689453125,
+          "c": -0.17510986328125,
+          "d": 0.1854400634765625,
+          "tx": 1.85,
+          "ty": -17.95
+        }
+      },
+      placement1,
+      {
+        "name": "Symbol209",
+        "transform": {
+          "a": -0.3389434814453125,
+          "b": -0.2040863037109375,
+          "c": -0.2040863037109375,
+          "d": 0.3389434814453125,
+          "tx": -2.25,
+          "ty": -13.4
+        }
+      },
+      {
+        "name": "Symbol191",
+        "transform": {
+          "a": -0.397369384765625,
+          "b": -0.0261383056640625,
+          "c": -0.0261383056640625,
+          "d": 0.397369384765625,
+          "tx": -10.15,
+          "ty": 0.2
+        }
+      },
+      {
+        "name": "Symbol176",
+        "transform": {
+          "a": -0.1273651123046875,
+          "b": 0.37371826171875,
+          "c": 0.37371826171875,
+          "d": 0.1273651123046875,
+          "tx": 1.55,
+          "ty": -19.85
+        }
+      },
+      {
+        "name": "Symbol148",
+        "transform": {
+          "a": -0.3940887451171875,
+          "b": 0.03814697265625,
+          "c": 0.02386474609375,
+          "d": 0.24658203125,
+          "tx": 13.35,
+          "ty": -16.5
+        }
+      },
+      placement0,
+      {
+        "name": "Symbol105",
+        "transform": {
+          "a": -0.354949951171875,
+          "b": 0.1773529052734375,
+          "c": 0.1773529052734375,
+          "d": 0.354949951171875,
+          "tx": 9.5,
+          "ty": -34.9
+        }
+      },
+      {
+        "name": "Symbol80",
+        "transform": {
+          "a": -0.01776123046875,
+          "b": 0.3973236083984375,
+          "c": 0.3973236083984375,
+          "d": 0.01776123046875,
+          "tx": 16.5,
+          "ty": -33.65
+        }
+      },
+      {
+        "name": "Symbol68",
+        "transform": {
+          "a": 0.2201385498046875,
+          "b": -0.33111572265625,
+          "c": 0.33111572265625,
+          "d": 0.2201385498046875,
+          "tx": 30.85,
+          "ty": -30.6
+        }
+      },
+      {
+        "name": "Symbol30",
+        "transform": {
+          "a": -0.1394805908203125,
+          "b": 0.3715667724609375,
+          "c": 0.3715667724609375,
+          "d": 0.1394805908203125,
+          "tx": 25.55,
+          "ty": -31.5
+        }
+      }
+    ],
+    [
+      {
+        "name": "Symbol474",
+        "transform": {
+          "a": -0.2422943115234375,
+          "b": 0.3722076416015625,
+          "c": 0.3722076416015625,
+          "d": 0.2423095703125,
+          "tx": 16.1,
+          "ty": -24.15
+        }
+      },
+      {
+        "name": "Symbol452",
+        "transform": {
+          "a": -0.321624755859375,
+          "b": -0.2321929931640625,
+          "c": -0.2321624755859375,
+          "d": 0.3216094970703125,
+          "tx": 3.1,
+          "ty": -31.5
+        }
+      },
+      {
+        "name": "Symbol426",
+        "transform": {
+          "a": -0.2524566650390625,
+          "b": 0.3664398193359375,
+          "c": 0.3664398193359375,
+          "d": 0.2524566650390625,
+          "tx": 8.1,
+          "ty": -27.65
+        }
+      },
+      {
+        "name": "Symbol421",
+        "transform": {
+          "a": -0.0541534423828125,
+          "b": 0.44085693359375,
+          "c": 0.44085693359375,
+          "d": 0.0541534423828125,
+          "tx": 21.45,
+          "ty": -22.6
+        }
+      },
+      {
+        "name": "Symbol411",
+        "transform": {
+          "a": -0.3322601318359375,
+          "b": -0.0527191162109375,
+          "c": -0.0527191162109375,
+          "d": 0.3322601318359375,
+          "tx": 11.35,
+          "ty": -47.45
+        }
+      },
+      {
+        "name": "Symbol342",
+        "transform": {
+          "a": -0.3468780517578125,
+          "b": -0.1988067626953125,
+          "c": -0.198822021484375,
+          "d": 0.346893310546875,
+          "tx": 4.75,
+          "ty": -29.35
+        }
+      },
+      {
+        "name": "Symbol277",
+        "transform": {
+          "a": -0.3445892333984375,
+          "b": -0.197509765625,
+          "c": -0.2125244140625,
+          "d": 0.335845947265625,
+          "tx": 3.15,
+          "ty": -23.8
+        }
+      },
+      {
+        "name": "Symbol242",
+        "transform": {
+          "a": -0.287506103515625,
+          "b": -0.271392822265625,
+          "c": -0.17547607421875,
+          "d": 0.1858978271484375,
+          "tx": 1.55,
+          "ty": -18.05
+        }
+      },
+      placement2,
+      {
+        "name": "Symbol209",
+        "transform": {
+          "a": -0.3395538330078125,
+          "b": -0.202789306640625,
+          "c": -0.202789306640625,
+          "d": 0.3395538330078125,
+          "tx": -2.55,
+          "ty": -13.55
+        }
+      },
+      {
+        "name": "Symbol191",
+        "transform": {
+          "a": -0.3973388671875,
+          "b": -0.0261077880859375,
+          "c": -0.0261077880859375,
+          "d": 0.3973388671875,
+          "tx": -10.45,
+          "ty": 0.05
+        }
+      },
+      {
+        "name": "Symbol176",
+        "transform": {
+          "a": -0.12884521484375,
+          "b": 0.3730926513671875,
+          "c": 0.3730926513671875,
+          "d": 0.12884521484375,
+          "tx": 1.6,
+          "ty": -19.95
+        }
+      },
+      {
+        "name": "Symbol148",
+        "transform": {
+          "a": -0.3940582275390625,
+          "b": 0.038299560546875,
+          "c": 0.023956298828125,
+          "d": 0.246551513671875,
+          "tx": 13.4,
+          "ty": -16.5
+        }
+      },
+      placement0,
+      {
+        "name": "Symbol105",
+        "transform": {
+          "a": -0.354827880859375,
+          "b": 0.1772918701171875,
+          "c": 0.1772918701171875,
+          "d": 0.354827880859375,
+          "tx": 9.5,
+          "ty": -34.9
+        }
+      },
+      {
+        "name": "Symbol80",
+        "transform": {
+          "a": -0.0123443603515625,
+          "b": 0.397491455078125,
+          "c": 0.397491455078125,
+          "d": 0.0123443603515625,
+          "tx": 16.25,
+          "ty": -33.8
+        }
+      },
+      {
+        "name": "Symbol68",
+        "transform": {
+          "a": 0.2356109619140625,
+          "b": -0.320098876953125,
+          "c": 0.320098876953125,
+          "d": 0.2356109619140625,
+          "tx": 30.05,
+          "ty": -30.55
+        }
+      },
+      {
+        "name": "Symbol30",
+        "transform": {
+          "a": -0.156951904296875,
+          "b": 0.36431884765625,
+          "c": 0.36431884765625,
+          "d": 0.156951904296875,
+          "tx": 24.85,
+          "ty": -31.7
+        }
+      }
+    ],
+    [
+      {
+        "name": "Symbol474",
+        "transform": {
+          "a": -0.29534912109375,
+          "b": 0.3265380859375,
+          "c": 0.3265380859375,
+          "d": 0.2953338623046875,
+          "tx": 13.85,
+          "ty": -24.8
+        }
+      },
+      {
+        "name": "Symbol452",
+        "transform": {
+          "a": -0.3099365234375,
+          "b": -0.2471771240234375,
+          "c": -0.247161865234375,
+          "d": 0.3099365234375,
+          "tx": 2.8,
+          "ty": -31.6
+        }
+      },
+      {
+        "name": "Symbol426",
+        "transform": {
+          "a": -0.312713623046875,
+          "b": 0.311279296875,
+          "c": 0.311279296875,
+          "d": 0.312713623046875,
+          "tx": 7.05,
+          "ty": -28.2
+        }
+      },
+      {
+        "name": "Symbol421",
+        "transform": {
+          "a": -0.114166259765625,
+          "b": 0.42510986328125,
+          "c": 0.42510986328125,
+          "d": 0.114166259765625,
+          "tx": 18.45,
+          "ty": -23.2
+        }
+      },
+      {
+        "name": "Symbol411",
+        "transform": {
+          "a": -0.33221435546875,
+          "b": -0.0526885986328125,
+          "c": -0.0526885986328125,
+          "d": 0.33221435546875,
+          "tx": 11.3,
+          "ty": -47.35
+        }
+      },
+      {
+        "name": "Symbol342",
+        "transform": {
+          "a": -0.347442626953125,
+          "b": -0.199127197265625,
+          "c": -0.1991424560546875,
+          "d": 0.347442626953125,
+          "tx": 4.85,
+          "ty": -29.3
+        }
+      },
+      {
+        "name": "Symbol277",
+        "transform": {
+          "a": -0.3444671630859375,
+          "b": -0.1974334716796875,
+          "c": -0.2124176025390625,
+          "d": 0.335693359375,
+          "tx": 3.2,
+          "ty": -23.85
+        }
+      },
+      {
+        "name": "Symbol242",
+        "transform": {
+          "a": -0.288330078125,
+          "b": -0.2702178955078125,
+          "c": -0.175262451171875,
+          "d": 0.18701171875,
+          "tx": 1.25,
+          "ty": -18.15
+        }
+      },
+      placement2,
+      {
+        "name": "Symbol209",
+        "transform": {
+          "a": -0.3394927978515625,
+          "b": -0.2025299072265625,
+          "c": -0.2025299072265625,
+          "d": 0.3394927978515625,
+          "tx": -2.85,
+          "ty": -13.65
+        }
+      },
+      {
+        "name": "Symbol191",
+        "transform": {
+          "a": -0.3973236083984375,
+          "b": -0.026092529296875,
+          "c": -0.026092529296875,
+          "d": 0.3973236083984375,
+          "tx": -10.75,
+          "ty": -0.1
+        }
+      },
+      {
+        "name": "Symbol176",
+        "transform": {
+          "a": -0.1303558349609375,
+          "b": 0.3724212646484375,
+          "c": 0.3724212646484375,
+          "d": 0.1303558349609375,
+          "tx": 1.55,
+          "ty": -19.9
+        }
+      },
+      {
+        "name": "Symbol148",
+        "transform": {
+          "a": -0.3938446044921875,
+          "b": 0.03973388671875,
+          "c": 0.0248565673828125,
+          "d": 0.246429443359375,
+          "tx": 13.4,
+          "ty": -16.55
+        }
+      },
+      placement0,
+      {
+        "name": "Symbol105",
+        "transform": {
+          "a": -0.3546905517578125,
+          "b": 0.1772308349609375,
+          "c": 0.1772308349609375,
+          "d": 0.3546905517578125,
+          "tx": 9.5,
+          "ty": -34.9
+        }
+      },
+      {
+        "name": "Symbol80",
+        "transform": {
+          "a": -0.005401611328125,
+          "b": 0.3976593017578125,
+          "c": 0.3976593017578125,
+          "d": 0.005401611328125,
+          "tx": 15.9,
+          "ty": -33.9
+        }
+      },
+      {
+        "name": "Symbol68",
+        "transform": {
+          "a": 0.252044677734375,
+          "b": -0.3071136474609375,
+          "c": 0.3071136474609375,
+          "d": 0.252044677734375,
+          "tx": 29.1,
+          "ty": -30.65
+        }
+      },
+      {
+        "name": "Symbol30",
+        "transform": {
+          "a": -0.1758270263671875,
+          "b": 0.3553466796875,
+          "c": 0.3553466796875,
+          "d": 0.1758270263671875,
+          "tx": 24.1,
+          "ty": -32.1
+        }
+      }
+    ],
+    [
+      {
+        "name": "Symbol474",
+        "transform": {
+          "a": -0.3455352783203125,
+          "b": 0.2659912109375,
+          "c": 0.2660064697265625,
+          "d": 0.345550537109375,
+          "tx": 11.45,
+          "ty": -25.7
+        }
+      },
+      {
+        "name": "Symbol452",
+        "transform": {
+          "a": -0.296295166015625,
+          "b": -0.26300048828125,
+          "c": -0.2629852294921875,
+          "d": 0.2962799072265625,
+          "tx": 2.6,
+          "ty": -31.9
+        }
+      },
+      {
+        "name": "Symbol426",
+        "transform": {
+          "a": -0.367218017578125,
+          "b": 0.2371063232421875,
+          "c": 0.2371063232421875,
+          "d": 0.367218017578125,
+          "tx": 5.85,
+          "ty": -28.85
+        }
+      },
+      {
+        "name": "Symbol421",
+        "transform": {
+          "a": -0.177703857421875,
+          "b": 0.3978424072265625,
+          "c": 0.3978424072265625,
+          "d": 0.177703857421875,
+          "tx": 15.25,
+          "ty": -23.9
+        }
+      },
+      {
+        "name": "Symbol411",
+        "transform": {
+          "a": -0.3321380615234375,
+          "b": -0.05267333984375,
+          "c": -0.05267333984375,
+          "d": 0.3321380615234375,
+          "tx": 11.25,
+          "ty": -47.25
+        }
+      },
+      {
+        "name": "Symbol342",
+        "transform": {
+          "a": -0.34808349609375,
+          "b": -0.1994781494140625,
+          "c": -0.1994781494140625,
+          "d": 0.3480682373046875,
+          "tx": 4.8,
+          "ty": -29.35
+        }
+      },
+      {
+        "name": "Symbol277",
+        "transform": {
+          "a": -0.34429931640625,
+          "b": -0.1973114013671875,
+          "c": -0.212310791015625,
+          "d": 0.335540771484375,
+          "tx": 3.2,
+          "ty": -23.8
+        }
+      },
+      {
+        "name": "Symbol242",
+        "transform": {
+          "a": -0.2882537841796875,
+          "b": -0.2700042724609375,
+          "c": -0.1757354736328125,
+          "d": 0.1876068115234375,
+          "tx": 0.9,
+          "ty": -18.35
+        }
+      },
+      placement2,
+      {
+        "name": "Symbol209",
+        "transform": {
+          "a": -0.340118408203125,
+          "b": -0.201171875,
+          "c": -0.201171875,
+          "d": 0.340118408203125,
+          "tx": -3.25,
+          "ty": -13.9
+        }
+      },
+      {
+        "name": "Symbol191",
+        "transform": {
+          "a": -0.39727783203125,
+          "b": -0.0260772705078125,
+          "c": -0.0260772705078125,
+          "d": 0.39727783203125,
+          "tx": -11.15,
+          "ty": -0.25
+        }
+      },
+      {
+        "name": "Symbol176",
+        "transform": {
+          "a": -0.1318817138671875,
+          "b": 0.3717193603515625,
+          "c": 0.3717193603515625,
+          "d": 0.1318817138671875,
+          "tx": 1.55,
+          "ty": -19.95
+        }
+      },
+      {
+        "name": "Symbol148",
+        "transform": {
+          "a": -0.393768310546875,
+          "b": 0.0399169921875,
+          "c": 0.0249786376953125,
+          "d": 0.2463836669921875,
+          "tx": 13.4,
+          "ty": -16.55
+        }
+      },
+      placement0,
+      {
+        "name": "Symbol105",
+        "transform": {
+          "a": -0.3545379638671875,
+          "b": 0.1771392822265625,
+          "c": 0.1771392822265625,
+          "d": 0.3545379638671875,
+          "tx": 9.5,
+          "ty": -34.9
+        }
+      },
+      {
+        "name": "Symbol80",
+        "transform": {
+          "a": 0.0017852783203125,
+          "b": 0.39764404296875,
+          "c": 0.39764404296875,
+          "d": -0.0017852783203125,
+          "tx": 15.45,
+          "ty": -34.1
+        }
+      },
+      {
+        "name": "Symbol68",
+        "transform": {
+          "a": 0.2701568603515625,
+          "b": -0.2910614013671875,
+          "c": 0.2910614013671875,
+          "d": 0.2701568603515625,
+          "tx": 28.05,
+          "ty": -30.7
+        }
+      },
+      {
+        "name": "Symbol30",
+        "transform": {
+          "a": -0.1970062255859375,
+          "b": 0.343780517578125,
+          "c": 0.343780517578125,
+          "d": 0.1970062255859375,
+          "tx": 23.3,
+          "ty": -32.25
+        }
+      }
+    ],
+    frame0,
+    frame1,
+    frame2,
+    frame3,
+    [
+      {
+        "name": "Symbol474",
+        "transform": {
+          "a": -0.35186767578125,
+          "b": 0.249542236328125,
+          "c": 0.249542236328125,
+          "d": 0.3518829345703125,
+          "tx": 7.3,
+          "ty": -26.4
+        }
+      },
+      {
+        "name": "Symbol452",
+        "transform": {
+          "a": -0.320953369140625,
+          "b": -0.231781005859375,
+          "c": -0.2317657470703125,
+          "d": 0.320953369140625,
+          "tx": 0.1,
+          "ty": -30.85
+        }
+      },
+      {
+        "name": "Symbol426",
+        "transform": {
+          "a": -0.37896728515625,
+          "b": 0.2085418701171875,
+          "c": 0.2085418701171875,
+          "d": 0.37896728515625,
+          "tx": 2.75,
+          "ty": -28.55
+        }
+      },
+      {
+        "name": "Symbol421",
+        "transform": {
+          "a": -0.1824798583984375,
+          "b": 0.3904571533203125,
+          "c": 0.3904571533203125,
+          "d": 0.1824798583984375,
+          "tx": 10.45,
+          "ty": -25
+        }
+      },
+      {
+        "name": "Symbol411",
+        "transform": {
+          "a": -0.3335113525390625,
+          "b": -0.0428009033203125,
+          "c": -0.0428009033203125,
+          "d": 0.3335113525390625,
+          "tx": 7.5,
+          "ty": -46.75
+        }
+      },
+      {
+        "name": "Symbol342",
+        "transform": {
+          "a": -0.3759002685546875,
+          "b": -0.14263916015625,
+          "c": -0.14263916015625,
+          "d": 0.37591552734375,
+          "tx": 3.1,
+          "ty": -28.5
+        }
+      },
+      {
+        "name": "Symbol277",
+        "transform": {
+          "a": -0.37091064453125,
+          "b": -0.1407470703125,
+          "c": -0.15692138671875,
+          "d": 0.3646087646484375,
+          "tx": 2.3,
+          "ty": -22.9
+        }
+      },
+      placement27,
+      placement11,
+      placement28,
+      placement29,
+      placement30,
+      placement31,
+      placement0,
+      {
+        "name": "Symbol105",
+        "transform": {
+          "a": -0.3220367431640625,
+          "b": 0.2304534912109375,
+          "c": 0.2304534912109375,
+          "d": 0.3220367431640625,
+          "tx": 6.75,
+          "ty": -34.7
+        }
+      },
+      {
+        "name": "Symbol80",
+        "transform": {
+          "a": 0.0208892822265625,
+          "b": 0.3969573974609375,
+          "c": 0.3969573974609375,
+          "d": -0.0208892822265625,
+          "tx": 13.15,
+          "ty": -34.85
+        }
+      },
+      {
+        "name": "Symbol68",
+        "transform": {
+          "a": 0.2421112060546875,
+          "b": -0.314483642578125,
+          "c": 0.314483642578125,
+          "d": 0.2421112060546875,
+          "tx": 25.4,
+          "ty": -32.4
+        }
+      },
+      {
+        "name": "Symbol30",
+        "transform": {
+          "a": -0.2102203369140625,
+          "b": 0.3355255126953125,
+          "c": 0.3355255126953125,
+          "d": 0.2102203369140625,
+          "tx": 20.55,
+          "ty": -33.45
+        }
+      }
+    ],
+    frame0,
+    frame1,
+    frame2,
+    frame3,
+    [
+      {
+        "name": "Symbol474",
+        "transform": {
+          "a": -0.3381500244140625,
+          "b": 0.2678070068359375,
+          "c": 0.2678070068359375,
+          "d": 0.338134765625,
+          "tx": 6.9,
+          "ty": -26.35
+        }
+      },
+      {
+        "name": "Symbol452",
+        "transform": {
+          "a": -0.33349609375,
+          "b": -0.2133636474609375,
+          "c": -0.2133636474609375,
+          "d": 0.3334808349609375,
+          "tx": -0.55,
+          "ty": -30.4
+        }
+      },
+      {
+        "name": "Symbol426",
+        "transform": {
+          "a": -0.367340087890625,
+          "b": 0.228271484375,
+          "c": 0.228271484375,
+          "d": 0.367340087890625,
+          "tx": 2.2,
+          "ty": -28.3
+        }
+      },
+      {
+        "name": "Symbol421",
+        "transform": {
+          "a": -0.1602630615234375,
+          "b": 0.400146484375,
+          "c": 0.400146484375,
+          "d": 0.1602630615234375,
+          "tx": 10.05,
+          "ty": -25.1
+        }
+      },
+      {
+        "name": "Symbol411",
+        "transform": {
+          "a": -0.3338623046875,
+          "b": -0.0398406982421875,
+          "c": -0.0398406982421875,
+          "d": 0.3338623046875,
+          "tx": 6.2,
+          "ty": -46.8
+        }
+      },
+      {
+        "name": "Symbol342",
+        "transform": {
+          "a": -0.38336181640625,
+          "b": -0.1213226318359375,
+          "c": -0.1213226318359375,
+          "d": 0.3833770751953125,
+          "tx": 2.5,
+          "ty": -28.2
+        }
+      },
+      {
+        "name": "Symbol277",
+        "transform": {
+          "a": -0.3782958984375,
+          "b": -0.1197052001953125,
+          "c": -0.136199951171875,
+          "d": 0.3728790283203125,
+          "tx": 1.95,
+          "ty": -22.6
+        }
+      },
+      placement27,
+      placement11,
+      placement28,
+      placement29,
+      placement30,
+      placement31,
+      placement0,
+      {
+        "name": "Symbol105",
+        "transform": {
+          "a": -0.309356689453125,
+          "b": 0.247161865234375,
+          "c": 0.247161865234375,
+          "d": 0.309356689453125,
+          "tx": 5.75,
+          "ty": -34.6
+        }
+      },
+      {
+        "name": "Symbol80",
+        "transform": {
+          "a": 0.0243988037109375,
+          "b": 0.3967132568359375,
+          "c": 0.3967132568359375,
+          "d": -0.0243988037109375,
+          "tx": 12.6,
+          "ty": -35.05
+        }
+      },
+      {
+        "name": "Symbol68",
+        "transform": {
+          "a": 0.22406005859375,
+          "b": -0.3276214599609375,
+          "c": 0.3276214599609375,
+          "d": 0.22406005859375,
+          "tx": 24.9,
+          "ty": -32.95
+        }
+      },
+      {
+        "name": "Symbol30",
+        "transform": {
+          "a": -0.20721435546875,
+          "b": 0.3373870849609375,
+          "c": 0.3373870849609375,
+          "d": 0.20721435546875,
+          "tx": 20,
+          "ty": -33.75
+        }
+      }
+    ],
+    [
+      {
+        "name": "Symbol474",
+        "transform": {
+          "a": -0.3644256591796875,
+          "b": 0.2308807373046875,
+          "c": 0.23089599609375,
+          "d": 0.36444091796875,
+          "tx": 7.85,
+          "ty": -26.45
+        }
+      },
+      {
+        "name": "Symbol452",
+        "transform": {
+          "a": -0.3092498779296875,
+          "b": -0.2471771240234375,
+          "c": -0.247161865234375,
+          "d": 0.309234619140625,
+          "tx": 0.85,
+          "ty": -31.25
+        }
+      },
+      {
+        "name": "Symbol426",
+        "transform": {
+          "a": -0.3893585205078125,
+          "b": 0.18853759765625,
+          "c": 0.18853759765625,
+          "d": 0.3893585205078125,
+          "tx": 3.35,
+          "ty": -28.85
+        }
+      },
+      {
+        "name": "Symbol421",
+        "transform": {
+          "a": -0.2013092041015625,
+          "b": 0.38104248046875,
+          "c": 0.38104248046875,
+          "d": 0.2013092041015625,
+          "tx": 10.8,
+          "ty": -24.85
+        }
+      },
+      {
+        "name": "Symbol411",
+        "transform": {
+          "a": -0.3331298828125,
+          "b": -0.045684814453125,
+          "c": -0.045684814453125,
+          "d": 0.3331298828125,
+          "tx": 8.7,
+          "ty": -46.9
+        }
+      },
+      {
+        "name": "Symbol342",
+        "transform": {
+          "a": -0.36846923828125,
+          "b": -0.160797119140625,
+          "c": -0.1608123779296875,
+          "d": 0.36846923828125,
+          "tx": 3.65,
+          "ty": -28.8
+        }
+      },
+      {
+        "name": "Symbol277",
+        "transform": {
+          "a": -0.36358642578125,
+          "b": -0.1586761474609375,
+          "c": -0.1745147705078125,
+          "d": 0.3564910888671875,
+          "tx": 2.55,
+          "ty": -23.2
+        }
+      },
+      placement27,
+      placement11,
+      placement28,
+      placement29,
+      placement30,
+      placement31,
+      placement0,
+      {
+        "name": "Symbol105",
+        "transform": {
+          "a": -0.333648681640625,
+          "b": 0.21337890625,
+          "c": 0.21337890625,
+          "d": 0.333648681640625,
+          "tx": 7.6,
+          "ty": -34.8
+        }
+      },
+      {
+        "name": "Symbol80",
+        "transform": {
+          "a": 0.0174407958984375,
+          "b": 0.39715576171875,
+          "c": 0.39715576171875,
+          "d": -0.0174407958984375,
+          "tx": 13.85,
+          "ty": -34.7
+        }
+      },
+      {
+        "name": "Symbol68",
+        "transform": {
+          "a": 0.2581787109375,
+          "b": -0.3014373779296875,
+          "c": 0.3014373779296875,
+          "d": 0.2581787109375,
+          "tx": 25.95,
+          "ty": -31.85
+        }
+      },
+      {
+        "name": "Symbol30",
+        "transform": {
+          "a": -0.213134765625,
+          "b": 0.333709716796875,
+          "c": 0.333709716796875,
+          "d": 0.213134765625,
+          "tx": 21.15,
+          "ty": -33.2
+        }
+      }
+    ],
+    frame0,
+    frame1,
+    frame2,
+    frame3
   ]
 };

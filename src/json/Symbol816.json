@@ -4,21 +4,19 @@
   "parts": [
     {
       "type": "symbol",
-      "name": "Symbol815",
-      "partIdx": "_p1"
+      "name": "Symbol812"
     },
     {
       "type": "symbol",
-      "name": "Symbol812",
-      "partIdx": "_p1"
+      "name": "Symbol815"
     }
   ],
   "frames": [
     [],
     [
       {
-        "type": "symbol",
         "name": "Symbol812",
+        "partIdx": "_p1",
         "transform": {
           "tx": 3.75,
           "ty": -0.35
@@ -31,8 +29,8 @@
     [],
     [
       {
-        "type": "symbol",
         "name": "Symbol815",
+        "partIdx": "_p1",
         "transform": {
           "tx": 3.75,
           "ty": -0.35

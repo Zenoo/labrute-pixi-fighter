@@ -1,4 +1,5 @@
-import { Symbol } from '../common';
+// Generated from mini_perso.swf by npm run export:swf.
+import type { Symbol } from '../common';
 
 
 export const Symbol527: Symbol = {
@@ -8,17 +9,16 @@ export const Symbol527: Symbol = {
     {
       "type": "svg",
       "name": "Symbol527",
-      "svg": "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>\r\n<svg xmlns:ffdec=\"https://www.free-decompiler.com/flash\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" ffdec:objectType=\"shape\" height=\"40.95px\" width=\"23.75px\" xmlns=\"http://www.w3.org/2000/svg\">\r\n  <g transform=\"matrix(1.0, 0.0, 0.0, 1.0, -6.9, 64.5)\">\r\n    <path d=\"M7.9 -56.25 Q9.8 -58.7 12.3 -60.5 16.0 -63.15 20.0 -63.5 L20.7 -63.5 Q25.7 -63.5 28.15 -58.65 29.65 -55.65 29.65 -53.25 29.65 -48.6 21.7 -41.3 13.7 -34.0 13.7 -29.6 13.7 -27.9 14.85 -27.05 16.55 -25.75 21.2 -25.5 L20.8 -24.85 19.15 -24.55 Q15.0 -24.55 13.4 -26.9 12.6 -28.05 12.6 -29.6 12.6 -34.95 20.4 -41.85 24.35 -45.45 25.7 -47.15 28.15 -50.15 28.15 -53.2 28.15 -55.3 26.8 -57.9 24.7 -61.95 20.6 -61.95 16.45 -61.95 12.2 -58.4 L8.5 -54.6 8.2 -54.2 7.9 -56.25\" fill=\"#545656\" fill-rule=\"evenodd\" stroke=\"none\"/>\r\n  </g>\r\n</svg>\r\n",
+      "svg": "<svg height=\"42.95px\" width=\"25.75px\" xmlns=\"http://www.w3.org/2000/svg\"><g transform=\"matrix(1.0, 0.0, 0.0, 1.0, -5.9, 65.5)\"><path d=\"M7.9 -56.25 Q9.8 -58.7 12.3 -60.5 16.0 -63.15 20.0 -63.5 L20.7 -63.5 Q25.7 -63.5 28.15 -58.65 29.65 -55.65 29.65 -53.25 29.65 -48.6 21.7 -41.3 13.7 -34.0 13.7 -29.6 13.7 -27.9 14.85 -27.05 16.55 -25.75 21.2 -25.5 L20.8 -24.85 19.15 -24.55 Q15.0 -24.55 13.4 -26.9 12.6 -28.05 12.6 -29.6 12.6 -34.95 20.4 -41.85 24.35 -45.45 25.7 -47.15 28.15 -50.15 28.15 -53.2 28.15 -55.3 26.8 -57.9 24.7 -61.95 20.6 -61.95 16.45 -61.95 12.2 -58.4 L8.5 -54.6 8.2 -54.2 7.9 -56.25\" fill=\"#545656\" fill-rule=\"evenodd\" stroke=\"none\"/></g></svg>",
       "offset": {
-        "x": -6.9,
-        "y": 64.5
+        "x": -5.9,
+        "y": 65.5
       }
     }
   ],
   "frames": [
     [
       {
-        "type": "svg",
         "name": "Symbol527"
       }
     ]

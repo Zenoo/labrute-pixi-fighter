@@ -266,6 +266,62 @@
       margin: 14px 4px;
     }
 
+    .comparison {
+      margin-top: 24px;
+    }
+
+    .comparison-frames {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      padding: 16px;
+    }
+
+    .comparison-frames figure {
+      margin: 0;
+      min-width: 0;
+      overflow: hidden;
+    }
+
+    .comparison-frames.actual-size {
+      grid-template-columns: repeat(3, 640px);
+      overflow-x: auto;
+    }
+
+    .comparison-frames figcaption {
+      margin-bottom: 8px;
+      font-weight: 600;
+    }
+
+    .comparison-surface {
+      width: 640px;
+      height: 480px;
+      transform-origin: top left;
+    }
+
+    .comparison-viewport {
+      position: relative;
+      aspect-ratio: 4 / 3;
+      overflow: hidden;
+      background: white;
+      border: 1px solid #dee3e9;
+    }
+
+    .comparison-viewport canvas {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+
+    #comparison-reference {
+      position: absolute;
+    }
+
+    .comparison-status {
+      padding: 0 20px 20px;
+      font-variant-numeric: tabular-nums;
+    }
+
     #appearance-controls[hidden] {
       display: none;
     }
@@ -349,7 +405,7 @@
       <div id="appearance-controls">
         <details class="section" open>
           <summary>Body parts</summary>
-          <p class="help">Choose a variation for each part of the model.</p>
+          <p class="help">Source choices include empty and repeated frames. Numbering below is zero-based.</p>
           <div class="fields" id="body-fields"></div>
         </details>
         <details class="section">
@@ -410,6 +466,41 @@
             Drag the frame slider to pause and inspect a pose. Press Play to continue.
           </p>
         </div>
+      </section>
+      <section class="panel comparison" aria-label="SWF frame comparison">
+        <div class="section">
+          <h2>Compare with the source SWF</h2>
+          <p class="help">
+            Pause and scrub the frame slider, then compare. Ruffle renders a frozen source
+            display list using the original SWF vector records; Pixi uses the generated assets.
+            The reference applies the selected appearance without running the original game scripts.
+          </p>
+          <div class="toolbar">
+            <button id="comparison-capture" type="button">Compare current frame</button>
+            <button id="comparison-scan" type="button">Scan every frame</button>
+            <button id="comparison-cancel" type="button" disabled>Cancel scan</button>
+            <label class="check"><input id="comparison-follow" type="checkbox" /> Follow paused edits</label>
+            <label class="check"><input id="comparison-overlay" type="checkbox" /> Overlay source on Pixi</label>
+            <label class="check"><input id="comparison-actual-size" type="checkbox" /> View at 100%</label>
+            <label>Tolerance <input id="comparison-threshold" type="number" min="0" max="255" value="24" /></label>
+          </div>
+        </div>
+        <div class="comparison-frames">
+          <figure>
+            <figcaption>SWF / Ruffle</figcaption>
+            <div class="comparison-viewport"><div id="comparison-reference" class="comparison-surface"></div></div>
+          </figure>
+          <figure>
+            <figcaption>Pixi</figcaption>
+            <div class="comparison-viewport"><canvas id="comparison-pixi" width="640" height="480"></canvas></div>
+          </figure>
+          <figure>
+            <figcaption>Pixel difference</figcaption>
+            <div class="comparison-viewport"><canvas id="comparison-difference" width="640" height="480"></canvas></div>
+          </figure>
+        </div>
+        <p id="comparison-status" class="comparison-status" role="status">No frame compared yet.</p>
+        <div id="comparison-report" class="section" hidden></div>
       </section>
       <p class="footnote">
         Body and color controls apply to brutes. Equipment is available in supported brute

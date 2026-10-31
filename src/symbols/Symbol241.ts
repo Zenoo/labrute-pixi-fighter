@@ -1,135 +1,80 @@
-import { Symbol } from '../common';
+// Generated from mini_perso.swf by npm run export:swf.
+import type { Symbol } from '../common';
 import { Symbol240 } from './Symbol240';
 
 export const Symbol241: Symbol = {
   "type": "symbol",
   "name": "Symbol241",
   "parts": [
-    {
-      ...Symbol240,
-      "partIdx": "_p6"
-    },
-    {
-      ...Symbol240,
-      "partIdx": "_p6"
-    },
-    {
-      ...Symbol240,
-      "partIdx": "_p6"
-    },
-    {
-      ...Symbol240,
-      "partIdx": "_p6"
-    },
-    {
-      ...Symbol240,
-      "partIdx": "_p6"
-    },
-    {
-      ...Symbol240,
-      "partIdx": "_p6"
-    },
-    {
-      ...Symbol240,
-      "partIdx": "_p6"
-    },
-    {
-      ...Symbol240,
-      "partIdx": "_p6"
-    }
+    Symbol240
   ],
   "frames": [
     [
       {
-        "type": "symbol",
         "name": "Symbol240",
+        "partIdx": "_p6"
+      }
+    ],
+    [
+      {
+        "name": "Symbol240",
+        "partIdx": "_p6",
         "transform": {
-          "tx": 0,
-          "ty": 0
+          "a": 1.0303955078125
         }
       }
     ],
     [
       {
-        "type": "symbol",
         "name": "Symbol240",
+        "partIdx": "_p6",
         "transform": {
-          "tx": 0,
-          "ty": 0,
-          "a": 1.0303955078125,
-          "d": 1
+          "a": 1.060791015625
         }
       }
     ],
     [
       {
-        "type": "symbol",
         "name": "Symbol240",
+        "partIdx": "_p6",
         "transform": {
-          "tx": 0,
-          "ty": 0,
-          "a": 1.060791015625,
-          "d": 1
+          "a": 1.0911712646484375
         }
       }
     ],
     [
       {
-        "type": "symbol",
         "name": "Symbol240",
+        "partIdx": "_p6",
         "transform": {
-          "tx": 0,
-          "ty": 0,
-          "a": 1.0911712646484375,
-          "d": 1
+          "a": 1.1215667724609375
         }
       }
     ],
     [
       {
-        "type": "symbol",
         "name": "Symbol240",
+        "partIdx": "_p6",
         "transform": {
-          "tx": 0,
-          "ty": 0,
-          "a": 1.1215667724609375,
-          "d": 1
+          "a": 1.2200927734375
         }
       }
     ],
     [
       {
-        "type": "symbol",
         "name": "Symbol240",
+        "partIdx": "_p6",
         "transform": {
-          "tx": 0,
-          "ty": 0,
-          "a": 1.2200927734375,
-          "d": 1
+          "a": 1.3186187744140625
         }
       }
     ],
     [
       {
-        "type": "symbol",
         "name": "Symbol240",
+        "partIdx": "_p6",
         "transform": {
-          "tx": 0,
-          "ty": 0,
-          "a": 1.3186187744140625,
-          "d": 1
-        }
-      }
-    ],
-    [
-      {
-        "type": "symbol",
-        "name": "Symbol240",
-        "transform": {
-          "tx": 0,
-          "ty": 0,
-          "a": 1.4171142578125,
-          "d": 1
+          "a": 1.4171142578125
         }
       }
     ]

@@ -1,4 +1,4 @@
-import { Application, UPDATE_PRIORITY } from 'pixi.js';
+import { Application, Rectangle, UPDATE_PRIORITY } from 'pixi.js';
 import { FighterHolder } from '../src/Symbols';
 import { animationSymbol } from './previewData';
 import { animationModel, fighterAppearance, isBrute } from './playgroundState';
@@ -13,6 +13,9 @@ interface PreviewCallbacks {
 /** Owns the Pixi lifecycle. Form controls never construct or destroy fighters. */
 export class PlaygroundPreview {
   readonly speed = { current: 1 };
+
+  /** Comparison subscribers are notified after a paused pose has been painted. */
+  onPoseChange?: () => void;
 
   private readonly app = new Application();
   private readonly listeners = new AbortController();
@@ -231,6 +234,7 @@ export class PlaygroundPreview {
 
       // A stopped ticker still needs a single render after an edit or resize.
       if (!this.app.ticker.started) this.app.render();
+      if (!this.playing) this.onPoseChange?.();
     });
   }
 
@@ -249,6 +253,50 @@ export class PlaygroundPreview {
 
   private positionFighter(): void {
     this.fighter?.container.position.set(this.app.screen.width / 2, this.app.screen.height * 0.72);
+  }
+
+  /** Capture at a fixed origin and size, excluding the game-only shadow. */
+  captureComparison(frame?: number) {
+    if (!this.fighter || !this.state) throw new Error('Wait for the fighter to finish loading');
+
+    const fighter = this.fighter;
+    const displayed = fighter.capturePlaybackFrame();
+    const selected = frame ?? Math.floor(displayed.frame);
+    const position = fighter.container.position.clone();
+    const shadowVisible = fighter.shadow.visible;
+    const symbol = animationSymbol(animationModel(this.state.model), this.state.animation);
+
+    fighter.pause();
+
+    try {
+      fighter.setAnimation(this.state.animation, selected);
+      fighter.container.position.set(320, 480 * 0.72);
+      fighter.shadow.visible = false;
+
+      const canvas = this.app.renderer.extract.canvas({
+        target: this.app.stage,
+        frame: new Rectangle(0, 0, 640, 480),
+        resolution: 1,
+      }) as HTMLCanvasElement;
+
+      return {
+        canvas,
+        options: {
+          ...fighterAppearance(this.state),
+          symbolId: Number(symbol.name.slice(6)),
+          frame: selected,
+          width: 640,
+          height: 480,
+          scale: this.state.scale * (this.state.model === 'panther' ? 1.5 : 1),
+        },
+        frameCount: symbol.frames?.length ?? 1,
+      };
+    } finally {
+      fighter.container.position.copyFrom(position);
+      fighter.shadow.visible = shadowVisible;
+      fighter.renderPlaybackFrame(displayed);
+      this.updateTicker();
+    }
   }
 
   destroy(): void {

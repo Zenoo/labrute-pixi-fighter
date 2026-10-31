@@ -1,2118 +1,1054 @@
-import { Symbol } from '../common';
-import { Symbol479 } from './Symbol479';
-import { Symbol880 } from './Symbol880';
-import { Symbol879 } from './Symbol879';
-import { Symbol878 } from './Symbol878';
-import { Symbol877 } from './Symbol877';
-import { Symbol876 } from './Symbol876';
-import { Symbol875 } from './Symbol875';
-import { Symbol871 } from './Symbol871';
-import { Symbol870 } from './Symbol870';
-import { Symbol869 } from './Symbol869';
-import { Symbol868 } from './Symbol868';
-import { Symbol867 } from './Symbol867';
-import { Symbol866 } from './Symbol866';
-import { Symbol865 } from './Symbol865';
-import { Symbol864 } from './Symbol864';
-import { Symbol863 } from './Symbol863';
-import { Symbol862 } from './Symbol862';
-import { Symbol861 } from './Symbol861';
-import { Symbol860 } from './Symbol860';
-import { Symbol859 } from './Symbol859';
-import { Symbol858 } from './Symbol858';
-import { Symbol857 } from './Symbol857';
-import { Symbol856 } from './Symbol856';
-import { Symbol855 } from './Symbol855';
-import { Symbol854 } from './Symbol854';
-import { Symbol853 } from './Symbol853';
-import { Symbol852 } from './Symbol852';
-import { Symbol851 } from './Symbol851';
-import { Symbol849 } from './Symbol849';
-import { Symbol848 } from './Symbol848';
-import { Symbol847 } from './Symbol847';
+// Generated from mini_perso.swf by npm run export:swf.
+import type { FramePart, Symbol } from '../common';
 import { Symbol846 } from './Symbol846';
+import { Symbol847 } from './Symbol847';
+import { Symbol848 } from './Symbol848';
+import { Symbol849 } from './Symbol849';
+import { Symbol851 } from './Symbol851';
+import { Symbol852 } from './Symbol852';
+import { Symbol853 } from './Symbol853';
+import { Symbol854 } from './Symbol854';
+import { Symbol855 } from './Symbol855';
+import { Symbol856 } from './Symbol856';
+import { Symbol857 } from './Symbol857';
+import { Symbol858 } from './Symbol858';
+import { Symbol859 } from './Symbol859';
+import { Symbol860 } from './Symbol860';
+import { Symbol861 } from './Symbol861';
+import { Symbol862 } from './Symbol862';
+import { Symbol863 } from './Symbol863';
+import { Symbol864 } from './Symbol864';
+import { Symbol865 } from './Symbol865';
+import { Symbol866 } from './Symbol866';
+import { Symbol867 } from './Symbol867';
+import { Symbol868 } from './Symbol868';
+import { Symbol869 } from './Symbol869';
+import { Symbol870 } from './Symbol870';
+import { Symbol871 } from './Symbol871';
+import { Symbol875 } from './Symbol875';
+import { Symbol876 } from './Symbol876';
+import { Symbol877 } from './Symbol877';
+import { Symbol878 } from './Symbol878';
+import { Symbol879 } from './Symbol879';
+import { Symbol880 } from './Symbol880';
+import { Symbol479 } from './Symbol479';
+
+const placement0: FramePart = {
+  "name": "Symbol851",
+  "transform": {
+    "ty": -20
+  }
+};
+
+const placement1: FramePart = {
+  "name": "Symbol479",
+  "transform": {
+    "tx": -1
+  }
+};
+
+const frame0: FramePart[] = [
+  placement0
+];
+
+const frame1: FramePart[] = [
+  placement1
+];
 
 export const Symbol881: Symbol = {
   "type": "symbol",
   "name": "Symbol881",
   "parts": [
-    {
-      ...Symbol479
-    },
-    {
-      ...Symbol880
-    },
-    {
-      ...Symbol879
-    },
-    {
-      ...Symbol878
-    },
-    {
-      ...Symbol877
-    },
-    {
-      ...Symbol876
-    },
-    {
-      ...Symbol875
-    },
-    {
-      ...Symbol871
-    },
-    {
-      ...Symbol870
-    },
-    {
-      ...Symbol869
-    },
-    {
-      ...Symbol868
-    },
-    {
-      ...Symbol867
-    },
-    {
-      ...Symbol866
-    },
-    {
-      ...Symbol865
-    },
-    {
-      ...Symbol864
-    },
-    {
-      ...Symbol863
-    },
-    {
-      ...Symbol862
-    },
-    {
-      ...Symbol861
-    },
-    {
-      ...Symbol860
-    },
-    {
-      ...Symbol859
-    },
-    {
-      ...Symbol858
-    },
-    {
-      ...Symbol857
-    },
-    {
-      ...Symbol856
-    },
-    {
-      ...Symbol855
-    },
-    {
-      ...Symbol854
-    },
-    {
-      ...Symbol853
-    },
-    {
-      ...Symbol852
-    },
-    {
-      ...Symbol851
-    },
-    {
-      ...Symbol849
-    },
-    {
-      ...Symbol848
-    },
-    {
-      ...Symbol847
-    },
-    {
-      ...Symbol846
-    }
+    Symbol846,
+    Symbol847,
+    Symbol848,
+    Symbol849,
+    Symbol851,
+    Symbol852,
+    Symbol853,
+    Symbol854,
+    Symbol855,
+    Symbol856,
+    Symbol857,
+    Symbol858,
+    Symbol859,
+    Symbol860,
+    Symbol861,
+    Symbol862,
+    Symbol863,
+    Symbol864,
+    Symbol865,
+    Symbol866,
+    Symbol867,
+    Symbol868,
+    Symbol869,
+    Symbol870,
+    Symbol871,
+    Symbol875,
+    Symbol876,
+    Symbol877,
+    Symbol878,
+    Symbol879,
+    Symbol880,
+    Symbol479
   ],
   "frames": [
     [
       {
-        "type": "symbol",
-        "name": "Symbol846",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol846"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol846",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol846"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol846",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol846"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol846",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol846"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol846",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol846"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol846",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol846"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol847",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol847"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol847",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol847"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol847",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol847"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol847",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol847"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol847",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol847"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol847",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol847"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol847",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol847"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol847",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol847"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol847",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol847"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol847",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol847"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol847",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol847"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol847",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol847"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol847",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol847"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol847",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol847"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol847",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol847"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol848",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol848"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol848",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol848"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol848",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol848"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol848",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol848"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol848",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol848"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol848",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol848"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol848",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol848"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol848",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol848"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol849",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol849"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol849",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol849"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol849",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol849"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol849",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol849"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol849",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol849"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol849",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol849"
       }
     ],
+    frame0,
+    frame0,
+    frame0,
+    frame0,
+    frame0,
     [
       {
-        "type": "symbol",
-        "name": "Symbol851",
-        "transform": {
-          "tx": 0,
-          "ty": -20
-        }
+        "name": "Symbol852"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol851",
-        "transform": {
-          "tx": 0,
-          "ty": -20
-        }
+        "name": "Symbol852"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol851",
-        "transform": {
-          "tx": 0,
-          "ty": -20
-        }
+        "name": "Symbol852"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol851",
-        "transform": {
-          "tx": 0,
-          "ty": -20
-        }
+        "name": "Symbol852"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol851",
-        "transform": {
-          "tx": 0,
-          "ty": -20
-        }
+        "name": "Symbol852"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol852",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol852"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol852",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol853"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol852",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol853"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol852",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol853"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol852",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol853"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol852",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol853"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol853",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol853"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol853",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol854"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol853",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol854"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol853",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol854"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol853",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol854"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol853",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol854"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol854",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol855"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol854",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol855"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol854",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol855"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol854",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol855"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol854",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol855"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol855",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol855"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol855",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol856"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol855",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol856"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol855",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol856"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol855",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol856"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol855",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol856"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol856",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol857"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol856",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol857"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol856",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol857"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol856",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol857"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol856",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol857"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol857",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol858"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol857",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol858"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol857",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol858"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol857",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol858"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol857",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol858"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol858",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol859"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol858",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol859"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol858",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol859"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol858",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol859"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol858",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol859"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol859",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol860"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol859",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol860"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol859",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol860"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol859",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol860"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol859",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol860"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol860",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol861"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol860",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol861"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol860",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol861"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol860",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol861"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol860",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol861"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol861",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol862"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol861",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol862"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol861",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol862"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol861",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol862"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol861",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol862"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol862",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol862"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol862",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol863"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol862",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol863"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol862",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol863"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol862",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol863"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol862",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol863"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol863",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol863"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol863",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol863"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol863",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol864"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol863",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol864"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol863",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol864"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol863",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol864"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol863",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol864"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol864",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol864"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol864",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol865"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol864",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol865"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol864",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol865"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol864",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol865"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol864",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol865"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol865",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol865"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol865",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol866"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol865",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol866"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol865",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol866"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol865",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol866"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol865",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol866"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol866",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol866"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol866",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol867"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol866",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol867"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol866",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol867"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol866",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol867"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol866",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol867"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol867",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol867"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol867",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol868"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol867",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol868"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol867",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol868"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol867",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol868"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol867",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol868"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol868",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol868"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol868",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol869"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol868",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol869"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol868",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol869"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol868",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol869"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol868",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol869"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol869",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol869"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol869",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol870"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol869",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol870"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol869",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol870"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol869",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol870"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol869",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol870"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol870",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol870"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol870",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol871"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol870",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol871"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol870",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol871"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol870",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol871"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol870",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol871"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol871",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol875"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol871",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol875"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol871",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol875"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol871",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol875"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol871",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol875"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol875",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol876"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol875",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol876"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol875",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol876"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol875",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol876"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol875",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol876"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol876",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol877"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol876",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol877"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol876",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol877"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol876",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol877"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol876",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol877"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol877",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol877"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol877",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol878"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol877",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol878"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol877",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol878"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol877",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol878"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol877",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol878"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol878",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol878"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol878",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol879"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol878",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol879"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol878",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol879"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol878",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol879"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol878",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol879"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol879",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol879"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol879",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol880"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol879",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol880"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol879",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol880"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol879",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol880"
       }
     ],
     [
       {
-        "type": "symbol",
-        "name": "Symbol879",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "name": "Symbol880"
       }
     ],
-    [
-      {
-        "type": "symbol",
-        "name": "Symbol880",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
-      }
-    ],
-    [
-      {
-        "type": "symbol",
-        "name": "Symbol880",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
-      }
-    ],
-    [
-      {
-        "type": "symbol",
-        "name": "Symbol880",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
-      }
-    ],
-    [
-      {
-        "type": "symbol",
-        "name": "Symbol880",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
-      }
-    ],
-    [
-      {
-        "type": "symbol",
-        "name": "Symbol880",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
-      }
-    ],
-    [
-      {
-        "type": "symbol",
-        "name": "Symbol479",
-        "transform": {
-          "tx": -1,
-          "ty": 0
-        }
-      }
-    ],
-    [
-      {
-        "type": "symbol",
-        "name": "Symbol479",
-        "transform": {
-          "tx": -1,
-          "ty": 0
-        }
-      }
-    ],
-    [
-      {
-        "type": "symbol",
-        "name": "Symbol479",
-        "transform": {
-          "tx": -1,
-          "ty": 0
-        }
-      }
-    ],
-    [
-      {
-        "type": "symbol",
-        "name": "Symbol479",
-        "transform": {
-          "tx": -1,
-          "ty": 0
-        }
-      }
-    ],
-    [
-      {
-        "type": "symbol",
-        "name": "Symbol479",
-        "transform": {
-          "tx": -1,
-          "ty": 0
-        }
-      }
-    ],
-    [
-      {
-        "type": "symbol",
-        "name": "Symbol479",
-        "transform": {
-          "tx": -1,
-          "ty": 0
-        }
-      }
-    ],
-    [
-      {
-        "type": "symbol",
-        "name": "Symbol479",
-        "transform": {
-          "tx": -1,
-          "ty": 0
-        }
-      }
-    ],
-    [
-      {
-        "type": "symbol",
-        "name": "Symbol479",
-        "transform": {
-          "tx": -1,
-          "ty": 0
-        }
-      }
-    ],
-    [
-      {
-        "type": "symbol",
-        "name": "Symbol479",
-        "transform": {
-          "tx": -1,
-          "ty": 0
-        }
-      }
-    ],
-    [
-      {
-        "type": "symbol",
-        "name": "Symbol479",
-        "transform": {
-          "tx": -1,
-          "ty": 0
-        }
-      }
-    ],
-    [
-      {
-        "type": "symbol",
-        "name": "Symbol479",
-        "transform": {
-          "tx": -1,
-          "ty": 0
-        }
-      }
-    ],
-    [
-      {
-        "type": "symbol",
-        "name": "Symbol479",
-        "transform": {
-          "tx": -1,
-          "ty": 0
-        }
-      }
-    ]
-  ]
+    frame1,
+    frame1,
+    frame1,
+    frame1,
+    frame1,
+    frame1,
+    frame1,
+    frame1,
+    frame1,
+    frame1,
+    frame1,
+    frame1
+  ],
+  "labels": {
+    "normal": 0,
+    "normal1": 6,
+    "normal0": 6,
+    "fist": 21,
+    "land": 29,
+    "hurt3": 35,
+    "hurt2": 35,
+    "hurt1": 35,
+    "run": 52,
+    "show": 57,
+    "jump": 63,
+    "parry": 68,
+    "trash": 73,
+    "death": 78,
+    "estoc": 83,
+    "slash": 88,
+    "slot": 93,
+    "throw": 99,
+    "prepareThrow": 106,
+    "grab": 112,
+    "steal": 118,
+    "grabed": 124,
+    "stolen": 130,
+    "net": 136,
+    "drink": 142,
+    "brute": 148,
+    "whip": 153,
+    "launch": 158,
+    "win": 163,
+    "train0": 169,
+    "train1": 175,
+    "eat": 181,
+    "jump_asc": 186
+  }
 };

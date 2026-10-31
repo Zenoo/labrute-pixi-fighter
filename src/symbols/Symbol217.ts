@@ -1,111 +1,74 @@
-import { Symbol } from '../common';
+// Generated from mini_perso.swf by npm run export:swf.
+import type { Symbol } from '../common';
 import { Symbol216 } from './Symbol216';
 
 export const Symbol217: Symbol = {
   "type": "symbol",
   "name": "Symbol217",
   "parts": [
-    {
-      ...Symbol216,
-      "partIdx": "_p6"
-    },
-    {
-      ...Symbol216,
-      "partIdx": "_p6"
-    },
-    {
-      ...Symbol216,
-      "partIdx": "_p6"
-    },
-    {
-      ...Symbol216,
-      "partIdx": "_p6"
-    }
+    Symbol216
   ],
   "frames": [
     [
       {
-        "type": "symbol",
         "name": "Symbol216",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "partIdx": "_p6"
       }
     ],
     [
       {
-        "type": "symbol",
         "name": "Symbol216",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "partIdx": "_p6"
       }
     ],
     [
       {
-        "type": "symbol",
         "name": "Symbol216",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "partIdx": "_p6"
       }
     ],
     [
       {
-        "type": "symbol",
         "name": "Symbol216",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "partIdx": "_p6"
       }
     ],
     [
       {
-        "type": "symbol",
         "name": "Symbol216",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
+        "partIdx": "_p6"
       }
     ],
     [
       {
-        "type": "symbol",
         "name": "Symbol216",
+        "partIdx": "_p6",
         "transform": {
-          "tx": -0.2,
-          "ty": 0,
           "a": 1.1678619384765625,
-          "d": 1.0530242919921875
+          "d": 1.0530242919921875,
+          "tx": -0.2
         }
       }
     ],
     [
       {
-        "type": "symbol",
         "name": "Symbol216",
+        "partIdx": "_p6",
         "transform": {
-          "tx": -0.35,
-          "ty": 0,
           "a": 1.33575439453125,
-          "d": 1.1060638427734375
+          "d": 1.1060638427734375,
+          "tx": -0.35
         }
       }
     ],
     [
       {
-        "type": "symbol",
         "name": "Symbol216",
+        "partIdx": "_p6",
         "transform": {
-          "tx": -0.55,
-          "ty": 0,
           "a": 1.5036163330078125,
-          "d": 1.159088134765625
+          "d": 1.159088134765625,
+          "tx": -0.55
         }
       }
     ]

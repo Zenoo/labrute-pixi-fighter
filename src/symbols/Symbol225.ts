@@ -1,52 +1,39 @@
-import { Symbol } from '../common';
+// Generated from mini_perso.swf by npm run export:swf.
+import type { FramePart, Symbol } from '../common';
 import { Symbol222 } from './Symbol222';
 import { Symbol224 } from './Symbol224';
+
+const placement0: FramePart = {
+  "name": "Symbol222",
+  "colorIdx": "_col3",
+  "transform": {
+    "ty": 1.25
+  }
+};
 
 export const Symbol225: Symbol = {
   "type": "symbol",
   "name": "Symbol225",
   "parts": [
-    {
-      ...Symbol222,
-      "colorIdx": "_col3"
-    },
-    {
-      ...Symbol224,
-      "colorIdx": "_col2"
-    }
+    Symbol222,
+    Symbol224
   ],
   "frames": [
     [
-      {
-        "type": "symbol",
-        "name": "Symbol222",
-        "transform": {
-          "tx": 0,
-          "ty": 1.25
-        }
-      }
+      placement0
     ],
     [
       {
-        "type": "symbol",
         "name": "Symbol224",
+        "colorIdx": "_col2",
         "transform": {
-          "tx": 0,
-          "ty": 9.5,
           "a": 1.1502838134765625,
-          "d": 1.2355804443359375,
           "b": -0.335205078125,
-          "c": 0
+          "d": 1.2355804443359375,
+          "ty": 9.5
         }
       },
-      {
-        "type": "symbol",
-        "name": "Symbol222",
-        "transform": {
-          "tx": 0,
-          "ty": 1.25
-        }
-      }
+      placement0
     ]
   ]
 };

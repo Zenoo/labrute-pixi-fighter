@@ -1,111 +1,68 @@
-import { Symbol } from '../common';
+// Generated from mini_perso.swf by npm run export:swf.
+import type { Symbol } from '../common';
 import { Symbol207 } from './Symbol207';
 
 export const Symbol208: Symbol = {
   "type": "symbol",
   "name": "Symbol208",
   "parts": [
-    {
-      ...Symbol207,
-      "partIdx": "_p6"
-    },
-    {
-      ...Symbol207,
-      "partIdx": "_p6"
-    },
-    {
-      ...Symbol207,
-      "partIdx": "_p6"
-    },
-    {
-      ...Symbol207,
-      "partIdx": "_p6"
-    }
+    Symbol207
   ],
   "frames": [
     [
       {
-        "type": "symbol",
         "name": "Symbol207",
+        "partIdx": "_p6"
+      }
+    ],
+    [
+      {
+        "name": "Symbol207",
+        "partIdx": "_p6"
+      }
+    ],
+    [
+      {
+        "name": "Symbol207",
+        "partIdx": "_p6"
+      }
+    ],
+    [
+      {
+        "name": "Symbol207",
+        "partIdx": "_p6"
+      }
+    ],
+    [
+      {
+        "name": "Symbol207",
+        "partIdx": "_p6"
+      }
+    ],
+    [
+      {
+        "name": "Symbol207",
+        "partIdx": "_p6",
         "transform": {
-          "tx": 0,
-          "ty": 0
+          "a": 1.08135986328125
         }
       }
     ],
     [
       {
-        "type": "symbol",
         "name": "Symbol207",
+        "partIdx": "_p6",
         "transform": {
-          "tx": 0,
-          "ty": 0
+          "a": 1.1627044677734375
         }
       }
     ],
     [
       {
-        "type": "symbol",
         "name": "Symbol207",
+        "partIdx": "_p6",
         "transform": {
-          "tx": 0,
-          "ty": 0
-        }
-      }
-    ],
-    [
-      {
-        "type": "symbol",
-        "name": "Symbol207",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
-      }
-    ],
-    [
-      {
-        "type": "symbol",
-        "name": "Symbol207",
-        "transform": {
-          "tx": 0,
-          "ty": 0
-        }
-      }
-    ],
-    [
-      {
-        "type": "symbol",
-        "name": "Symbol207",
-        "transform": {
-          "tx": 0,
-          "ty": 0,
-          "a": 1.08135986328125,
-          "d": 1
-        }
-      }
-    ],
-    [
-      {
-        "type": "symbol",
-        "name": "Symbol207",
-        "transform": {
-          "tx": 0,
-          "ty": 0,
-          "a": 1.1627044677734375,
-          "d": 1
-        }
-      }
-    ],
-    [
-      {
-        "type": "symbol",
-        "name": "Symbol207",
-        "transform": {
-          "tx": 0,
-          "ty": 0,
-          "a": 1.2440643310546875,
-          "d": 1
+          "a": 1.2440643310546875
         }
       }
     ]

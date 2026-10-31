@@ -38,7 +38,8 @@ typeof SuppressedError === "function" ? SuppressedError : function (error, suppr
     return e.name = "SuppressedError", e.error = error, e.suppressed = suppressed, e;
 };
 
-const COLOR_OFFSET_VERTEX = `
+// Shared vertex stage for source SWF effects.
+const FLASH_FILTER_VERTEX = `
 in vec2 aPosition;
 out vec2 vTextureCoord;
 
@@ -67,45 +68,190 @@ void main(void)
     vTextureCoord = filterTextureCoord();
 }
 `;
-const COLOR_OFFSET_FRAGMENT = `
+
+// Flash's outer glow is a blurred alpha silhouette behind the original image.
+// This sampling kernel approximates its blur; the comparison view deliberately
+// reports rasterizer differences rather than treating them as exact matches.
+const FRAGMENT = `
 in vec2 vTextureCoord;
-
 out vec4 finalColor;
-
 uniform sampler2D uTexture;
-uniform vec3 offset;
-uniform vec3 mult;
+uniform highp vec4 uInputSize;
+uniform vec4 glowColor;
+uniform vec2 radius;
+uniform float strength;
+uniform float innerGlow;
+uniform float knockout;
 
 void main(void)
 {
-  vec4 color = texture(uTexture, vTextureCoord);
+  vec4 original = texture(uTexture, vTextureCoord);
+  float blurred = 0.0;
+  float total = 0.0;
 
-  if (color.a <= 0.0) {
-    finalColor = vec4(0.0);
-    return;
+  for (int x = -4; x <= 4; x++) {
+    for (int y = -4; y <= 4; y++) {
+      vec2 samplePoint = vec2(float(x), float(y)) / 4.0;
+      float weight = exp(-2.0 * dot(samplePoint, samplePoint));
+      float alpha = texture(uTexture,
+        vTextureCoord + samplePoint * radius * uInputSize.zw).a;
+      blurred += mix(alpha, 1.0 - alpha, innerGlow) * weight;
+      total += weight;
+    }
   }
 
-  vec3 unmultiplied = color.rgb / color.a;
-  vec3 shifted = unmultiplied * mult + (offset / 255.0);
-
-  finalColor = vec4(shifted * color.a, color.a);
+  float alpha = clamp(blurred / total * strength, 0.0, 1.0) * glowColor.a;
+  alpha *= mix(1.0 - original.a, original.a, innerGlow);
+  vec4 glow = vec4(glowColor.rgb * alpha, alpha);
+  finalColor = glow + original * (1.0 - knockout) * (1.0 - innerGlow * alpha);
 }
 `;
-const createColorOffsetFilter = (r, g, b, filterName = 'color-offset-filter') => pixi_js.Filter.from({
-    gl: {
-        vertex: COLOR_OFFSET_VERTEX,
-        fragment: COLOR_OFFSET_FRAGMENT,
-        name: filterName,
-    },
-    resources: {
-        colorOffsetUniforms: {
-            offset: { value: [r, g, b], type: 'vec3<f32>' },
-            mult: { value: [1, 1, 1], type: 'vec3<f32>' },
+function createFlashGlowFilter(source, scale) {
+    const color = source.color ?? [255, 255, 255, 255];
+    const filter = pixi_js.Filter.from({
+        gl: { vertex: FLASH_FILTER_VERTEX, fragment: FRAGMENT, name: 'flash-glow' },
+        resources: {
+            glowUniforms: {
+                glowColor: { value: color.map((channel) => channel / 255), type: 'vec4<f32>' },
+                radius: { value: [
+                        (source.blurX ?? 0) * scale / 2,
+                        (source.blurY ?? 0) * scale / 2,
+                    ], type: 'vec2<f32>' },
+                strength: { value: source.strength ?? 1, type: 'f32' },
+                innerGlow: { value: (source.flags ?? 0) & 128 ? 1 : 0, type: 'f32' },
+                knockout: { value: (source.flags ?? 0) & 64 ? 1 : 0, type: 'f32' },
+            },
         },
-    },
-});
+    });
+    filter.padding = Math.ceil(Math.max(source.blurX ?? 0, source.blurY ?? 0) * scale);
+    return filter;
+}
 
-var _a, _FighterHolder_sharedSvgTextureCache, _FighterHolder_sharedSvgLoadEntries, _FighterHolder_animationType, _FighterHolder_colors, _FighterHolder_parts, _FighterHolder_colorOffset, _FighterHolder_renderContainer, _FighterHolder_animationSymbol, _FighterHolder_isAirborn, _FighterHolder_scale, _FighterHolder_playing, _FighterHolder_frame, _FighterHolder_displayedFrame, _FighterHolder_displayedWeapon, _FighterHolder_displayedShield, _FighterHolder_previousFrame, _FighterHolder_timer, _FighterHolder_baseAnimationSpeed, _FighterHolder_svgTexturesByLabel, _FighterHolder_svgDataByLabel, _FighterHolder_svgsByLabel, _FighterHolder_maskSvgsByLabel, _FighterHolder_containerPoolByParent, _FighterHolder_allPooledContainers, _FighterHolder_frameCount, _FighterHolder_usedSvgs, _FighterHolder_usedMaskSvgs, _FighterHolder_colorOffsetFilters, _FighterHolder_tickerHandler, _FighterHolder_appTicker, _FighterHolder_isDestroyed, _FighterHolder_triggerEvents, _FighterHolder_collectSvgsToLoad, _FighterHolder_loadSvgs, _FighterHolder_prepareFrameRender, _FighterHolder_acquireContainer, _FighterHolder_acquireSvgSprite, _FighterHolder_acquireMaskSvgSprite, _FighterHolder_getColorOffsetFilter, _FighterHolder_displayFrame;
+/** Flash uses additive RGB offsets, including for its named color slots. */
+function createPlacementFilters(placement, color, scale = 1) {
+    const filters = [];
+    const multiply = color ? [1, 1, 1, 1] : placement.colorTransform?.multiply ?? [1, 1, 1, 1];
+    const add = [...(placement.colorTransform?.add ?? [0, 0, 0, 0])];
+    if (color) {
+        const value = parseInt(color.replace('#', ''), 16);
+        add[0] = ((value >> 16) & 255) - 255;
+        add[1] = ((value >> 8) & 255) - 255;
+        add[2] = (value & 255) - 255;
+        add[3] = 0;
+    }
+    const changesColor = multiply.some((value) => value !== 1) || add.some((value) => value !== 0);
+    if (changesColor) {
+        const filter = new pixi_js.ColorMatrixFilter();
+        filter.matrix = [
+            multiply[0], 0, 0, 0, add[0] / 255,
+            0, multiply[1], 0, 0, add[1] / 255,
+            0, 0, multiply[2], 0, add[2] / 255,
+            0, 0, 0, multiply[3], add[3] / 255,
+        ];
+        filters.push(filter);
+    }
+    for (const source of placement.filters ?? []) {
+        if (source.type === 'colorMatrix') {
+            const filter = new pixi_js.ColorMatrixFilter();
+            filter.matrix = (source.matrix ?? []).map((value, index) => index % 5 === 4 ? value / 255 : value);
+            filters.push(filter);
+        }
+        else if (source.type === 'glow') {
+            filters.push(createFlashGlowFilter(source, scale));
+        }
+        else if (source.type === 'blur' && (source.blurX || source.blurY)) {
+            filters.push(new pixi_js.BlurFilter({
+                strengthX: (source.blurX ?? 0) * scale / 2,
+                strengthY: (source.blurY ?? 0) * scale / 2,
+                quality: Math.max(1, (source.flags ?? 8) >> 3),
+            }));
+        }
+    }
+    for (const filter of filters)
+        filter.resolution = 'inherit';
+    return filters;
+}
+
+/** Keep Flash's minimum stroke at one raster pixel, not one SVG coordinate unit. */
+function prepareSvg(svg, resolution) {
+    const minimumWidth = 1 / resolution;
+    // A hair/eye symbol may be magnified several times by its parent timelines.
+    // Preserve authored wider strokes, while rasterizing thinner ones as a single
+    // texel. Expanding them to 1 SVG unit would magnify their borders as well.
+    return svg.replace(/\sstroke-width="([\d.]+)"/g, (_, width) => ` stroke-width="${Math.max(Number(width), minimumWidth)}"`);
+}
+
+const definitions = new WeakMap();
+const plans = new WeakMap();
+const singleSvgs = new WeakMap();
+const emptyFrame = [];
+const emptyDefinitions = new Map();
+/** Definitions and frame plans are shared across fighters; generated data is immutable. */
+function getDefinitions(parts) {
+    if (!parts)
+        return emptyDefinitions;
+    let indexed = definitions.get(parts);
+    if (!indexed) {
+        indexed = new Map(parts.map((part) => [part.name, part]));
+        definitions.set(parts, indexed);
+    }
+    return indexed;
+}
+function singleSvg(symbol) {
+    if (singleSvgs.has(symbol))
+        return singleSvgs.get(symbol) ?? undefined;
+    let result;
+    // Colorizing a single unmodified SVG can be cached as a texture. Groups with
+    // masks, transforms, nested selectors, or effects still use compositing filters.
+    if (symbol.frames?.length === 1 && symbol.frames[0].length === 1) {
+        const part = symbol.frames[0][0];
+        if (!part.transform && !part.colorTransform && !part.colorIdx && !part.partIdx
+            && !part.filters && !part.maskedBy && !part.isMask) {
+            const child = getDefinitions(symbol.parts).get(part.name);
+            result = child?.type === 'svg' ? child : child ? singleSvg(child) : undefined;
+        }
+    }
+    singleSvgs.set(symbol, result ?? null);
+    return result;
+}
+function getFramePlan(symbol, frame) {
+    const placements = symbol.frames?.[frame];
+    if (!placements?.length)
+        return emptyFrame;
+    let plan = plans.get(placements);
+    if (plan)
+        return plan;
+    const indexed = getDefinitions(symbol.parts);
+    const occurrences = new Map();
+    plan = [];
+    for (let index = 0; index < placements.length; index++) {
+        const part = placements[index];
+        if (part.isMask)
+            continue;
+        const definition = indexed.get(part.name);
+        if (!definition)
+            throw new Error(`Part ${part.name} not found in ${symbol.name}`);
+        const occurrence = occurrences.get(part.name) ?? 0;
+        occurrences.set(part.name, occurrence + 1);
+        const maskName = part.maskedBy ? `Symbol${part.maskedBy}` : undefined;
+        const maskPlacement = maskName ? placements.find((candidate) => candidate.name === maskName) : undefined;
+        if (maskName && !maskPlacement)
+            throw new Error(`Mask ${maskName} not found`);
+        plan.push({
+            placement: part, definition, occurrence, zIndex: placements.length - index,
+            // Serialize source effects once, never in the animation traversal.
+            filterKey: part.colorTransform || part.filters
+                ? JSON.stringify([part.colorTransform, part.filters]) : undefined,
+            coloredSvg: part.colorIdx && !part.filters && definition.type === 'symbol'
+                ? singleSvg(definition) : undefined,
+            mask: maskName ? { name: maskName, transform: maskPlacement.transform } : undefined,
+        });
+    }
+    plans.set(placements, plan);
+    return plan;
+}
+
+var _FighterHolder_instances, _a, _FighterHolder_sharedSvgTextureCache, _FighterHolder_sharedSvgLoadEntries, _FighterHolder_sharedColoredTextures, _FighterHolder_animationType, _FighterHolder_colors, _FighterHolder_parts, _FighterHolder_colorOffset, _FighterHolder_renderContainer, _FighterHolder_animationSymbol, _FighterHolder_isAirborn, _FighterHolder_scale, _FighterHolder_playing, _FighterHolder_frame, _FighterHolder_displayedFrame, _FighterHolder_displayedWeapon, _FighterHolder_displayedShield, _FighterHolder_previousFrame, _FighterHolder_timer, _FighterHolder_baseAnimationSpeed, _FighterHolder_svgTexturesByLabel, _FighterHolder_svgDataByLabel, _FighterHolder_svgsByLabel, _FighterHolder_maskSvgsByLabel, _FighterHolder_containerPoolByParent, _FighterHolder_allPooledContainers, _FighterHolder_frameCount, _FighterHolder_usedSvgs, _FighterHolder_usedMaskSvgs, _FighterHolder_placementFilters, _FighterHolder_renderer, _FighterHolder_coloredTextures, _FighterHolder_placementMatrix, _FighterHolder_tickerHandler, _FighterHolder_appTicker, _FighterHolder_isDestroyed, _FighterHolder_triggerEvents, _FighterHolder_collectSvgsToLoad, _FighterHolder_loadSvgs, _FighterHolder_prepareFrameRender, _FighterHolder_acquireContainer, _FighterHolder_acquireSvgSprite, _FighterHolder_acquireMaskSvgSprite, _FighterHolder_selectPartFrame, _FighterHolder_applyPlacementFilters, _FighterHolder_getColoredTexture, _FighterHolder_releaseColoredTexture, _FighterHolder_displayFrame;
 const ANIMATIONS = {
     male: {
         idle: symbolData_cjs.Symbol475,
@@ -437,6 +583,7 @@ const getMatrixScale = ({ a, b, c, d }) => {
 };
 class FighterHolder {
     constructor(app, fighter, speed, scale = 1) {
+        _FighterHolder_instances.add(this);
         _FighterHolder_animationType.set(this, void 0);
         _FighterHolder_colors.set(this, void 0);
         _FighterHolder_parts.set(this, void 0);
@@ -474,7 +621,10 @@ class FighterHolder {
         _FighterHolder_frameCount.set(this, 0);
         _FighterHolder_usedSvgs.set(this, {});
         _FighterHolder_usedMaskSvgs.set(this, {});
-        _FighterHolder_colorOffsetFilters.set(this, new WeakMap());
+        _FighterHolder_placementFilters.set(this, new WeakMap());
+        _FighterHolder_renderer.set(this, void 0);
+        _FighterHolder_coloredTextures.set(this, new Map());
+        _FighterHolder_placementMatrix.set(this, new pixi_js.Matrix());
         _FighterHolder_tickerHandler.set(this, null);
         _FighterHolder_appTicker.set(this, null);
         _FighterHolder_isDestroyed.set(this, false);
@@ -512,7 +662,7 @@ class FighterHolder {
         });
         _FighterHolder_collectSvgsToLoad.set(this, (svgsToLoadByName, parts, frame = [], parentTransform = new pixi_js.Matrix(), resolution = 1) => {
             frame.forEach((framePart) => {
-                const symbol = parts?.find((p) => p.name === framePart.name);
+                const symbol = getDefinitions(parts).get(framePart.name);
                 if (!symbol) {
                     throw new Error(`Part ${framePart.name} not found in symbol parts`);
                 }
@@ -539,12 +689,13 @@ class FighterHolder {
                     // Get frames to load
                     let framesToLoad = [];
                     // If symbol has partIdx, only load the corresponding frame
-                    if (symbol.partIdx) {
-                        const partValue = __classPrivateFieldGet(this, _FighterHolder_parts, "f")[symbol.partIdx.substring(1)];
+                    const partIdx = framePart.partIdx;
+                    if (partIdx) {
+                        const partValue = __classPrivateFieldGet(this, _FighterHolder_parts, "f")[partIdx.substring(1)];
                         if (partValue === undefined) {
-                            throw new Error(`Part ${symbol.partIdx.substring(1)} not found in fighter config`);
+                            throw new Error(`Part ${partIdx.substring(1)} not found in fighter config`);
                         }
-                        framesToLoad = [partValue];
+                        framesToLoad = [__classPrivateFieldGet(this, _FighterHolder_instances, "m", _FighterHolder_selectPartFrame).call(this, symbol, partValue)];
                     }
                     else if (symbol.name === WEAPON_SYMBOL) {
                         // Load all weapon frames
@@ -598,7 +749,7 @@ class FighterHolder {
             for (const svgToLoad of svgsToLoad) {
                 const { svg, renderScale } = svgToLoad;
                 loadingSvgs.push(new Promise((resolve) => {
-                    const svgSource = `${svg.svg}<!-- ${renderScale} -->`;
+                    const svgSource = `${prepareSvg(svg.svg, renderScale)}<!-- ${renderScale} -->`;
                     const svgDataUrl = `data:image/svg+xml,${encodeURIComponent(svgSource)}`;
                     const cacheKey = `${svg.name}|${renderScale}`;
                     getTexture(svgDataUrl, renderScale, cacheKey, svg.name)
@@ -725,181 +876,81 @@ class FighterHolder {
             __classPrivateFieldGet(this, _FighterHolder_usedMaskSvgs, "f")[svgName] = usedCount + 1;
             return sprite;
         });
-        _FighterHolder_getColorOffsetFilter.set(this, (container, r, g, b) => {
-            const key = `${r},${g},${b}`;
-            const existingFilter = __classPrivateFieldGet(this, _FighterHolder_colorOffsetFilters, "f").get(container);
-            if (existingFilter?.key === key) {
-                return existingFilter.filter;
-            }
-            const filter = createColorOffsetFilter(r, g, b, 'fight-color-offset-filter');
-            filter.resolution = 'inherit';
-            __classPrivateFieldGet(this, _FighterHolder_colorOffsetFilters, "f").set(container, { key, filter });
-            return filter;
-        });
-        _FighterHolder_displayFrame.set(this, (symbolContainer, symbol, colorIdx, zIndex, svgMaskedBy, frameTransform, frameAlpha, framePartsByName) => {
-            if (!symbolContainer || !symbol)
+        _FighterHolder_displayFrame.set(this, (container, symbol, placement, coloredTexture) => {
+            if (!symbol)
                 return;
             if (symbol.type === 'svg') {
-                const sprite = __classPrivateFieldGet(this, _FighterHolder_acquireSvgSprite, "f").call(this, symbol.name, symbolContainer);
-                const svgData = __classPrivateFieldGet(this, _FighterHolder_svgDataByLabel, "f").get(symbol.name);
-                if (!svgData) {
-                    throw new Error(`SVG data ${symbol.name} not found`);
-                }
-                // Apply transform from timeline placement.
-                if (frameTransform) {
-                    const size = SCALE * __classPrivateFieldGet(this, _FighterHolder_scale, "f");
-                    const frameMatrix = matrixFromObject(frameTransform, size);
-                    const baseMatrix = new pixi_js.Matrix(size, 0, 0, size, -((svgData.offset?.x ?? 0) * size), -((svgData.offset?.y ?? 0) * size));
-                    sprite.setFromMatrix(multiplyMatrices(frameMatrix, baseMatrix));
-                }
-                if (frameAlpha !== undefined) {
-                    sprite.alpha = frameAlpha;
-                }
-                // Hide shield if needed
-                if (sprite.label === SHIELD_SYMBOL[__classPrivateFieldGet(this, _FighterHolder_animationType, "f")]) {
-                    sprite.visible = this.shield;
-                }
-                else if (!this.weapon) {
-                    // Hide 39 if no weapon
-                    sprite.visible = sprite.label !== 'Symbol39';
-                }
-                else {
-                    sprite.visible = true;
-                }
-                // Apply masking
-                if (svgMaskedBy) {
-                    const maskName = `Symbol${svgMaskedBy}`;
-                    const maskSprite = __classPrivateFieldGet(this, _FighterHolder_acquireMaskSvgSprite, "f").call(this, maskName, symbolContainer);
-                    const maskFramePart = framePartsByName?.get(maskName);
-                    if (maskFramePart?.transform) {
-                        const size = SCALE * __classPrivateFieldGet(this, _FighterHolder_scale, "f");
-                        const maskMatrix = matrixFromObject(maskFramePart.transform, size);
-                        const maskSvgData = __classPrivateFieldGet(this, _FighterHolder_svgDataByLabel, "f").get(maskName);
-                        const maskBaseMatrix = new pixi_js.Matrix(size, 0, 0, size, -((maskSvgData?.offset?.x ?? 0) * size), -((maskSvgData?.offset?.y ?? 0) * size));
-                        maskSprite.setFromMatrix(multiplyMatrices(maskMatrix, maskBaseMatrix));
-                    }
-                    // Keep mask sprites in the graph for masking, but do not draw them.
-                    maskSprite.visible = true;
-                    maskSprite.renderable = false;
-                    sprite.mask = maskSprite;
-                }
-                // Apply color
-                if (colorIdx) {
-                    const color = __classPrivateFieldGet(this, _FighterHolder_colors, "f")[colorIdx.substring(1)];
-                    if (!color) {
-                        throw new Error(`Color ${colorIdx} not found`);
-                    }
-                    sprite.tint = parseInt(color.replace('#', ''), 16);
-                }
-                // Add to current container
-                sprite.zIndex = zIndex ?? 0;
+                const sprite = __classPrivateFieldGet(this, _FighterHolder_acquireSvgSprite, "f").call(this, symbol.name, container);
+                sprite.texture = coloredTexture ?? __classPrivateFieldGet(this, _FighterHolder_svgTexturesByLabel, "f").get(symbol.name);
+                sprite.visible = symbol.name === SHIELD_SYMBOL[__classPrivateFieldGet(this, _FighterHolder_animationType, "f")]
+                    ? this.shield
+                    : this.weapon !== null || symbol.name !== 'Symbol39';
+                return;
             }
-            else {
-                const usedContainers = {};
-                // Check if symbol has an offset
-                if (symbol.offset) {
-                    symbolContainer.x = __classPrivateFieldGet(this, _FighterHolder_scale, "f") * SCALE * (symbol.offset.x ?? 0);
-                    symbolContainer.y = __classPrivateFieldGet(this, _FighterHolder_scale, "f") * SCALE * (symbol.offset.y ?? 0);
+            let frame = 0;
+            if (placement?.partIdx) {
+                const key = placement.partIdx.substring(1);
+                const value = __classPrivateFieldGet(this, _FighterHolder_parts, "f")[key];
+                if (value === undefined)
+                    throw new Error(`Part ${key} not found in fighter config`);
+                frame = __classPrivateFieldGet(this, _FighterHolder_instances, "m", _FighterHolder_selectPartFrame).call(this, symbol, value);
+            }
+            else if (symbol.name === WEAPON_SYMBOL) {
+                frame = WEAPON_FRAMES.indexOf(this.weapon);
+            }
+            else if (symbol.name === 'Symbol526') {
+                frame = 16;
+            }
+            else if (ANIMATION_SYMBOL_NAMES[__classPrivateFieldGet(this, _FighterHolder_animationType, "f")].includes(symbol.name)) {
+                frame = Math.floor(__classPrivateFieldGet(this, _FighterHolder_frame, "f"));
+            }
+            for (const planned of getFramePlan(symbol, frame)) {
+                const { placement: part, definition } = planned;
+                if (definition.type === 'svg') {
+                    __classPrivateFieldGet(this, _FighterHolder_displayFrame, "f").call(this, container, definition, part, coloredTexture);
+                    continue;
                 }
-                else if (symbolContainer === __classPrivateFieldGet(this, _FighterHolder_renderContainer, "f")) {
-                    // Top-level container is reused across animations; clear stale offset
-                    // when the current animation symbol has no explicit offset.
-                    symbolContainer.x = 0;
-                    symbolContainer.y = 0;
+                const child = __classPrivateFieldGet(this, _FighterHolder_acquireContainer, "f").call(this, part.name, container, planned.occurrence);
+                const transform = part.transform;
+                const size = SCALE * __classPrivateFieldGet(this, _FighterHolder_scale, "f");
+                child.setFromMatrix(__classPrivateFieldGet(this, _FighterHolder_placementMatrix, "f").set(transform?.a ?? 1, transform?.b ?? 0, transform?.c ?? 0, transform?.d ?? 1, (transform?.tx ?? 0) * size, (transform?.ty ?? 0) * size));
+                child.zIndex = planned.zIndex;
+                child.blendMode = part.blendMode ?? 'normal';
+                child.visible = true;
+                // Color selectors, color transforms, and effects belong to the placement,
+                // so two instances of one definition can have different appearances.
+                let nextTexture = coloredTexture;
+                if (planned.coloredSvg) {
+                    const color = __classPrivateFieldGet(this, _FighterHolder_colors, "f")[part.colorIdx.slice(1)];
+                    if (!color)
+                        throw new Error(`Color ${part.colorIdx} not found`);
+                    nextTexture = __classPrivateFieldGet(this, _FighterHolder_instances, "m", _FighterHolder_getColoredTexture).call(this, planned.coloredSvg, color);
+                    if (child.filters?.length)
+                        child.filters = null;
                 }
-                // Get frame to load
-                let frameToLoad;
-                // If symbol has partIdx, only load the corresponding frame
-                if (symbol.partIdx) {
-                    const partValue = __classPrivateFieldGet(this, _FighterHolder_parts, "f")[symbol.partIdx.substring(1)];
-                    if (partValue === undefined) {
-                        throw new Error(`Part ${symbol.partIdx} not found in fighter config`);
-                    }
-                    frameToLoad = partValue;
+                else if (part.colorTransform || part.colorIdx || part.filters) {
+                    __classPrivateFieldGet(this, _FighterHolder_instances, "m", _FighterHolder_applyPlacementFilters).call(this, child, planned);
                 }
-                else if (symbol.name === WEAPON_SYMBOL) {
-                    // Load current weapon frame
-                    frameToLoad = WEAPON_FRAMES.indexOf(this.weapon);
+                else if (child.filters?.length) {
+                    child.filters = null;
                 }
-                else if (symbol.name === 'Symbol526') {
-                    // Special case for whip animation
-                    frameToLoad = 16;
-                }
-                else if (ANIMATION_SYMBOL_NAMES[__classPrivateFieldGet(this, _FighterHolder_animationType, "f")].includes(symbol.name)) {
-                    // If the symbol is an animation, load the current frame
-                    frameToLoad = Math.floor(__classPrivateFieldGet(this, _FighterHolder_frame, "f"));
+                if (planned.mask) {
+                    const { name, transform: maskTransform } = planned.mask;
+                    const mask = __classPrivateFieldGet(this, _FighterHolder_acquireMaskSvgSprite, "f").call(this, name, container);
+                    const artwork = __classPrivateFieldGet(this, _FighterHolder_svgDataByLabel, "f").get(name);
+                    if (!artwork)
+                        throw new Error(`Mask ${name} not found`);
+                    const size = SCALE * __classPrivateFieldGet(this, _FighterHolder_scale, "f");
+                    const origin = new pixi_js.Matrix(size, 0, 0, size, -artwork.offset.x * size, -artwork.offset.y * size);
+                    mask.setFromMatrix(multiplyMatrices(matrixFromObject(maskTransform, size), origin));
+                    mask.visible = true;
+                    mask.renderable = false;
+                    child.mask = mask;
                 }
                 else {
-                    // Else load the first frame
-                    frameToLoad = 0;
+                    child.mask = null;
                 }
-                const frameParts = symbol.frames?.[frameToLoad] ?? [];
-                const maskSymbolNames = new Set(frameParts
-                    .filter((part) => !!part.maskedBy)
-                    .map((part) => `Symbol${part.maskedBy}`));
-                const framePartByName = new Map(frameParts.map((part) => [part.name, part]));
-                for (let i = 0; i < frameParts.length; i++) {
-                    const framePart = frameParts[i];
-                    if (!framePart) {
-                        throw new Error(`Part ${i} not found in frame ${frameToLoad}`);
-                    }
-                    // Match previous behavior: always resolve the first matching part by name.
-                    const framePartSymbol = symbol.parts?.find((p) => p.name === framePart.name);
-                    if (!framePartSymbol) {
-                        throw new Error(`Part ${framePart.name} not found in symbol ${symbol.name}`);
-                    }
-                    // Mask helper symbols should not be rendered as standalone visual parts.
-                    if (maskSymbolNames.has(framePart.name)) {
-                        continue;
-                    }
-                    if (framePartSymbol.type === 'svg') {
-                        __classPrivateFieldGet(this, _FighterHolder_displayFrame, "f").call(this, symbolContainer, framePartSymbol, colorIdx, frameParts.length - i, framePart.maskedBy, framePart.transform, framePart.alpha, framePartByName);
-                        continue;
-                    }
-                    const usedContainerCount = usedContainers[framePart.name] ?? 0;
-                    const framePartContainer = __classPrivateFieldGet(this, _FighterHolder_acquireContainer, "f").call(this, framePart.name, symbolContainer, usedContainerCount);
-                    usedContainers[framePart.name] = usedContainerCount + 1;
-                    // Apply transform
-                    if (framePart.transform) {
-                        const size = SCALE * __classPrivateFieldGet(this, _FighterHolder_scale, "f");
-                        framePartContainer.setFromMatrix(matrixFromObject(framePart.transform, size));
-                    }
-                    // Apply color offset
-                    if (framePart.colorOffset) {
-                        const colorFilter = __classPrivateFieldGet(this, _FighterHolder_colorOffset, "f")
-                            ? __classPrivateFieldGet(this, _FighterHolder_getColorOffsetFilter, "f").call(this, framePartContainer, __classPrivateFieldGet(this, _FighterHolder_colorOffset, "f").r, __classPrivateFieldGet(this, _FighterHolder_colorOffset, "f").g, __classPrivateFieldGet(this, _FighterHolder_colorOffset, "f").b)
-                            : __classPrivateFieldGet(this, _FighterHolder_getColorOffsetFilter, "f").call(this, framePartContainer, framePart.colorOffset.r ?? 0, framePart.colorOffset.g ?? 0, framePart.colorOffset.b ?? 0);
-                        if (framePartContainer.filters?.[0] !== colorFilter
-                            || framePartContainer.filters?.length !== 1) {
-                            framePartContainer.filters = [colorFilter];
-                        }
-                    }
-                    else if (framePartContainer.filters) {
-                        framePartContainer.filters = null;
-                    }
-                    // Apply alpha
-                    if (framePart.alpha !== undefined) {
-                        framePartContainer.alpha = framePart.alpha;
-                    }
-                    // Apply masking
-                    if (framePart.maskedBy) {
-                        // Timeline masks share the part's parent, so they do not inherit its transform.
-                        const maskSprite = __classPrivateFieldGet(this, _FighterHolder_acquireMaskSvgSprite, "f").call(this, `Symbol${framePart.maskedBy}`, symbolContainer);
-                        // Keep mask sprites in the graph for masking, but do not draw them.
-                        maskSprite.visible = true;
-                        maskSprite.renderable = false;
-                        framePartContainer.mask = maskSprite;
-                    }
-                    else {
-                        framePartContainer.mask = null;
-                    }
-                    // Apply zIndex
-                    framePartContainer.zIndex = frameParts.length - i;
-                    // Apply visibility
-                    framePartContainer.visible = true;
-                    // Handle children
-                    __classPrivateFieldGet(this, _FighterHolder_displayFrame, "f").call(this, framePartContainer, framePartSymbol, framePartSymbol.colorIdx ?? colorIdx, undefined, undefined, undefined, undefined, framePartByName);
-                }
+                __classPrivateFieldGet(this, _FighterHolder_displayFrame, "f").call(this, child, definition, part, nextTexture);
             }
         });
         this.once = (event, callback) => {
@@ -955,6 +1006,17 @@ class FighterHolder {
                 __classPrivateFieldSet(this, _FighterHolder_tickerHandler, null, "f");
                 __classPrivateFieldSet(this, _FighterHolder_appTicker, null, "f");
             }
+            // Filters are owned by pooled placements, while SVG textures are shared.
+            for (const variants of __classPrivateFieldGet(this, _FighterHolder_coloredTextures, "f").values()) {
+                for (const entry of variants.values()) {
+                    __classPrivateFieldGet(this, _FighterHolder_instances, "m", _FighterHolder_releaseColoredTexture).call(this, entry);
+                }
+            }
+            __classPrivateFieldGet(this, _FighterHolder_coloredTextures, "f").clear();
+            for (const container of __classPrivateFieldGet(this, _FighterHolder_allPooledContainers, "f")) {
+                for (const filter of __classPrivateFieldGet(this, _FighterHolder_placementFilters, "f").get(container)?.filters ?? [])
+                    filter.destroy();
+            }
             // Destroy container and its children
             try {
                 this.container.destroy({ children: true, texture: false });
@@ -970,16 +1032,17 @@ class FighterHolder {
             __classPrivateFieldGet(this, _FighterHolder_maskSvgsByLabel, "f").clear();
             __classPrivateFieldSet(this, _FighterHolder_allPooledContainers, [], "f");
             __classPrivateFieldSet(this, _FighterHolder_containerPoolByParent, new WeakMap(), "f");
-            __classPrivateFieldSet(this, _FighterHolder_colorOffsetFilters, new WeakMap(), "f");
+            __classPrivateFieldSet(this, _FighterHolder_placementFilters, new WeakMap(), "f");
         };
         this.type = fighter.type;
+        __classPrivateFieldSet(this, _FighterHolder_renderer, app.renderer, "f");
         this.name = fighter.name;
         this.shield = fighter.shield;
         this.weapon = null;
         this.idleAnimation = fighter.idleAnimation ?? 'idle';
         __classPrivateFieldSet(this, _FighterHolder_colors, { ...fighter.colors }, "f");
         __classPrivateFieldSet(this, _FighterHolder_parts, { ...fighter.parts }, "f");
-        __classPrivateFieldSet(this, _FighterHolder_colorOffset, fighter.colorOffset, "f");
+        __classPrivateFieldSet(this, _FighterHolder_colorOffset, fighter.colorOffset ? { ...fighter.colorOffset } : undefined, "f");
         this.speed = speed;
         // Apply custom scale
         __classPrivateFieldSet(this, _FighterHolder_scale, scale, "f");
@@ -1043,7 +1106,9 @@ class FighterHolder {
         ]);
         const cachedSvgLoadEntries = __classPrivateFieldGet(FighterHolder, _a, "f", _FighterHolder_sharedSvgLoadEntries).get(svgLoadKey);
         __classPrivateFieldSet(this, _FighterHolder_animationSymbol, ANIMATIONS[__classPrivateFieldGet(this, _FighterHolder_animationType, "f")][this.animation], "f");
-        __classPrivateFieldSet(this, _FighterHolder_frameCount, __classPrivateFieldGet(this, _FighterHolder_animationSymbol, "f")?.frames?.length ?? 0, "f");
+        __classPrivateFieldSet(this, _FighterHolder_frameCount, __classPrivateFieldGet(this, _FighterHolder_animationSymbol, "f")?.loopEnd !== undefined
+            ? __classPrivateFieldGet(this, _FighterHolder_animationSymbol, "f").loopEnd + 1
+            : __classPrivateFieldGet(this, _FighterHolder_animationSymbol, "f")?.frames?.length ?? 0, "f");
         // For each animation
         for (const animation of animationsByType) {
             if (!animation)
@@ -1173,6 +1238,17 @@ class FighterHolder {
     /** Recolor the displayed pose without loading textures or restarting playback. */
     setColors(colors) {
         Object.assign(__classPrivateFieldGet(this, _FighterHolder_colors, "f"), colors);
+        const retainedColors = new Set(Object.values(__classPrivateFieldGet(this, _FighterHolder_colors, "f")));
+        for (const [svg, variants] of __classPrivateFieldGet(this, _FighterHolder_coloredTextures, "f")) {
+            for (const [color, entry] of variants) {
+                if (!retainedColors.has(color)) {
+                    __classPrivateFieldGet(this, _FighterHolder_instances, "m", _FighterHolder_releaseColoredTexture).call(this, entry);
+                    variants.delete(color);
+                }
+            }
+            if (!variants.size)
+                __classPrivateFieldGet(this, _FighterHolder_coloredTextures, "f").delete(svg);
+        }
         if (!this.loaded || __classPrivateFieldGet(this, _FighterHolder_isDestroyed, "f")) {
             return;
         }
@@ -1204,7 +1280,9 @@ class FighterHolder {
         // Reset frame
         __classPrivateFieldSet(this, _FighterHolder_frame, frame, "f");
         __classPrivateFieldSet(this, _FighterHolder_previousFrame, -1, "f");
-        __classPrivateFieldSet(this, _FighterHolder_frameCount, __classPrivateFieldGet(this, _FighterHolder_animationSymbol, "f")?.frames?.length ?? 0, "f");
+        __classPrivateFieldSet(this, _FighterHolder_frameCount, __classPrivateFieldGet(this, _FighterHolder_animationSymbol, "f")?.loopEnd !== undefined
+            ? __classPrivateFieldGet(this, _FighterHolder_animationSymbol, "f").loopEnd + 1
+            : __classPrivateFieldGet(this, _FighterHolder_animationSymbol, "f")?.frames?.length ?? 0, "f");
         __classPrivateFieldSet(this, _FighterHolder_timer, 0, "f");
         __classPrivateFieldSet(this, _FighterHolder_playing, true, "f");
         // Display frame
@@ -1232,17 +1310,115 @@ class FighterHolder {
         this.pause();
     }
 }
-_a = FighterHolder, _FighterHolder_animationType = new WeakMap(), _FighterHolder_colors = new WeakMap(), _FighterHolder_parts = new WeakMap(), _FighterHolder_colorOffset = new WeakMap(), _FighterHolder_renderContainer = new WeakMap(), _FighterHolder_animationSymbol = new WeakMap(), _FighterHolder_isAirborn = new WeakMap(), _FighterHolder_scale = new WeakMap(), _FighterHolder_playing = new WeakMap(), _FighterHolder_frame = new WeakMap(), _FighterHolder_displayedFrame = new WeakMap(), _FighterHolder_displayedWeapon = new WeakMap(), _FighterHolder_displayedShield = new WeakMap(), _FighterHolder_previousFrame = new WeakMap(), _FighterHolder_timer = new WeakMap(), _FighterHolder_baseAnimationSpeed = new WeakMap(), _FighterHolder_svgTexturesByLabel = new WeakMap(), _FighterHolder_svgDataByLabel = new WeakMap(), _FighterHolder_svgsByLabel = new WeakMap(), _FighterHolder_maskSvgsByLabel = new WeakMap(), _FighterHolder_containerPoolByParent = new WeakMap(), _FighterHolder_allPooledContainers = new WeakMap(), _FighterHolder_frameCount = new WeakMap(), _FighterHolder_usedSvgs = new WeakMap(), _FighterHolder_usedMaskSvgs = new WeakMap(), _FighterHolder_colorOffsetFilters = new WeakMap(), _FighterHolder_tickerHandler = new WeakMap(), _FighterHolder_appTicker = new WeakMap(), _FighterHolder_isDestroyed = new WeakMap(), _FighterHolder_triggerEvents = new WeakMap(), _FighterHolder_collectSvgsToLoad = new WeakMap(), _FighterHolder_loadSvgs = new WeakMap(), _FighterHolder_prepareFrameRender = new WeakMap(), _FighterHolder_acquireContainer = new WeakMap(), _FighterHolder_acquireSvgSprite = new WeakMap(), _FighterHolder_acquireMaskSvgSprite = new WeakMap(), _FighterHolder_getColorOffsetFilter = new WeakMap(), _FighterHolder_displayFrame = new WeakMap();
+_a = FighterHolder, _FighterHolder_animationType = new WeakMap(), _FighterHolder_colors = new WeakMap(), _FighterHolder_parts = new WeakMap(), _FighterHolder_colorOffset = new WeakMap(), _FighterHolder_renderContainer = new WeakMap(), _FighterHolder_animationSymbol = new WeakMap(), _FighterHolder_isAirborn = new WeakMap(), _FighterHolder_scale = new WeakMap(), _FighterHolder_playing = new WeakMap(), _FighterHolder_frame = new WeakMap(), _FighterHolder_displayedFrame = new WeakMap(), _FighterHolder_displayedWeapon = new WeakMap(), _FighterHolder_displayedShield = new WeakMap(), _FighterHolder_previousFrame = new WeakMap(), _FighterHolder_timer = new WeakMap(), _FighterHolder_baseAnimationSpeed = new WeakMap(), _FighterHolder_svgTexturesByLabel = new WeakMap(), _FighterHolder_svgDataByLabel = new WeakMap(), _FighterHolder_svgsByLabel = new WeakMap(), _FighterHolder_maskSvgsByLabel = new WeakMap(), _FighterHolder_containerPoolByParent = new WeakMap(), _FighterHolder_allPooledContainers = new WeakMap(), _FighterHolder_frameCount = new WeakMap(), _FighterHolder_usedSvgs = new WeakMap(), _FighterHolder_usedMaskSvgs = new WeakMap(), _FighterHolder_placementFilters = new WeakMap(), _FighterHolder_renderer = new WeakMap(), _FighterHolder_coloredTextures = new WeakMap(), _FighterHolder_placementMatrix = new WeakMap(), _FighterHolder_tickerHandler = new WeakMap(), _FighterHolder_appTicker = new WeakMap(), _FighterHolder_isDestroyed = new WeakMap(), _FighterHolder_triggerEvents = new WeakMap(), _FighterHolder_collectSvgsToLoad = new WeakMap(), _FighterHolder_loadSvgs = new WeakMap(), _FighterHolder_prepareFrameRender = new WeakMap(), _FighterHolder_acquireContainer = new WeakMap(), _FighterHolder_acquireSvgSprite = new WeakMap(), _FighterHolder_acquireMaskSvgSprite = new WeakMap(), _FighterHolder_displayFrame = new WeakMap(), _FighterHolder_instances = new WeakSet(), _FighterHolder_selectPartFrame = function _FighterHolder_selectPartFrame(symbol, value) {
+    const count = symbol.frames?.length ?? 0;
+    if (!Number.isInteger(value) || value < 0) {
+        throw new Error(`Invalid body selector ${value} for ${symbol.name}`);
+    }
+    return count > 0 ? value % count : 0;
+}, _FighterHolder_applyPlacementFilters = function _FighterHolder_applyPlacementFilters(container, planned) {
+    const placement = planned.placement;
+    const color = placement.colorIdx
+        ? __classPrivateFieldGet(this, _FighterHolder_colors, "f")[placement.colorIdx.substring(1)]
+        : undefined;
+    if (placement.colorIdx && !color)
+        throw new Error(`Color ${placement.colorIdx} not found`);
+    const key = planned.filterKey;
+    let cached = __classPrivateFieldGet(this, _FighterHolder_placementFilters, "f").get(container);
+    if (!cached || cached.key !== key || cached.color !== color) {
+        // These filters belong to this pooled placement, not to a shared texture.
+        for (const filter of cached?.filters ?? [])
+            filter.destroy();
+        const effective = __classPrivateFieldGet(this, _FighterHolder_colorOffset, "f") && placement.colorTransform
+            ? { ...placement, colorTransform: {
+                    ...placement.colorTransform,
+                    add: [__classPrivateFieldGet(this, _FighterHolder_colorOffset, "f").r, __classPrivateFieldGet(this, _FighterHolder_colorOffset, "f").g, __classPrivateFieldGet(this, _FighterHolder_colorOffset, "f").b, 0],
+                } }
+            : placement;
+        cached = { key, color, filters: createPlacementFilters(effective, color, __classPrivateFieldGet(this, _FighterHolder_scale, "f")) };
+        __classPrivateFieldGet(this, _FighterHolder_placementFilters, "f").set(container, cached);
+    }
+    if (container.filters?.[0] !== cached.filters[0]
+        || (container.filters?.length ?? 0) !== cached.filters.length) {
+        container.filters = cached.filters.length ? cached.filters : null;
+    }
+}, _FighterHolder_getColoredTexture = function _FighterHolder_getColoredTexture(svg, color) {
+    const base = __classPrivateFieldGet(this, _FighterHolder_svgTexturesByLabel, "f").get(svg.name);
+    if (!base)
+        throw new Error(`Texture ${svg.name} not found`);
+    if (color === '#ffffff' || color === '#FFFFFF')
+        return base;
+    let variants = __classPrivateFieldGet(this, _FighterHolder_coloredTextures, "f").get(svg);
+    const cached = variants?.get(color);
+    if (cached)
+        return cached.texture;
+    let shared = __classPrivateFieldGet(FighterHolder, _a, "f", _FighterHolder_sharedColoredTextures).get(__classPrivateFieldGet(this, _FighterHolder_renderer, "f"));
+    if (!shared) {
+        shared = new Map();
+        __classPrivateFieldGet(FighterHolder, _a, "f", _FighterHolder_sharedColoredTextures).set(__classPrivateFieldGet(this, _FighterHolder_renderer, "f"), shared);
+    }
+    const key = `${svg.name}|${base.source.resolution}|${color}`;
+    const existing = shared.get(key);
+    if (existing) {
+        existing.references++;
+        if (!variants) {
+            variants = new Map();
+            __classPrivateFieldGet(this, _FighterHolder_coloredTextures, "f").set(svg, variants);
+        }
+        variants.set(color, existing);
+        return existing.texture;
+    }
+    const sprite = new pixi_js.Sprite(base);
+    sprite.label = svg.name;
+    const filters = createPlacementFilters({ name: svg.name }, color);
+    sprite.filters = filters;
+    try {
+        // Round the empty padding outward: fractional bounds must not crop artwork.
+        const texture = __classPrivateFieldGet(this, _FighterHolder_renderer, "f").generateTexture({
+            target: sprite,
+            frame: new pixi_js.Rectangle(0, 0, Math.ceil(base.width), Math.ceil(base.height)),
+            resolution: base.source.resolution,
+            clearColor: [0, 0, 0, 0],
+        });
+        if (!variants) {
+            variants = new Map();
+            __classPrivateFieldGet(this, _FighterHolder_coloredTextures, "f").set(svg, variants);
+        }
+        const entry = { texture, owned: texture !== base, references: 1, key, cache: shared };
+        shared.set(key, entry);
+        variants.set(color, entry);
+        return texture;
+    }
+    finally {
+        sprite.destroy({ texture: false });
+        for (const filter of filters)
+            filter.destroy();
+    }
+}, _FighterHolder_releaseColoredTexture = function _FighterHolder_releaseColoredTexture(entry) {
+    entry.references--;
+    if (entry.references === 0) {
+        entry.cache.delete(entry.key);
+        if (entry.owned)
+            entry.texture.destroy(true);
+    }
+};
 // Shared across all FighterHolder instances to avoid reloading/reparsing the same SVG
 // textures for each dojo pupil.
 _FighterHolder_sharedSvgTextureCache = { value: new Map() };
 // Reuse animation traversal for matching models. Bound this independently of
 // textures so browsing many different brute appearances cannot grow it forever.
 _FighterHolder_sharedSvgLoadEntries = { value: new Map() };
+// Render textures belong to one renderer/context. Share matching variants
+// only within that context, and keep them only while a fighter borrows them.
+_FighterHolder_sharedColoredTextures = { value: new WeakMap() };
 
 Object.defineProperty(exports, "Symbol1", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol1; }
+});
+Object.defineProperty(exports, "Symbol10", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol10; }
 });
 Object.defineProperty(exports, "Symbol100", {
     enumerable: true,
@@ -1268,6 +1444,10 @@ Object.defineProperty(exports, "Symbol105", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol105; }
 });
+Object.defineProperty(exports, "Symbol106", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol106; }
+});
 Object.defineProperty(exports, "Symbol107", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol107; }
@@ -1276,9 +1456,25 @@ Object.defineProperty(exports, "Symbol108", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol108; }
 });
+Object.defineProperty(exports, "Symbol109", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol109; }
+});
+Object.defineProperty(exports, "Symbol11", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol11; }
+});
 Object.defineProperty(exports, "Symbol110", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol110; }
+});
+Object.defineProperty(exports, "Symbol111", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol111; }
+});
+Object.defineProperty(exports, "Symbol112", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol112; }
 });
 Object.defineProperty(exports, "Symbol113", {
     enumerable: true,
@@ -1292,13 +1488,25 @@ Object.defineProperty(exports, "Symbol115", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol115; }
 });
+Object.defineProperty(exports, "Symbol116", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol116; }
+});
 Object.defineProperty(exports, "Symbol117", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol117; }
 });
+Object.defineProperty(exports, "Symbol118", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol118; }
+});
 Object.defineProperty(exports, "Symbol119", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol119; }
+});
+Object.defineProperty(exports, "Symbol12", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol12; }
 });
 Object.defineProperty(exports, "Symbol120", {
     enumerable: true,
@@ -1336,25 +1544,65 @@ Object.defineProperty(exports, "Symbol128", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol128; }
 });
+Object.defineProperty(exports, "Symbol129", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol129; }
+});
+Object.defineProperty(exports, "Symbol13", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol13; }
+});
 Object.defineProperty(exports, "Symbol130", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol130; }
+});
+Object.defineProperty(exports, "Symbol131", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol131; }
+});
+Object.defineProperty(exports, "Symbol132", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol132; }
 });
 Object.defineProperty(exports, "Symbol133", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol133; }
 });
+Object.defineProperty(exports, "Symbol134", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol134; }
+});
 Object.defineProperty(exports, "Symbol135", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol135; }
+});
+Object.defineProperty(exports, "Symbol136", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol136; }
 });
 Object.defineProperty(exports, "Symbol137", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol137; }
 });
+Object.defineProperty(exports, "Symbol138", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol138; }
+});
 Object.defineProperty(exports, "Symbol139", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol139; }
+});
+Object.defineProperty(exports, "Symbol14", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol14; }
+});
+Object.defineProperty(exports, "Symbol140", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol140; }
+});
+Object.defineProperty(exports, "Symbol141", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol141; }
 });
 Object.defineProperty(exports, "Symbol142", {
     enumerable: true,
@@ -1363,6 +1611,10 @@ Object.defineProperty(exports, "Symbol142", {
 Object.defineProperty(exports, "Symbol143", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol143; }
+});
+Object.defineProperty(exports, "Symbol144", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol144; }
 });
 Object.defineProperty(exports, "Symbol145", {
     enumerable: true,
@@ -1388,13 +1640,25 @@ Object.defineProperty(exports, "Symbol15", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol15; }
 });
+Object.defineProperty(exports, "Symbol150", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol150; }
+});
 Object.defineProperty(exports, "Symbol151", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol151; }
 });
+Object.defineProperty(exports, "Symbol152", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol152; }
+});
 Object.defineProperty(exports, "Symbol153", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol153; }
+});
+Object.defineProperty(exports, "Symbol154", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol154; }
 });
 Object.defineProperty(exports, "Symbol155", {
     enumerable: true,
@@ -1404,25 +1668,57 @@ Object.defineProperty(exports, "Symbol156", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol156; }
 });
+Object.defineProperty(exports, "Symbol157", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol157; }
+});
 Object.defineProperty(exports, "Symbol158", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol158; }
+});
+Object.defineProperty(exports, "Symbol159", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol159; }
+});
+Object.defineProperty(exports, "Symbol16", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol16; }
+});
+Object.defineProperty(exports, "Symbol160", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol160; }
 });
 Object.defineProperty(exports, "Symbol161", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol161; }
 });
+Object.defineProperty(exports, "Symbol162", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol162; }
+});
 Object.defineProperty(exports, "Symbol163", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol163; }
+});
+Object.defineProperty(exports, "Symbol164", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol164; }
 });
 Object.defineProperty(exports, "Symbol165", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol165; }
 });
+Object.defineProperty(exports, "Symbol166", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol166; }
+});
 Object.defineProperty(exports, "Symbol167", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol167; }
+});
+Object.defineProperty(exports, "Symbol168", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol168; }
 });
 Object.defineProperty(exports, "Symbol169", {
     enumerable: true,
@@ -1435,6 +1731,10 @@ Object.defineProperty(exports, "Symbol17", {
 Object.defineProperty(exports, "Symbol170", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol170; }
+});
+Object.defineProperty(exports, "Symbol171", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol171; }
 });
 Object.defineProperty(exports, "Symbol172", {
     enumerable: true,
@@ -1456,9 +1756,17 @@ Object.defineProperty(exports, "Symbol176", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol176; }
 });
+Object.defineProperty(exports, "Symbol177", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol177; }
+});
 Object.defineProperty(exports, "Symbol178", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol178; }
+});
+Object.defineProperty(exports, "Symbol179", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol179; }
 });
 Object.defineProperty(exports, "Symbol18", {
     enumerable: true,
@@ -1467,6 +1775,14 @@ Object.defineProperty(exports, "Symbol18", {
 Object.defineProperty(exports, "Symbol180", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol180; }
+});
+Object.defineProperty(exports, "Symbol181", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol181; }
+});
+Object.defineProperty(exports, "Symbol182", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol182; }
 });
 Object.defineProperty(exports, "Symbol183", {
     enumerable: true,
@@ -1483,6 +1799,10 @@ Object.defineProperty(exports, "Symbol185", {
 Object.defineProperty(exports, "Symbol186", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol186; }
+});
+Object.defineProperty(exports, "Symbol187", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol187; }
 });
 Object.defineProperty(exports, "Symbol188", {
     enumerable: true,
@@ -1504,33 +1824,69 @@ Object.defineProperty(exports, "Symbol191", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol191; }
 });
+Object.defineProperty(exports, "Symbol192", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol192; }
+});
 Object.defineProperty(exports, "Symbol193", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol193; }
+});
+Object.defineProperty(exports, "Symbol194", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol194; }
 });
 Object.defineProperty(exports, "Symbol195", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol195; }
 });
+Object.defineProperty(exports, "Symbol196", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol196; }
+});
+Object.defineProperty(exports, "Symbol197", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol197; }
+});
 Object.defineProperty(exports, "Symbol198", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol198; }
+});
+Object.defineProperty(exports, "Symbol199", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol199; }
 });
 Object.defineProperty(exports, "Symbol2", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol2; }
 });
+Object.defineProperty(exports, "Symbol20", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol20; }
+});
 Object.defineProperty(exports, "Symbol200", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol200; }
+});
+Object.defineProperty(exports, "Symbol201", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol201; }
 });
 Object.defineProperty(exports, "Symbol202", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol202; }
 });
+Object.defineProperty(exports, "Symbol203", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol203; }
+});
 Object.defineProperty(exports, "Symbol204", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol204; }
+});
+Object.defineProperty(exports, "Symbol205", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol205; }
 });
 Object.defineProperty(exports, "Symbol206", {
     enumerable: true,
@@ -1588,13 +1944,29 @@ Object.defineProperty(exports, "Symbol218", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol218; }
 });
+Object.defineProperty(exports, "Symbol219", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol219; }
+});
+Object.defineProperty(exports, "Symbol22", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol22; }
+});
 Object.defineProperty(exports, "Symbol220", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol220; }
 });
+Object.defineProperty(exports, "Symbol221", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol221; }
+});
 Object.defineProperty(exports, "Symbol222", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol222; }
+});
+Object.defineProperty(exports, "Symbol223", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol223; }
 });
 Object.defineProperty(exports, "Symbol224", {
     enumerable: true,
@@ -1604,9 +1976,21 @@ Object.defineProperty(exports, "Symbol225", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol225; }
 });
+Object.defineProperty(exports, "Symbol226", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol226; }
+});
 Object.defineProperty(exports, "Symbol227", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol227; }
+});
+Object.defineProperty(exports, "Symbol228", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol228; }
+});
+Object.defineProperty(exports, "Symbol229", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol229; }
 });
 Object.defineProperty(exports, "Symbol23", {
     enumerable: true,
@@ -1616,17 +2000,33 @@ Object.defineProperty(exports, "Symbol230", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol230; }
 });
+Object.defineProperty(exports, "Symbol231", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol231; }
+});
 Object.defineProperty(exports, "Symbol232", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol232; }
+});
+Object.defineProperty(exports, "Symbol233", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol233; }
 });
 Object.defineProperty(exports, "Symbol234", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol234; }
 });
+Object.defineProperty(exports, "Symbol235", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol235; }
+});
 Object.defineProperty(exports, "Symbol236", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol236; }
+});
+Object.defineProperty(exports, "Symbol237", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol237; }
 });
 Object.defineProperty(exports, "Symbol238", {
     enumerable: true,
@@ -1635,6 +2035,10 @@ Object.defineProperty(exports, "Symbol238", {
 Object.defineProperty(exports, "Symbol239", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol239; }
+});
+Object.defineProperty(exports, "Symbol24", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol24; }
 });
 Object.defineProperty(exports, "Symbol240", {
     enumerable: true,
@@ -1656,13 +2060,25 @@ Object.defineProperty(exports, "Symbol244", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol244; }
 });
+Object.defineProperty(exports, "Symbol245", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol245; }
+});
 Object.defineProperty(exports, "Symbol246", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol246; }
 });
+Object.defineProperty(exports, "Symbol247", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol247; }
+});
 Object.defineProperty(exports, "Symbol248", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol248; }
+});
+Object.defineProperty(exports, "Symbol249", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol249; }
 });
 Object.defineProperty(exports, "Symbol25", {
     enumerable: true,
@@ -1672,9 +2088,21 @@ Object.defineProperty(exports, "Symbol250", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol250; }
 });
+Object.defineProperty(exports, "Symbol251", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol251; }
+});
+Object.defineProperty(exports, "Symbol252", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol252; }
+});
 Object.defineProperty(exports, "Symbol253", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol253; }
+});
+Object.defineProperty(exports, "Symbol254", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol254; }
 });
 Object.defineProperty(exports, "Symbol255", {
     enumerable: true,
@@ -1684,6 +2112,10 @@ Object.defineProperty(exports, "Symbol256", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol256; }
 });
+Object.defineProperty(exports, "Symbol257", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol257; }
+});
 Object.defineProperty(exports, "Symbol258", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol258; }
@@ -1691,6 +2123,10 @@ Object.defineProperty(exports, "Symbol258", {
 Object.defineProperty(exports, "Symbol259", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol259; }
+});
+Object.defineProperty(exports, "Symbol26", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol26; }
 });
 Object.defineProperty(exports, "Symbol260", {
     enumerable: true,
@@ -1700,17 +2136,33 @@ Object.defineProperty(exports, "Symbol261", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol261; }
 });
+Object.defineProperty(exports, "Symbol262", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol262; }
+});
 Object.defineProperty(exports, "Symbol263", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol263; }
+});
+Object.defineProperty(exports, "Symbol264", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol264; }
 });
 Object.defineProperty(exports, "Symbol265", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol265; }
 });
+Object.defineProperty(exports, "Symbol266", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol266; }
+});
 Object.defineProperty(exports, "Symbol267", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol267; }
+});
+Object.defineProperty(exports, "Symbol268", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol268; }
 });
 Object.defineProperty(exports, "Symbol269", {
     enumerable: true,
@@ -1723,6 +2175,10 @@ Object.defineProperty(exports, "Symbol27", {
 Object.defineProperty(exports, "Symbol270", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol270; }
+});
+Object.defineProperty(exports, "Symbol271", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol271; }
 });
 Object.defineProperty(exports, "Symbol272", {
     enumerable: true,
@@ -1748,6 +2204,10 @@ Object.defineProperty(exports, "Symbol277", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol277; }
 });
+Object.defineProperty(exports, "Symbol278", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol278; }
+});
 Object.defineProperty(exports, "Symbol279", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol279; }
@@ -1756,9 +2216,17 @@ Object.defineProperty(exports, "Symbol28", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol28; }
 });
+Object.defineProperty(exports, "Symbol280", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol280; }
+});
 Object.defineProperty(exports, "Symbol281", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol281; }
+});
+Object.defineProperty(exports, "Symbol282", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol282; }
 });
 Object.defineProperty(exports, "Symbol283", {
     enumerable: true,
@@ -1771,6 +2239,10 @@ Object.defineProperty(exports, "Symbol284", {
 Object.defineProperty(exports, "Symbol285", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol285; }
+});
+Object.defineProperty(exports, "Symbol286", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol286; }
 });
 Object.defineProperty(exports, "Symbol287", {
     enumerable: true,
@@ -1792,13 +2264,25 @@ Object.defineProperty(exports, "Symbol290", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol290; }
 });
+Object.defineProperty(exports, "Symbol291", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol291; }
+});
 Object.defineProperty(exports, "Symbol292", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol292; }
 });
+Object.defineProperty(exports, "Symbol293", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol293; }
+});
 Object.defineProperty(exports, "Symbol294", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol294; }
+});
+Object.defineProperty(exports, "Symbol295", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol295; }
 });
 Object.defineProperty(exports, "Symbol296", {
     enumerable: true,
@@ -1807,6 +2291,10 @@ Object.defineProperty(exports, "Symbol296", {
 Object.defineProperty(exports, "Symbol297", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol297; }
+});
+Object.defineProperty(exports, "Symbol298", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol298; }
 });
 Object.defineProperty(exports, "Symbol299", {
     enumerable: true,
@@ -1820,37 +2308,81 @@ Object.defineProperty(exports, "Symbol30", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol30; }
 });
+Object.defineProperty(exports, "Symbol300", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol300; }
+});
+Object.defineProperty(exports, "Symbol301", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol301; }
+});
 Object.defineProperty(exports, "Symbol302", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol302; }
+});
+Object.defineProperty(exports, "Symbol303", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol303; }
 });
 Object.defineProperty(exports, "Symbol304", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol304; }
 });
+Object.defineProperty(exports, "Symbol305", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol305; }
+});
 Object.defineProperty(exports, "Symbol306", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol306; }
+});
+Object.defineProperty(exports, "Symbol307", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol307; }
 });
 Object.defineProperty(exports, "Symbol308", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol308; }
 });
+Object.defineProperty(exports, "Symbol309", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol309; }
+});
+Object.defineProperty(exports, "Symbol31", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol31; }
+});
 Object.defineProperty(exports, "Symbol310", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol310; }
+});
+Object.defineProperty(exports, "Symbol311", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol311; }
 });
 Object.defineProperty(exports, "Symbol312", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol312; }
 });
+Object.defineProperty(exports, "Symbol313", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol313; }
+});
 Object.defineProperty(exports, "Symbol314", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol314; }
 });
+Object.defineProperty(exports, "Symbol315", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol315; }
+});
 Object.defineProperty(exports, "Symbol316", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol316; }
+});
+Object.defineProperty(exports, "Symbol317", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol317; }
 });
 Object.defineProperty(exports, "Symbol318", {
     enumerable: true,
@@ -1868,6 +2400,14 @@ Object.defineProperty(exports, "Symbol320", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol320; }
 });
+Object.defineProperty(exports, "Symbol321", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol321; }
+});
+Object.defineProperty(exports, "Symbol322", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol322; }
+});
 Object.defineProperty(exports, "Symbol323", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol323; }
@@ -1876,25 +2416,57 @@ Object.defineProperty(exports, "Symbol324", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol324; }
 });
+Object.defineProperty(exports, "Symbol325", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol325; }
+});
 Object.defineProperty(exports, "Symbol326", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol326; }
+});
+Object.defineProperty(exports, "Symbol327", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol327; }
 });
 Object.defineProperty(exports, "Symbol328", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol328; }
 });
+Object.defineProperty(exports, "Symbol329", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol329; }
+});
+Object.defineProperty(exports, "Symbol33", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol33; }
+});
+Object.defineProperty(exports, "Symbol330", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol330; }
+});
 Object.defineProperty(exports, "Symbol331", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol331; }
+});
+Object.defineProperty(exports, "Symbol332", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol332; }
 });
 Object.defineProperty(exports, "Symbol333", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol333; }
 });
+Object.defineProperty(exports, "Symbol334", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol334; }
+});
 Object.defineProperty(exports, "Symbol335", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol335; }
+});
+Object.defineProperty(exports, "Symbol336", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol336; }
 });
 Object.defineProperty(exports, "Symbol337", {
     enumerable: true,
@@ -1924,9 +2496,21 @@ Object.defineProperty(exports, "Symbol342", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol342; }
 });
+Object.defineProperty(exports, "Symbol343", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol343; }
+});
 Object.defineProperty(exports, "Symbol344", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol344; }
+});
+Object.defineProperty(exports, "Symbol345", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol345; }
+});
+Object.defineProperty(exports, "Symbol346", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol346; }
 });
 Object.defineProperty(exports, "Symbol347", {
     enumerable: true,
@@ -1944,17 +2528,37 @@ Object.defineProperty(exports, "Symbol35", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol35; }
 });
+Object.defineProperty(exports, "Symbol350", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol350; }
+});
 Object.defineProperty(exports, "Symbol351", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol351; }
+});
+Object.defineProperty(exports, "Symbol352", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol352; }
+});
+Object.defineProperty(exports, "Symbol353", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol353; }
 });
 Object.defineProperty(exports, "Symbol354", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol354; }
 });
+Object.defineProperty(exports, "Symbol355", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol355; }
+});
 Object.defineProperty(exports, "Symbol356", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol356; }
+});
+Object.defineProperty(exports, "Symbol357", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol357; }
 });
 Object.defineProperty(exports, "Symbol358", {
     enumerable: true,
@@ -1964,21 +2568,49 @@ Object.defineProperty(exports, "Symbol359", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol359; }
 });
+Object.defineProperty(exports, "Symbol36", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol36; }
+});
 Object.defineProperty(exports, "Symbol360", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol360; }
+});
+Object.defineProperty(exports, "Symbol361", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol361; }
 });
 Object.defineProperty(exports, "Symbol362", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol362; }
 });
+Object.defineProperty(exports, "Symbol363", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol363; }
+});
+Object.defineProperty(exports, "Symbol364", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol364; }
+});
 Object.defineProperty(exports, "Symbol365", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol365; }
 });
+Object.defineProperty(exports, "Symbol366", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol366; }
+});
 Object.defineProperty(exports, "Symbol367", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol367; }
+});
+Object.defineProperty(exports, "Symbol368", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol368; }
+});
+Object.defineProperty(exports, "Symbol369", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol369; }
 });
 Object.defineProperty(exports, "Symbol37", {
     enumerable: true,
@@ -1988,9 +2620,17 @@ Object.defineProperty(exports, "Symbol370", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol370; }
 });
+Object.defineProperty(exports, "Symbol371", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol371; }
+});
 Object.defineProperty(exports, "Symbol372", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol372; }
+});
+Object.defineProperty(exports, "Symbol373", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol373; }
 });
 Object.defineProperty(exports, "Symbol374", {
     enumerable: true,
@@ -2000,9 +2640,17 @@ Object.defineProperty(exports, "Symbol375", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol375; }
 });
+Object.defineProperty(exports, "Symbol376", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol376; }
+});
 Object.defineProperty(exports, "Symbol377", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol377; }
+});
+Object.defineProperty(exports, "Symbol378", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol378; }
 });
 Object.defineProperty(exports, "Symbol379", {
     enumerable: true,
@@ -2012,57 +2660,133 @@ Object.defineProperty(exports, "Symbol38", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol38; }
 });
+Object.defineProperty(exports, "Symbol380", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol380; }
+});
+Object.defineProperty(exports, "Symbol381", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol381; }
+});
 Object.defineProperty(exports, "Symbol382", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol382; }
+});
+Object.defineProperty(exports, "Symbol383", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol383; }
 });
 Object.defineProperty(exports, "Symbol384", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol384; }
 });
+Object.defineProperty(exports, "Symbol385", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol385; }
+});
 Object.defineProperty(exports, "Symbol386", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol386; }
+});
+Object.defineProperty(exports, "Symbol387", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol387; }
 });
 Object.defineProperty(exports, "Symbol388", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol388; }
 });
+Object.defineProperty(exports, "Symbol389", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol389; }
+});
+Object.defineProperty(exports, "Symbol39", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol39; }
+});
 Object.defineProperty(exports, "Symbol390", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol390; }
+});
+Object.defineProperty(exports, "Symbol391", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol391; }
+});
+Object.defineProperty(exports, "Symbol392", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol392; }
 });
 Object.defineProperty(exports, "Symbol393", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol393; }
 });
+Object.defineProperty(exports, "Symbol394", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol394; }
+});
+Object.defineProperty(exports, "Symbol395", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol395; }
+});
 Object.defineProperty(exports, "Symbol396", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol396; }
+});
+Object.defineProperty(exports, "Symbol397", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol397; }
 });
 Object.defineProperty(exports, "Symbol398", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol398; }
 });
+Object.defineProperty(exports, "Symbol399", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol399; }
+});
 Object.defineProperty(exports, "Symbol4", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol4; }
+});
+Object.defineProperty(exports, "Symbol40", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol40; }
+});
+Object.defineProperty(exports, "Symbol400", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol400; }
 });
 Object.defineProperty(exports, "Symbol401", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol401; }
 });
+Object.defineProperty(exports, "Symbol402", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol402; }
+});
 Object.defineProperty(exports, "Symbol403", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol403; }
+});
+Object.defineProperty(exports, "Symbol404", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol404; }
 });
 Object.defineProperty(exports, "Symbol405", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol405; }
 });
+Object.defineProperty(exports, "Symbol406", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol406; }
+});
 Object.defineProperty(exports, "Symbol407", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol407; }
+});
+Object.defineProperty(exports, "Symbol408", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol408; }
 });
 Object.defineProperty(exports, "Symbol409", {
     enumerable: true,
@@ -2080,9 +2804,17 @@ Object.defineProperty(exports, "Symbol411", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol411; }
 });
+Object.defineProperty(exports, "Symbol412", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol412; }
+});
 Object.defineProperty(exports, "Symbol413", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol413; }
+});
+Object.defineProperty(exports, "Symbol414", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol414; }
 });
 Object.defineProperty(exports, "Symbol415", {
     enumerable: true,
@@ -2092,6 +2824,10 @@ Object.defineProperty(exports, "Symbol416", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol416; }
 });
+Object.defineProperty(exports, "Symbol417", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol417; }
+});
 Object.defineProperty(exports, "Symbol418", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol418; }
@@ -2099,6 +2835,10 @@ Object.defineProperty(exports, "Symbol418", {
 Object.defineProperty(exports, "Symbol419", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol419; }
+});
+Object.defineProperty(exports, "Symbol42", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol42; }
 });
 Object.defineProperty(exports, "Symbol420", {
     enumerable: true,
@@ -2128,29 +2868,61 @@ Object.defineProperty(exports, "Symbol426", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol426; }
 });
+Object.defineProperty(exports, "Symbol427", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol427; }
+});
 Object.defineProperty(exports, "Symbol428", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol428; }
+});
+Object.defineProperty(exports, "Symbol429", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol429; }
+});
+Object.defineProperty(exports, "Symbol43", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol43; }
 });
 Object.defineProperty(exports, "Symbol430", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol430; }
 });
+Object.defineProperty(exports, "Symbol431", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol431; }
+});
 Object.defineProperty(exports, "Symbol432", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol432; }
+});
+Object.defineProperty(exports, "Symbol433", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol433; }
 });
 Object.defineProperty(exports, "Symbol434", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol434; }
 });
+Object.defineProperty(exports, "Symbol435", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol435; }
+});
 Object.defineProperty(exports, "Symbol436", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol436; }
 });
+Object.defineProperty(exports, "Symbol437", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol437; }
+});
 Object.defineProperty(exports, "Symbol438", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol438; }
+});
+Object.defineProperty(exports, "Symbol439", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol439; }
 });
 Object.defineProperty(exports, "Symbol44", {
     enumerable: true,
@@ -2160,17 +2932,33 @@ Object.defineProperty(exports, "Symbol440", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol440; }
 });
+Object.defineProperty(exports, "Symbol441", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol441; }
+});
 Object.defineProperty(exports, "Symbol442", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol442; }
+});
+Object.defineProperty(exports, "Symbol443", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol443; }
 });
 Object.defineProperty(exports, "Symbol444", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol444; }
 });
+Object.defineProperty(exports, "Symbol445", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol445; }
+});
 Object.defineProperty(exports, "Symbol446", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol446; }
+});
+Object.defineProperty(exports, "Symbol447", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol447; }
 });
 Object.defineProperty(exports, "Symbol448", {
     enumerable: true,
@@ -2196,29 +2984,65 @@ Object.defineProperty(exports, "Symbol452", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol452; }
 });
+Object.defineProperty(exports, "Symbol453", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol453; }
+});
 Object.defineProperty(exports, "Symbol454", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol454; }
+});
+Object.defineProperty(exports, "Symbol455", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol455; }
 });
 Object.defineProperty(exports, "Symbol456", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol456; }
 });
+Object.defineProperty(exports, "Symbol457", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol457; }
+});
 Object.defineProperty(exports, "Symbol458", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol458; }
+});
+Object.defineProperty(exports, "Symbol459", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol459; }
 });
 Object.defineProperty(exports, "Symbol46", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol46; }
 });
+Object.defineProperty(exports, "Symbol460", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol460; }
+});
+Object.defineProperty(exports, "Symbol461", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol461; }
+});
 Object.defineProperty(exports, "Symbol462", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol462; }
 });
+Object.defineProperty(exports, "Symbol463", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol463; }
+});
 Object.defineProperty(exports, "Symbol464", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol464; }
+});
+Object.defineProperty(exports, "Symbol465", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol465; }
+});
+Object.defineProperty(exports, "Symbol466", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol466; }
 });
 Object.defineProperty(exports, "Symbol467", {
     enumerable: true,
@@ -2243,6 +3067,10 @@ Object.defineProperty(exports, "Symbol470", {
 Object.defineProperty(exports, "Symbol471", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol471; }
+});
+Object.defineProperty(exports, "Symbol472", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol472; }
 });
 Object.defineProperty(exports, "Symbol473", {
     enumerable: true,
@@ -2300,6 +3128,10 @@ Object.defineProperty(exports, "Symbol485", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol485; }
 });
+Object.defineProperty(exports, "Symbol486", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol486; }
+});
 Object.defineProperty(exports, "Symbol487", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol487; }
@@ -2352,9 +3184,25 @@ Object.defineProperty(exports, "Symbol498", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol498; }
 });
+Object.defineProperty(exports, "Symbol499", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol499; }
+});
+Object.defineProperty(exports, "Symbol5", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol5; }
+});
+Object.defineProperty(exports, "Symbol50", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol50; }
+});
 Object.defineProperty(exports, "Symbol500", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol500; }
+});
+Object.defineProperty(exports, "Symbol501", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol501; }
 });
 Object.defineProperty(exports, "Symbol502", {
     enumerable: true,
@@ -2396,6 +3244,10 @@ Object.defineProperty(exports, "Symbol510", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol510; }
 });
+Object.defineProperty(exports, "Symbol511", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol511; }
+});
 Object.defineProperty(exports, "Symbol512", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol512; }
@@ -2403,6 +3255,10 @@ Object.defineProperty(exports, "Symbol512", {
 Object.defineProperty(exports, "Symbol513", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol513; }
+});
+Object.defineProperty(exports, "Symbol514", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol514; }
 });
 Object.defineProperty(exports, "Symbol515", {
     enumerable: true,
@@ -2416,13 +3272,33 @@ Object.defineProperty(exports, "Symbol517", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol517; }
 });
+Object.defineProperty(exports, "Symbol518", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol518; }
+});
+Object.defineProperty(exports, "Symbol519", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol519; }
+});
 Object.defineProperty(exports, "Symbol52", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol52; }
 });
+Object.defineProperty(exports, "Symbol520", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol520; }
+});
+Object.defineProperty(exports, "Symbol521", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol521; }
+});
 Object.defineProperty(exports, "Symbol522", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol522; }
+});
+Object.defineProperty(exports, "Symbol523", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol523; }
 });
 Object.defineProperty(exports, "Symbol524", {
     enumerable: true,
@@ -2448,6 +3324,10 @@ Object.defineProperty(exports, "Symbol529", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol529; }
 });
+Object.defineProperty(exports, "Symbol53", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol53; }
+});
 Object.defineProperty(exports, "Symbol530", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol530; }
@@ -2459,6 +3339,10 @@ Object.defineProperty(exports, "Symbol531", {
 Object.defineProperty(exports, "Symbol532", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol532; }
+});
+Object.defineProperty(exports, "Symbol533", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol533; }
 });
 Object.defineProperty(exports, "Symbol534", {
     enumerable: true,
@@ -2479,6 +3363,10 @@ Object.defineProperty(exports, "Symbol537", {
 Object.defineProperty(exports, "Symbol538", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol538; }
+});
+Object.defineProperty(exports, "Symbol539", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol539; }
 });
 Object.defineProperty(exports, "Symbol54", {
     enumerable: true,
@@ -2520,17 +3408,37 @@ Object.defineProperty(exports, "Symbol548", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol548; }
 });
+Object.defineProperty(exports, "Symbol549", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol549; }
+});
 Object.defineProperty(exports, "Symbol55", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol55; }
+});
+Object.defineProperty(exports, "Symbol550", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol550; }
+});
+Object.defineProperty(exports, "Symbol551", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol551; }
 });
 Object.defineProperty(exports, "Symbol552", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol552; }
 });
+Object.defineProperty(exports, "Symbol553", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol553; }
+});
 Object.defineProperty(exports, "Symbol554", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol554; }
+});
+Object.defineProperty(exports, "Symbol555", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol555; }
 });
 Object.defineProperty(exports, "Symbol556", {
     enumerable: true,
@@ -2540,9 +3448,21 @@ Object.defineProperty(exports, "Symbol557", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol557; }
 });
+Object.defineProperty(exports, "Symbol558", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol558; }
+});
 Object.defineProperty(exports, "Symbol559", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol559; }
+});
+Object.defineProperty(exports, "Symbol56", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol56; }
+});
+Object.defineProperty(exports, "Symbol560", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol560; }
 });
 Object.defineProperty(exports, "Symbol561", {
     enumerable: true,
@@ -2556,6 +3476,10 @@ Object.defineProperty(exports, "Symbol563", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol563; }
 });
+Object.defineProperty(exports, "Symbol564", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol564; }
+});
 Object.defineProperty(exports, "Symbol565", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol565; }
@@ -2564,9 +3488,21 @@ Object.defineProperty(exports, "Symbol566", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol566; }
 });
+Object.defineProperty(exports, "Symbol567", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol567; }
+});
 Object.defineProperty(exports, "Symbol568", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol568; }
+});
+Object.defineProperty(exports, "Symbol569", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol569; }
+});
+Object.defineProperty(exports, "Symbol57", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol57; }
 });
 Object.defineProperty(exports, "Symbol570", {
     enumerable: true,
@@ -2575,6 +3511,10 @@ Object.defineProperty(exports, "Symbol570", {
 Object.defineProperty(exports, "Symbol571", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol571; }
+});
+Object.defineProperty(exports, "Symbol572", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol572; }
 });
 Object.defineProperty(exports, "Symbol573", {
     enumerable: true,
@@ -2604,6 +3544,10 @@ Object.defineProperty(exports, "Symbol579", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol579; }
 });
+Object.defineProperty(exports, "Symbol58", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol58; }
+});
 Object.defineProperty(exports, "Symbol580", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol580; }
@@ -2611,6 +3555,10 @@ Object.defineProperty(exports, "Symbol580", {
 Object.defineProperty(exports, "Symbol581", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol581; }
+});
+Object.defineProperty(exports, "Symbol582", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol582; }
 });
 Object.defineProperty(exports, "Symbol583", {
     enumerable: true,
@@ -2624,13 +3572,25 @@ Object.defineProperty(exports, "Symbol585", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol585; }
 });
+Object.defineProperty(exports, "Symbol586", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol586; }
+});
 Object.defineProperty(exports, "Symbol587", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol587; }
 });
+Object.defineProperty(exports, "Symbol588", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol588; }
+});
 Object.defineProperty(exports, "Symbol589", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol589; }
+});
+Object.defineProperty(exports, "Symbol59", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol59; }
 });
 Object.defineProperty(exports, "Symbol590", {
     enumerable: true,
@@ -2656,9 +3616,17 @@ Object.defineProperty(exports, "Symbol595", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol595; }
 });
+Object.defineProperty(exports, "Symbol596", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol596; }
+});
 Object.defineProperty(exports, "Symbol597", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol597; }
+});
+Object.defineProperty(exports, "Symbol598", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol598; }
 });
 Object.defineProperty(exports, "Symbol599", {
     enumerable: true,
@@ -2668,9 +3636,21 @@ Object.defineProperty(exports, "Symbol6", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol6; }
 });
+Object.defineProperty(exports, "Symbol60", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol60; }
+});
+Object.defineProperty(exports, "Symbol600", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol600; }
+});
 Object.defineProperty(exports, "Symbol601", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol601; }
+});
+Object.defineProperty(exports, "Symbol602", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol602; }
 });
 Object.defineProperty(exports, "Symbol603", {
     enumerable: true,
@@ -2704,6 +3684,10 @@ Object.defineProperty(exports, "Symbol61", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol61; }
 });
+Object.defineProperty(exports, "Symbol610", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol610; }
+});
 Object.defineProperty(exports, "Symbol611", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol611; }
@@ -2712,9 +3696,17 @@ Object.defineProperty(exports, "Symbol612", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol612; }
 });
+Object.defineProperty(exports, "Symbol613", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol613; }
+});
 Object.defineProperty(exports, "Symbol614", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol614; }
+});
+Object.defineProperty(exports, "Symbol615", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol615; }
 });
 Object.defineProperty(exports, "Symbol616", {
     enumerable: true,
@@ -2724,6 +3716,10 @@ Object.defineProperty(exports, "Symbol617", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol617; }
 });
+Object.defineProperty(exports, "Symbol618", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol618; }
+});
 Object.defineProperty(exports, "Symbol619", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol619; }
@@ -2732,9 +3728,17 @@ Object.defineProperty(exports, "Symbol62", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol62; }
 });
+Object.defineProperty(exports, "Symbol620", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol620; }
+});
 Object.defineProperty(exports, "Symbol621", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol621; }
+});
+Object.defineProperty(exports, "Symbol622", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol622; }
 });
 Object.defineProperty(exports, "Symbol623", {
     enumerable: true,
@@ -2760,13 +3764,29 @@ Object.defineProperty(exports, "Symbol628", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol628; }
 });
+Object.defineProperty(exports, "Symbol629", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol629; }
+});
+Object.defineProperty(exports, "Symbol63", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol63; }
+});
 Object.defineProperty(exports, "Symbol630", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol630; }
 });
+Object.defineProperty(exports, "Symbol631", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol631; }
+});
 Object.defineProperty(exports, "Symbol632", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol632; }
+});
+Object.defineProperty(exports, "Symbol633", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol633; }
 });
 Object.defineProperty(exports, "Symbol634", {
     enumerable: true,
@@ -2776,17 +3796,41 @@ Object.defineProperty(exports, "Symbol635", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol635; }
 });
+Object.defineProperty(exports, "Symbol636", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol636; }
+});
 Object.defineProperty(exports, "Symbol637", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol637; }
+});
+Object.defineProperty(exports, "Symbol638", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol638; }
+});
+Object.defineProperty(exports, "Symbol639", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol639; }
+});
+Object.defineProperty(exports, "Symbol64", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol64; }
 });
 Object.defineProperty(exports, "Symbol640", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol640; }
 });
+Object.defineProperty(exports, "Symbol641", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol641; }
+});
 Object.defineProperty(exports, "Symbol642", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol642; }
+});
+Object.defineProperty(exports, "Symbol643", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol643; }
 });
 Object.defineProperty(exports, "Symbol644", {
     enumerable: true,
@@ -2812,21 +3856,41 @@ Object.defineProperty(exports, "Symbol649", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol649; }
 });
+Object.defineProperty(exports, "Symbol65", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol65; }
+});
 Object.defineProperty(exports, "Symbol650", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol650; }
+});
+Object.defineProperty(exports, "Symbol651", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol651; }
 });
 Object.defineProperty(exports, "Symbol652", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol652; }
 });
+Object.defineProperty(exports, "Symbol653", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol653; }
+});
 Object.defineProperty(exports, "Symbol654", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol654; }
 });
+Object.defineProperty(exports, "Symbol655", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol655; }
+});
 Object.defineProperty(exports, "Symbol656", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol656; }
+});
+Object.defineProperty(exports, "Symbol657", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol657; }
 });
 Object.defineProperty(exports, "Symbol658", {
     enumerable: true,
@@ -2852,6 +3916,10 @@ Object.defineProperty(exports, "Symbol662", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol662; }
 });
+Object.defineProperty(exports, "Symbol663", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol663; }
+});
 Object.defineProperty(exports, "Symbol664", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol664; }
@@ -2860,9 +3928,17 @@ Object.defineProperty(exports, "Symbol665", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol665; }
 });
+Object.defineProperty(exports, "Symbol666", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol666; }
+});
 Object.defineProperty(exports, "Symbol667", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol667; }
+});
+Object.defineProperty(exports, "Symbol668", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol668; }
 });
 Object.defineProperty(exports, "Symbol669", {
     enumerable: true,
@@ -2876,13 +3952,29 @@ Object.defineProperty(exports, "Symbol670", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol670; }
 });
+Object.defineProperty(exports, "Symbol671", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol671; }
+});
 Object.defineProperty(exports, "Symbol672", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol672; }
 });
+Object.defineProperty(exports, "Symbol673", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol673; }
+});
 Object.defineProperty(exports, "Symbol674", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol674; }
+});
+Object.defineProperty(exports, "Symbol675", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol675; }
+});
+Object.defineProperty(exports, "Symbol676", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol676; }
 });
 Object.defineProperty(exports, "Symbol677", {
     enumerable: true,
@@ -2919,6 +4011,10 @@ Object.defineProperty(exports, "Symbol683", {
 Object.defineProperty(exports, "Symbol684", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol684; }
+});
+Object.defineProperty(exports, "Symbol685", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol685; }
 });
 Object.defineProperty(exports, "Symbol686", {
     enumerable: true,
@@ -2960,6 +4056,14 @@ Object.defineProperty(exports, "Symbol694", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol694; }
 });
+Object.defineProperty(exports, "Symbol695", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol695; }
+});
+Object.defineProperty(exports, "Symbol696", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol696; }
+});
 Object.defineProperty(exports, "Symbol697", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol697; }
@@ -2971,6 +4075,10 @@ Object.defineProperty(exports, "Symbol698", {
 Object.defineProperty(exports, "Symbol699", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol699; }
+});
+Object.defineProperty(exports, "Symbol7", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol7; }
 });
 Object.defineProperty(exports, "Symbol70", {
     enumerable: true,
@@ -2988,25 +4096,61 @@ Object.defineProperty(exports, "Symbol702", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol702; }
 });
+Object.defineProperty(exports, "Symbol703", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol703; }
+});
 Object.defineProperty(exports, "Symbol704", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol704; }
+});
+Object.defineProperty(exports, "Symbol705", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol705; }
+});
+Object.defineProperty(exports, "Symbol706", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol706; }
 });
 Object.defineProperty(exports, "Symbol707", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol707; }
 });
+Object.defineProperty(exports, "Symbol708", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol708; }
+});
 Object.defineProperty(exports, "Symbol709", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol709; }
+});
+Object.defineProperty(exports, "Symbol71", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol71; }
+});
+Object.defineProperty(exports, "Symbol710", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol710; }
 });
 Object.defineProperty(exports, "Symbol711", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol711; }
 });
+Object.defineProperty(exports, "Symbol712", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol712; }
+});
 Object.defineProperty(exports, "Symbol713", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol713; }
+});
+Object.defineProperty(exports, "Symbol714", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol714; }
+});
+Object.defineProperty(exports, "Symbol715", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol715; }
 });
 Object.defineProperty(exports, "Symbol716", {
     enumerable: true,
@@ -3016,6 +4160,10 @@ Object.defineProperty(exports, "Symbol717", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol717; }
 });
+Object.defineProperty(exports, "Symbol718", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol718; }
+});
 Object.defineProperty(exports, "Symbol719", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol719; }
@@ -3024,17 +4172,37 @@ Object.defineProperty(exports, "Symbol72", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol72; }
 });
+Object.defineProperty(exports, "Symbol720", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol720; }
+});
+Object.defineProperty(exports, "Symbol721", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol721; }
+});
 Object.defineProperty(exports, "Symbol722", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol722; }
+});
+Object.defineProperty(exports, "Symbol723", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol723; }
 });
 Object.defineProperty(exports, "Symbol724", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol724; }
 });
+Object.defineProperty(exports, "Symbol725", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol725; }
+});
 Object.defineProperty(exports, "Symbol726", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol726; }
+});
+Object.defineProperty(exports, "Symbol727", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol727; }
 });
 Object.defineProperty(exports, "Symbol728", {
     enumerable: true,
@@ -3080,6 +4248,10 @@ Object.defineProperty(exports, "Symbol737", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol737; }
 });
+Object.defineProperty(exports, "Symbol738", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol738; }
+});
 Object.defineProperty(exports, "Symbol739", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol739; }
@@ -3096,6 +4268,10 @@ Object.defineProperty(exports, "Symbol741", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol741; }
 });
+Object.defineProperty(exports, "Symbol742", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol742; }
+});
 Object.defineProperty(exports, "Symbol743", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol743; }
@@ -3104,9 +4280,17 @@ Object.defineProperty(exports, "Symbol744", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol744; }
 });
+Object.defineProperty(exports, "Symbol745", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol745; }
+});
 Object.defineProperty(exports, "Symbol746", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol746; }
+});
+Object.defineProperty(exports, "Symbol747", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol747; }
 });
 Object.defineProperty(exports, "Symbol748", {
     enumerable: true,
@@ -3119,6 +4303,10 @@ Object.defineProperty(exports, "Symbol749", {
 Object.defineProperty(exports, "Symbol75", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol75; }
+});
+Object.defineProperty(exports, "Symbol750", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol750; }
 });
 Object.defineProperty(exports, "Symbol751", {
     enumerable: true,
@@ -3136,13 +4324,25 @@ Object.defineProperty(exports, "Symbol754", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol754; }
 });
+Object.defineProperty(exports, "Symbol755", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol755; }
+});
 Object.defineProperty(exports, "Symbol756", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol756; }
 });
+Object.defineProperty(exports, "Symbol757", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol757; }
+});
 Object.defineProperty(exports, "Symbol758", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol758; }
+});
+Object.defineProperty(exports, "Symbol759", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol759; }
 });
 Object.defineProperty(exports, "Symbol76", {
     enumerable: true,
@@ -3156,13 +4356,29 @@ Object.defineProperty(exports, "Symbol761", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol761; }
 });
+Object.defineProperty(exports, "Symbol762", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol762; }
+});
 Object.defineProperty(exports, "Symbol763", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol763; }
 });
+Object.defineProperty(exports, "Symbol764", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol764; }
+});
+Object.defineProperty(exports, "Symbol765", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol765; }
+});
 Object.defineProperty(exports, "Symbol766", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol766; }
+});
+Object.defineProperty(exports, "Symbol767", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol767; }
 });
 Object.defineProperty(exports, "Symbol768", {
     enumerable: true,
@@ -3192,6 +4408,10 @@ Object.defineProperty(exports, "Symbol773", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol773; }
 });
+Object.defineProperty(exports, "Symbol774", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol774; }
+});
 Object.defineProperty(exports, "Symbol775", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol775; }
@@ -3204,6 +4424,10 @@ Object.defineProperty(exports, "Symbol777", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol777; }
 });
+Object.defineProperty(exports, "Symbol778", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol778; }
+});
 Object.defineProperty(exports, "Symbol779", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol779; }
@@ -3212,17 +4436,33 @@ Object.defineProperty(exports, "Symbol78", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol78; }
 });
+Object.defineProperty(exports, "Symbol780", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol780; }
+});
 Object.defineProperty(exports, "Symbol781", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol781; }
+});
+Object.defineProperty(exports, "Symbol782", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol782; }
 });
 Object.defineProperty(exports, "Symbol783", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol783; }
 });
+Object.defineProperty(exports, "Symbol784", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol784; }
+});
 Object.defineProperty(exports, "Symbol785", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol785; }
+});
+Object.defineProperty(exports, "Symbol786", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol786; }
 });
 Object.defineProperty(exports, "Symbol787", {
     enumerable: true,
@@ -3244,6 +4484,10 @@ Object.defineProperty(exports, "Symbol790", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol790; }
 });
+Object.defineProperty(exports, "Symbol791", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol791; }
+});
 Object.defineProperty(exports, "Symbol792", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol792; }
@@ -3260,9 +4504,17 @@ Object.defineProperty(exports, "Symbol795", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol795; }
 });
+Object.defineProperty(exports, "Symbol796", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol796; }
+});
 Object.defineProperty(exports, "Symbol797", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol797; }
+});
+Object.defineProperty(exports, "Symbol798", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol798; }
 });
 Object.defineProperty(exports, "Symbol799", {
     enumerable: true,
@@ -3272,13 +4524,25 @@ Object.defineProperty(exports, "Symbol80", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol80; }
 });
+Object.defineProperty(exports, "Symbol800", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol800; }
+});
 Object.defineProperty(exports, "Symbol801", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol801; }
 });
+Object.defineProperty(exports, "Symbol802", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol802; }
+});
 Object.defineProperty(exports, "Symbol803", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol803; }
+});
+Object.defineProperty(exports, "Symbol804", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol804; }
 });
 Object.defineProperty(exports, "Symbol805", {
     enumerable: true,
@@ -3292,9 +4556,21 @@ Object.defineProperty(exports, "Symbol807", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol807; }
 });
+Object.defineProperty(exports, "Symbol808", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol808; }
+});
 Object.defineProperty(exports, "Symbol809", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol809; }
+});
+Object.defineProperty(exports, "Symbol81", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol81; }
+});
+Object.defineProperty(exports, "Symbol810", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol810; }
 });
 Object.defineProperty(exports, "Symbol811", {
     enumerable: true,
@@ -3303,6 +4579,10 @@ Object.defineProperty(exports, "Symbol811", {
 Object.defineProperty(exports, "Symbol812", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol812; }
+});
+Object.defineProperty(exports, "Symbol813", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol813; }
 });
 Object.defineProperty(exports, "Symbol814", {
     enumerable: true,
@@ -3340,17 +4620,37 @@ Object.defineProperty(exports, "Symbol821", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol821; }
 });
+Object.defineProperty(exports, "Symbol822", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol822; }
+});
+Object.defineProperty(exports, "Symbol823", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol823; }
+});
 Object.defineProperty(exports, "Symbol824", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol824; }
+});
+Object.defineProperty(exports, "Symbol825", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol825; }
 });
 Object.defineProperty(exports, "Symbol826", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol826; }
 });
+Object.defineProperty(exports, "Symbol827", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol827; }
+});
 Object.defineProperty(exports, "Symbol828", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol828; }
+});
+Object.defineProperty(exports, "Symbol829", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol829; }
 });
 Object.defineProperty(exports, "Symbol83", {
     enumerable: true,
@@ -3376,6 +4676,10 @@ Object.defineProperty(exports, "Symbol834", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol834; }
 });
+Object.defineProperty(exports, "Symbol835", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol835; }
+});
 Object.defineProperty(exports, "Symbol836", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol836; }
@@ -3384,6 +4688,10 @@ Object.defineProperty(exports, "Symbol837", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol837; }
 });
+Object.defineProperty(exports, "Symbol838", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol838; }
+});
 Object.defineProperty(exports, "Symbol839", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol839; }
@@ -3391,6 +4699,10 @@ Object.defineProperty(exports, "Symbol839", {
 Object.defineProperty(exports, "Symbol84", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol84; }
+});
+Object.defineProperty(exports, "Symbol840", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol840; }
 });
 Object.defineProperty(exports, "Symbol841", {
     enumerable: true,
@@ -3431,6 +4743,10 @@ Object.defineProperty(exports, "Symbol849", {
 Object.defineProperty(exports, "Symbol85", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol85; }
+});
+Object.defineProperty(exports, "Symbol850", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol850; }
 });
 Object.defineProperty(exports, "Symbol851", {
     enumerable: true,
@@ -3528,6 +4844,14 @@ Object.defineProperty(exports, "Symbol872", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol872; }
 });
+Object.defineProperty(exports, "Symbol873", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol873; }
+});
+Object.defineProperty(exports, "Symbol874", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol874; }
+});
 Object.defineProperty(exports, "Symbol875", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol875; }
@@ -3548,6 +4872,10 @@ Object.defineProperty(exports, "Symbol879", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol879; }
 });
+Object.defineProperty(exports, "Symbol88", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol88; }
+});
 Object.defineProperty(exports, "Symbol880", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol880; }
@@ -3556,17 +4884,33 @@ Object.defineProperty(exports, "Symbol881", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol881; }
 });
+Object.defineProperty(exports, "Symbol882", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol882; }
+});
 Object.defineProperty(exports, "Symbol883", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol883; }
+});
+Object.defineProperty(exports, "Symbol884", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol884; }
 });
 Object.defineProperty(exports, "Symbol885", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol885; }
 });
+Object.defineProperty(exports, "Symbol886", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol886; }
+});
 Object.defineProperty(exports, "Symbol887", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol887; }
+});
+Object.defineProperty(exports, "Symbol888", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol888; }
 });
 Object.defineProperty(exports, "Symbol889", {
     enumerable: true,
@@ -3576,9 +4920,17 @@ Object.defineProperty(exports, "Symbol89", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol89; }
 });
+Object.defineProperty(exports, "Symbol890", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol890; }
+});
 Object.defineProperty(exports, "Symbol891", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol891; }
+});
+Object.defineProperty(exports, "Symbol892", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol892; }
 });
 Object.defineProperty(exports, "Symbol893", {
     enumerable: true,
@@ -3588,17 +4940,41 @@ Object.defineProperty(exports, "Symbol894", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol894; }
 });
+Object.defineProperty(exports, "Symbol895", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol895; }
+});
 Object.defineProperty(exports, "Symbol896", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol896; }
+});
+Object.defineProperty(exports, "Symbol897", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol897; }
 });
 Object.defineProperty(exports, "Symbol898", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol898; }
 });
+Object.defineProperty(exports, "Symbol899", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol899; }
+});
+Object.defineProperty(exports, "Symbol9", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol9; }
+});
+Object.defineProperty(exports, "Symbol90", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol90; }
+});
 Object.defineProperty(exports, "Symbol900", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol900; }
+});
+Object.defineProperty(exports, "Symbol901", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol901; }
 });
 Object.defineProperty(exports, "Symbol902", {
     enumerable: true,
@@ -3623,6 +4999,10 @@ Object.defineProperty(exports, "Symbol906", {
 Object.defineProperty(exports, "Symbol907", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol907; }
+});
+Object.defineProperty(exports, "Symbol908", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol908; }
 });
 Object.defineProperty(exports, "Symbol909", {
     enumerable: true,
@@ -3652,6 +5032,10 @@ Object.defineProperty(exports, "Symbol914", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol914; }
 });
+Object.defineProperty(exports, "Symbol915", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol915; }
+});
 Object.defineProperty(exports, "Symbol916", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol916; }
@@ -3663,6 +5047,14 @@ Object.defineProperty(exports, "Symbol917", {
 Object.defineProperty(exports, "Symbol918", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol918; }
+});
+Object.defineProperty(exports, "Symbol919", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol919; }
+});
+Object.defineProperty(exports, "Symbol92", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol92; }
 });
 Object.defineProperty(exports, "Symbol920", {
     enumerable: true,
@@ -3676,13 +5068,25 @@ Object.defineProperty(exports, "Symbol922", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol922; }
 });
+Object.defineProperty(exports, "Symbol923", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol923; }
+});
 Object.defineProperty(exports, "Symbol924", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol924; }
 });
+Object.defineProperty(exports, "Symbol925", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol925; }
+});
 Object.defineProperty(exports, "Symbol926", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol926; }
+});
+Object.defineProperty(exports, "Symbol927", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol927; }
 });
 Object.defineProperty(exports, "Symbol928", {
     enumerable: true,
@@ -3736,6 +5140,10 @@ Object.defineProperty(exports, "Symbol939", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol939; }
 });
+Object.defineProperty(exports, "Symbol94", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol94; }
+});
 Object.defineProperty(exports, "Symbol940", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol940; }
@@ -3768,8 +5176,16 @@ Object.defineProperty(exports, "Symbol96", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol96; }
 });
+Object.defineProperty(exports, "Symbol97", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol97; }
+});
 Object.defineProperty(exports, "Symbol98", {
     enumerable: true,
     get: function () { return symbolData_cjs.Symbol98; }
+});
+Object.defineProperty(exports, "Symbol99", {
+    enumerable: true,
+    get: function () { return symbolData_cjs.Symbol99; }
 });
 exports.FighterHolder = FighterHolder;

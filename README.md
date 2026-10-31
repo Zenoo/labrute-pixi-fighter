@@ -2,7 +2,7 @@
 
 ![Preview](.github/media/test-preview.png)
 
-PixiJS fighter animations and FLA symbol data for LaBrute. Previously published
+PixiJS fighter animations and SWF symbol data for LaBrute. Previously published
 as `labrute-fla-parser`.
 
 ## Installation
@@ -88,6 +88,11 @@ unscaled dimensions. The fourth constructor argument scales the model and its
 dimensions. Models are `male`, `female`, `dog`, and `bear`; panthers use `dog`
 with caller-supplied scaling and color offsets.
 
+Body selectors follow Flash's modulo behavior: a value wraps by the selected
+symbol's complete source frame count. Source empty frames hide artwork.
+Colors use Flash's additive color
+transforms rather than multiplying an SVG's colors by a sprite tint.
+
 Keep the speed ref to change playback speed without recreating the holder.
 `animationSpeed` also supports negative playback and accounts for model scale.
 `setAnimation(animation, frame, true)` and `setAirborn(value, true)` update
@@ -102,6 +107,71 @@ Renderer internals stay private; the existing public controls and containers
 remain available to subclasses and callers.
 
 ## Development
+
+### Generate from the SWF
+
+`src/swf/mini_perso.swf` is the source of truth. Java 17+ is required for exporting;
+it is not required by the published renderer or the comparison playground.
+
+```sh
+npm run setup:swf
+npm run export:swf
+npm run build
+```
+
+Setup downloads FFDec 26.4.0 into the ignored `.tools` directory and checks its
+SHA-256 digest. Alternatively, set `FFDEC_JAR` to that version's `ffdec.jar`.
+The exporter reads source display lists directly, including placement identities,
+body/color selectors, complete frame counts, matrices, mask depth ranges, color
+transforms, and filters. FFDec exports the original vector shapes and static text
+to SVG. Generated SVG, JSON, and TypeScript files live in `src/svg`, `src/json`,
+and `src/symbols`; `src/swf/manifest.json` records the source hash and frame counts.
+Generation does not use the historical `src/xml` files or their correction tables.
+FFDec's SVG preview widens subpixel strokes to 1px. The generator restores their
+authored widths from the export metadata before embedding or saving the artwork;
+nested transforms therefore do not inflate hair and eye outlines.
+During texture rasterization, Flash's minimum stroke is applied as one texture
+pixel at the chosen resolution, rather than one magnified SVG coordinate unit.
+
+The new data preserves all 944 renderable source characters. Placement metadata
+lives on frame entries, so two instances of the same shape can use different color
+slots. Blank trailing frames and the complete male monk timeline are preserved.
+Default transforms, zero color components, false masks, empty labels, and redundant
+placement type/depth fields are omitted. Generated TypeScript shares repeated
+placements and held frames, and references symbol definitions directly. Published
+data is minified separately; the generator and generated source stay readable.
+Symbol data is shared and typed as immutable: change appearance through
+`FighterHolder`, rather than mutating exported timelines.
+Body choices in the playground come from source timelines, including female
+body sizing. Imported body values wrap by the corresponding timeline length.
+The male monk's source jump at frame 57 still controls playback; its remaining
+five source frames are retained for manual inspection instead of being deleted.
+
+### Compare SWF and Pixi frames
+
+Run `npm test` and open http://localhost:3000. The **Compare with the source SWF**
+panel renders the selected pose through the locally installed Ruffle runtime and
+shows the Pixi capture beside a pixel-difference image. No external CDN is used.
+Both captures use a 640 × 480 stage, the same model origin, facing, appearance,
+equipment, and scale; the game-only shadow is excluded.
+Enable **Overlay source on Pixi** to inspect alignment, or **View at 100%** to
+inspect the original capture pixels in a horizontally scrollable comparison.
+
+Pause the animation and scrub the frame slider, then select **Compare current
+frame**. Enable **Follow paused edits** to compare after frame or appearance edits.
+**Scan every frame** checks the entire selected animation and offers a JSON report
+with a per-frame mismatch count. Cancel stops after the current frame. Tolerance
+is measured in premultiplied RGBA channel values from 0 to 255.
+
+The reference is a frozen source display list: original SWF vector records,
+placement matrices, colors, filters, and masks are copied into a single-frame SWF
+and rendered by Ruffle. It does not consume generated SVGs or Pixi symbols, and it
+does not execute the original game's palette/appearance decoder or timeline scripts.
+The selected decoded appearance and nested frame choices are applied explicitly.
+This checks conversion/rendering fidelity, not the original ActionScript behavior.
+Ruffle, browser SVG rasterization, and Pixi can antialias edges differently; Flash
+blur/glow filters are approximated in Pixi. The tool reports these differences and
+does not claim pixel-perfect equivalence.
 
 `npm run build` regenerates the published JavaScript and declarations.
 Rollup builds the data module separately and marks it external in both renderer
@@ -144,6 +214,33 @@ At normal speed the preview renders at most 30 times per second, and stops
 rendering when paused, hidden, offscreen, scrolling, or focused on a color picker.
 Live color edits reuse the current fighter through `setColors()`;
 model/body/scale changes recreate it.
+
+### Performance checks
+
+`npm run benchmark -- current` measures symbol import/heap size, raw/gzip/Brotli
+data size, cold and warm construction, steady pose updates for every model, and
+real WebGL rendering with one and eight fighters. Reports live under
+`.packaging-test/performance/current`. To compare another built version, pass a
+directory containing its `Symbols.js`, `Symbols.mjs`, and `symbol-data.cjs`:
+
+```sh
+npm run benchmark -- baseline path/to/baseline/dist
+```
+
+The CPU test separates scene traversal from SVG decoding and GPU work. The browser
+test uses the same Chromium/SwiftShader settings as the rendering checks and waits
+for GPU completion. Timings are local measurements, not universal FPS guarantees;
+run comparisons sequentially on the same machine. Run `npm run test:comparison`
+after optimization to check source fidelity as well as speed.
+
+The renderer compiles shared frame plans once, instead of rebuilding name maps or
+serializing filter settings on every pose. Simple color variants are rendered once
+into reusable textures shared by matching fighters on the same renderer. Groups
+needing masks or composite effects keep their filters. Recoloring and destruction
+release borrowed variants; a texture is freed when its last user releases it.
+Shared base SVG textures are retained. The tests
+check that warmed playback neither reloads SVGs nor recreates color textures, and
+that recoloring releases obsolete GPU textures.
 
 ## Publishing from CI
 

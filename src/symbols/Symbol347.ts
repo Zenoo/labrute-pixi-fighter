@@ -1,24 +1,16 @@
-import { Symbol } from '../common';
-
+// Generated from mini_perso.swf by npm run export:swf.
+import type { Symbol } from '../common';
+import { Symbol346 } from './Symbol346';
 
 export const Symbol347: Symbol = {
   "type": "symbol",
   "name": "Symbol347",
   "parts": [
-    {
-      "type": "svg",
-      "name": "Symbol346",
-      "svg": "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>\r\n<svg xmlns:ffdec=\"https://www.free-decompiler.com/flash\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" ffdec:objectType=\"shape\" height=\"4.9px\" width=\"4.5px\" xmlns=\"http://www.w3.org/2000/svg\">\r\n  <g transform=\"matrix(1.0, 0.0, 0.0, 1.0, 2.25, 2.45)\">\r\n    <path d=\"M-0.1 0.8 L0.1 0.8 0.25 0.75 -0.1 0.8\" fill=\"#cccccc\" fill-rule=\"evenodd\" stroke=\"none\"/>\r\n    <path d=\"M0.25 0.75 L0.45 0.7 0.6 0.6 0.65 0.65 0.15 1.15 Q-0.55 1.4 -0.7 0.9 L-0.6 0.7 -0.1 0.8 0.25 0.75\" fill=\"#ffffff\" fill-rule=\"evenodd\" stroke=\"none\"/>\r\n    <path d=\"M0.45 0.7 L0.25 0.75 0.1 0.8 -0.1 0.8 -0.4 0.5 -0.55 0.0 Q-0.55 -1.05 0.1 -0.85 0.75 -0.7 0.75 0.05 L0.6 0.5 0.45 0.7\" fill=\"#666666\" fill-rule=\"evenodd\" stroke=\"none\"/>\r\n    <path d=\"M1.1 -0.45 L1.25 0.15 1.25 0.8 1.15 1.15 0.85 1.25 -0.4 1.45 -0.55 1.4 -0.9 1.1 -1.05 0.85 -1.15 0.55 -1.2 0.0 -1.05 -0.85 0.45 -1.45 1.1 -0.45 M0.45 0.7 L0.6 0.5 0.75 0.05 Q0.75 -0.7 0.1 -0.85 -0.55 -1.05 -0.55 0.0 L-0.4 0.5 -0.1 0.8 -0.6 0.7 -0.7 0.9 Q-0.55 1.4 0.15 1.15 L0.65 0.65 0.6 0.6 0.45 0.7\" fill=\"#999999\" fill-rule=\"evenodd\" stroke=\"none\"/>\r\n    <path d=\"M1.1 -0.45 L1.25 0.15 1.25 0.8 1.15 1.15 0.85 1.25 -0.4 1.45 -0.55 1.4 -0.9 1.1 -1.05 0.85 -1.15 0.55 -1.2 0.0 -1.05 -0.85 0.45 -1.45 1.1 -0.45 Z\" fill=\"none\" stroke=\"#000000\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-opacity=\"0.4\" stroke-width=\"1\"/>\r\n  </g>\r\n</svg>\r\n",
-      "offset": {
-        "x": 2.25,
-        "y": 2.45
-      }
-    }
+    Symbol346
   ],
   "frames": [
     [
       {
-        "type": "svg",
         "name": "Symbol346"
       }
     ]

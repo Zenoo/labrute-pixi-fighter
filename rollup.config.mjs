@@ -1,13 +1,14 @@
 import { readFileSync } from 'node:fs';
 import typescript from 'rollup-plugin-typescript2';
 import json from '@rollup/plugin-json';
+import { minify } from 'terser';
 
 const symbolExports = [...readFileSync('src/symbols/index.ts', 'utf8')
   .matchAll(/export \{ (\w+) \}/g)].map((match) => match[1]);
 
 const compile = (declaration) => typescript({
   include: /\.ts$/,
-  exclude: [/\.d\.ts$/, /[\\/]src[\\/](exportXmlAsJson|parseJson)\.ts$/, /[\\/](test|examples|node_modules)[\\/]/],
+  exclude: [/\.d\.ts$/, /[\\/](test|examples|node_modules)[\\/]/],
   tsconfigDefaults: {
     compilerOptions: {
       target: 'ES2020', lib: ['ES2020', 'DOM'], skipLibCheck: true,
@@ -22,7 +23,19 @@ export default [
   {
     input: 'src/symbols/index.ts',
     output: { file: 'dist/symbol-data.cjs', format: 'cjs' },
-    plugins: [json(), compile(false)],
+    plugins: [json(), compile(false), {
+      name: 'compact-published-symbols',
+      async renderChunk(code) {
+        // Source files stay readable. Published data needs neither whitespace
+        // nor long local identifiers; public export/property names stay intact.
+        const result = await minify(code, {
+          compress: false,
+          mangle: { toplevel: true },
+          format: { comments: false },
+        });
+        return { code: result.code, map: null };
+      },
+    }],
   },
   {
     input: 'src/Symbols.ts',

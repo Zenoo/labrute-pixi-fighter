@@ -1,4 +1,5 @@
-import { Symbol } from '../common';
+// Generated from mini_perso.swf by npm run export:swf.
+import type { Symbol } from '../common';
 import { Symbol413 } from './Symbol413';
 import { Symbol419 } from './Symbol419';
 
@@ -6,36 +7,29 @@ export const Symbol420: Symbol = {
   "type": "symbol",
   "name": "Symbol420",
   "parts": [
-    {
-      ...Symbol413,
-      "colorIdx": "_col0"
-    },
-    {
-      ...Symbol419,
-      "partIdx": "_p7"
-    }
+    Symbol413,
+    Symbol419
   ],
   "frames": [
     [
       {
-        "type": "symbol",
         "name": "Symbol419",
+        "partIdx": "_p7",
         "transform": {
           "tx": -2.75,
           "ty": 7.6
         }
       },
       {
-        "type": "symbol",
         "name": "Symbol413",
-        "colorOffset": {
-          "r": -16,
-          "g": -50,
-          "b": -80
-        },
-        "transform": {
-          "tx": 0,
-          "ty": 0
+        "colorIdx": "_col0",
+        "colorTransform": {
+          "add": [
+            -16,
+            -50,
+            -80,
+            0
+          ]
         }
       }
     ]

@@ -1,25 +1,16 @@
-import { Symbol } from '../common';
-
+// Generated from mini_perso.swf by npm run export:swf.
+import type { Symbol } from '../common';
+import { Symbol886 } from './Symbol886';
 
 export const Symbol887: Symbol = {
   "type": "symbol",
   "name": "Symbol887",
   "parts": [
-    {
-      "type": "svg",
-      "name": "Symbol886",
-      "svg": "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>\r\n<svg xmlns:ffdec=\"https://www.free-decompiler.com/flash\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" ffdec:objectType=\"shape\" height=\"6.4px\" width=\"14.85px\" xmlns=\"http://www.w3.org/2000/svg\">\r\n  <g transform=\"matrix(1.0, 0.0, 0.0, 1.0, 7.4, 3.2)\">\r\n    <path d=\"M-6.9 -0.9 L-0.3 0.9 -1.2 -0.05 -2.1 -0.05 2.2 -0.8 -0.15 -0.2 6.95 -0.05 4.35 0.5 5.05 0.75 5.1 0.85 Q2.7 1.95 0.9 1.6 L2.3 2.35 -0.35 2.5 -3.8 1.85 -2.95 2.7 Q-5.5 1.5 -6.9 -0.9\" fill=\"#d6baba\" fill-rule=\"evenodd\" stroke=\"none\"/>\r\n    <path d=\"M2.75 -2.4 L1.7 -1.95 Q4.5 -1.6 6.95 -0.05 L-0.15 -0.2 2.2 -0.8 -2.1 -0.05 -1.2 -0.05 -0.3 0.9 -6.9 -0.9 -2.5 -2.7 -3.65 -1.7 Q0.1 -2.9 2.75 -2.45 L2.75 -2.4\" fill=\"#faf8f8\" fill-rule=\"evenodd\" stroke=\"none\"/>\r\n    <path d=\"M6.95 -0.05 Q4.5 -1.6 1.7 -1.95 L2.75 -2.4 2.8 -2.45 2.75 -2.45 Q0.1 -2.9 -3.65 -1.7 L-2.5 -2.7 -6.9 -0.9 Q-5.5 1.5 -2.95 2.7 L-3.8 1.85 -0.35 2.5 2.3 2.35 0.9 1.6 Q2.7 1.95 5.1 0.85 L5.15 0.8 5.05 0.75 4.35 0.5 6.95 -0.05 Z\" fill=\"none\" stroke=\"#a36a6a\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-opacity=\"0.6\" stroke-width=\"0.5\"/>\r\n  </g>\r\n</svg>\r\n",
-      "offset": {
-        "x": 7.4,
-        "y": 3.2
-      },
-      "scale": 2
-    }
+    Symbol886
   ],
   "frames": [
     [
       {
-        "type": "svg",
         "name": "Symbol886"
       }
     ]
