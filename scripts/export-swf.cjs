@@ -6,6 +6,7 @@ const { readSwf } = require('./swf/reader.cjs');
 const { restoreStrokeWidths, compactSvg } = require('./swf/artwork.cjs');
 const { compactTransform, compactColor, compactFilters } = require('./swf/compact.cjs');
 const { emitSymbol } = require('./swf/emit.cjs');
+const { colorableEye } = require('./swf/eyeColors.cjs');
 
 const root = path.resolve(__dirname, '..');
 const source = path.join(root, 'src/swf/mini_perso.swf');
@@ -77,9 +78,10 @@ function generate() {
   const symbols = new Map();
 
   for (const [id] of swf.shapes) {
-    symbols.set(id, {
+    const artwork = readArtwork(id, 'shapes');
+    symbols.set(id, [348, 355].includes(id) ? colorableEye(artwork) : {
       type: 'symbol', name: `Symbol${id}`,
-      parts: [readArtwork(id, 'shapes')],
+      parts: [artwork],
       frames: [[{ name: `Symbol${id}` }]],
     });
   }
@@ -108,14 +110,18 @@ function generate() {
 
   const ids = [...symbols.keys()].sort((left, right) => left - right);
 
-  // Validate the complete graph before replacing any generated files.
-  for (const symbol of symbols.values()) {
+  // Validate shared references and inline layers before replacing generated files.
+  function validate(symbol) {
     for (const part of symbol.parts) {
-      if (part.type === 'symbol' && !symbols.has(Number(part.name.slice(6)))) {
+      if (part.type !== 'symbol') continue;
+      if (part.frames) validate(part);
+      else if (!symbols.has(Number(part.name.slice(6)))) {
         throw new Error(`${symbol.name} references missing ${part.name}`);
       }
     }
   }
+
+  for (const symbol of symbols.values()) validate(symbol);
 
   for (const directory of ['json', 'symbols']) fs.mkdirSync(path.join(root, 'src', directory), { recursive: true });
 

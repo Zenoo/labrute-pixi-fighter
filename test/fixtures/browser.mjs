@@ -47,6 +47,24 @@ window.runFighterRegression = async () => {
       const { pixels } = app.renderer.extract.pixels(holder.container);
       check(pixels.some((channel, index) => index % 4 !== 3 && channel > 0), 'Fighter has no colored pixels');
       check(holder.svgs.some((sprite) => sprite.visible && sprite.texture.width > 1), 'SVG textures were not rasterized');
+      if (model === 'female') {
+        const iris = holder.svgs.find((sprite) => sprite.label === 'Symbol355Iris' && sprite.visible);
+        const outline = holder.svgs.find((sprite) => sprite.label === 'Symbol355' && sprite.visible);
+        check(iris && outline, 'Female eye layers are missing');
+        const whiteTexture = outline.texture;
+        const eyeLoads = loads;
+
+        for (const [color, channel] of [['#00ff00', 1], ['#ff0000', 0]]) {
+          holder.setColors({ col3: color });
+          // Inspect the cached texture directly, independent of the eye's
+          // nested head transforms and the extraction camera's bounds.
+          const pixels = app.renderer.extract.pixels(iris.texture).pixels;
+          check(pixels.some((value, offset) => offset % 4 === channel && value > 100
+            && pixels[offset - channel + (1 - channel)] < 20), 'Female iris did not follow col3: ' + color);
+          check(outline.texture === whiteTexture, 'Eye whites were recolored with the iris');
+          check(loads === eyeLoads, 'Eye recoloring reloaded SVGs');
+        }
+      }
       if (model === 'male' || model === 'female') {
         const originals = new Set(holder.svgs.map((sprite) => sprite.texture));
         holder.setColors(Object.fromEntries(colorKeys.map((key) => [key, '#00ff00'])));

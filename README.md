@@ -153,6 +153,12 @@ for all seven sets so these combinations can be inspected directly. Presets only
 offer a detailed variant when its source placements differ: female set 6 has
 identical artwork for both `p1` values, so it has one preset. Raw part selectors
 remain editable for inspecting production body strings.
+Both models use `col3` for iris color, alongside the clothing placements bound
+to that slot. Female eyes extend the source SWF's fixed turquoise artwork:
+generation separates their iris fills into neutral layers, preserving the white
+areas and outlines. Live `setColors({ col3: '#00ff00' })` edits use the existing
+shared color texture cache. Exported source SVGs and the SWF remain unchanged;
+source comparisons use turquoise when checking female eye geometry.
 The male monk's source jump at frame 57 still controls playback; its remaining
 five source frames are retained for manual inspection instead of being deleted.
 

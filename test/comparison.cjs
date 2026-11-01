@@ -48,7 +48,17 @@ async function main() {
         change('model', model);
         await until(() => window.fighter?.name === model && document.getElementById('status').textContent === 'Preview up to date');
 
-        // These defaults are the reported fixtures: male 01013100611 (hair 3)
+        if (model === 'female') {
+          // Female iris coloring is an intentional enhancement over the SWF's
+          // fixed turquoise. Use turquoise here to compare source geometry;
+          // the WebGL regression separately verifies live red/green col3 edits.
+          const color = document.getElementById('color-col3');
+          color.value = '#00ffff';
+          color.dispatchEvent(new Event('input', { bubbles: true }));
+          await wait(50);
+        }
+
+        // These body strings are the reported fixtures: male 01013100611 (hair 3)
         // and female 00100100610 (eyes). Measure their affected artwork locally
         // so a small but very thick outline cannot hide in a whole-body score.
         await window.comparison.compare(0);

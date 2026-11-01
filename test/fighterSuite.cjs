@@ -259,6 +259,32 @@ test('armor 6 colors reused shapes by placement rather than their shared symbol 
   holder.destroy();
 });
 
+test('male and female irises follow col3 through cached live recoloring', async () => {
+  for (const [model, irisName] of [['male', 'Symbol346'], ['female', 'Symbol355Iris']]) {
+    const config = appearance({ model });
+    config.colors.col3 = '#ff0000';
+    const holder = new FighterHolder(application(), config, { current: 1 });
+    await holder.ready;
+    const before = colorBakes.length;
+    holder.setAnimation('idle');
+    const sprites = [...holder.svgs];
+    const assetLoads = loads.length;
+
+    assert.ok(colorBakes.slice(before).some((bake) => bake.name === irisName
+      && bake.matrices.some((matrix) => matrix[4] === 0 && matrix[9] === -1 && matrix[14] === -1)),
+    `${model}: iris did not use col3`);
+
+    const recolor = colorBakes.length;
+    holder.setColors({ col3: '#00ff00' });
+    assert.ok(colorBakes.slice(recolor).some((bake) => bake.name === irisName
+      && bake.matrices.some((matrix) => matrix[4] === -1 && matrix[9] === 0 && matrix[14] === -1)),
+    `${model}: iris did not update with col3`);
+    assert.deepEqual(holder.svgs, sprites);
+    assert.equal(loads.length, assetLoads);
+    holder.destroy();
+  }
+});
+
 test('steady playback reuses colored textures and does not serialize filter settings', async () => {
   const config = appearance();
   config.parts.p3 = 3;

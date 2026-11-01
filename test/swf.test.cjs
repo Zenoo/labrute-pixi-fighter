@@ -5,8 +5,9 @@ const { createHash } = require('node:crypto');
 const { test } = require('node:test');
 const { readSwf, readTimeline } = require('../scripts/swf/reader.cjs');
 const { makeReference, encodeMatrix } = require('../scripts/swf/reference.cjs');
-const { restoreStrokeWidths } = require('../scripts/swf/artwork.cjs');
+const { restoreStrokeWidths, compactSvg } = require('../scripts/swf/artwork.cjs');
 const { compactTransform, compactColor, compactFilters } = require('../scripts/swf/compact.cjs');
+const { colorableEye } = require('../scripts/swf/eyeColors.cjs');
 
 const root = path.resolve(__dirname, '..');
 const source = fs.readFileSync(path.join(root, 'src/swf/mini_perso.swf'));
@@ -43,7 +44,9 @@ test('the reported male hair and female eyes retain source stroke widths in gene
     let checked = 0;
 
     for (const id of ids) {
-      const artwork = generated(id).parts.find((part) => part.type === 'svg');
+      const findArtwork = (symbol) => symbol.parts.flatMap((part) =>
+        part.type === 'svg' ? [part] : part.parts ? findArtwork(part) : []);
+      const artwork = findArtwork(generated(id)).find((part) => part.name === `Symbol${id}`);
       const sourceSvg = fs.readFileSync(path.join(root, `src/svg/Symbol${id}.svg`), 'utf8');
       const originals = [...sourceSvg.matchAll(/ffdec:original-stroke-width="([^"]+)"/g)];
       assert.doesNotMatch(artwork.svg, /ffdec:|<\?xml/);
@@ -56,6 +59,30 @@ test('the reported male hair and female eyes retain source stroke widths in gene
 
     assert.ok(checked > 0, 'The appearance fixture did not exercise thin strokes');
   }
+});
+
+test('female iris generation isolates col3 fills from whites and outlines', () => {
+  for (const id of [348, 355]) {
+    const eye = generated(id);
+    const iris = eye.parts.find((part) => part.name === `Symbol${id}Iris`);
+    const outline = eye.parts.find((part) => part.name === `Symbol${id}Outline`);
+    assert.equal(eye.frames[0].find((part) => part.name === iris.name).colorIdx, '_col3');
+    assert.equal(eye.frames[0].find((part) => part.name === outline.name).colorIdx, undefined);
+    assert.match(outline.parts[0].svg, /fill="#fbfbfb"/);
+    assert.match(outline.parts[0].svg, /stroke="#000000"/);
+    assert.doesNotMatch(iris.parts[0].svg, /stroke="#000000"|#fbfbfb|#096f6f|#054746|#00ffff/);
+
+    const paths = (svg) => [...svg.matchAll(/<path\b[^>]*\/>/g)].map((match) => match[0]);
+    const original = fs.readFileSync(path.join(root, `src/svg/Symbol${id}.svg`), 'utf8');
+    const compactOriginal = compactSvg(original);
+    const rebuilt = colorableEye({ name: `Symbol${id}`, svg: compactOriginal, offset: { x: 0, y: 0 } });
+    const layerPaths = rebuilt.parts.flatMap((part) => paths(part.parts[0].svg));
+    const neutralOriginal = compactOriginal.replaceAll('#096f6f', '#6f6f6f')
+      .replaceAll('#054746', '#474747').replaceAll('#00ffff', '#ffffff');
+    assert.deepEqual(layerPaths.sort(), paths(neutralOriginal).sort(), 'A vector path was lost or duplicated');
+  }
+
+  assert.throws(() => colorableEye({ name: 'UnexpectedEye', svg: '<svg></svg>' }), /three female iris shades/);
 });
 
 test('compact generation omits defaults without rounding source precision', () => {

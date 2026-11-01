@@ -51,10 +51,13 @@ function emitSymbol(symbol) {
     }
   }
 
-  const dependencies = symbol.parts.filter((part) => part.type === 'symbol');
+  // Generated enhancement layers can be self-contained inline definitions;
+  // source timeline references still import their shared top-level symbols.
+  const isReference = (part) => part.type === 'symbol' && !part.frames;
+  const dependencies = symbol.parts.filter(isReference);
   const result = {
     ...symbol,
-    parts: symbol.parts.map((part) => part.type === 'symbol' ? reference(part.name) : part),
+    parts: symbol.parts.map((part) => isReference(part) ? reference(part.name) : part),
     frames: symbol.frames.map((frame) => frames.get(JSON.stringify(frame)).reference ?? frameValue(frame)),
   };
   const imports = dependencies.map((part) => `import { ${part.name} } from './${part.name}';`);
