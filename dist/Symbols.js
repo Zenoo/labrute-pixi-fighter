@@ -172,13 +172,25 @@ function createPlacementFilters(placement, color, scale = 1) {
     return filters;
 }
 
-/** Express the fighter's minimum stroke in SVG units at its raster resolution. */
+/** Assemble build-encoded spans; only numeric stroke widths depend on fight size. */
 function prepareSvg(svg, resolution, minimumPixels) {
+    const template = svg.raster;
+    if (!template)
+        throw new Error(`Missing build-time SVG template for ${svg.name}`);
     const minimumWidth = minimumPixels / resolution;
-    // Keep hairlines one native fighter pixel wide as display size and DPR grow.
-    // Nested symbol magnification must not turn the minimum into a whole SVG unit.
-    // Wider authored strokes remain intact.
-    return svg.replace(/\sstroke-width="([\d.]+)"/g, (_, width) => ` stroke-width="${Math.max(Number(width), minimumWidth)}"`);
+    let url = 'data:image/svg+xml,';
+    for (const part of template.parts) {
+        if (typeof part === 'string')
+            url += part;
+        else if (typeof part === 'number') {
+            // Negative widths are the extra, inside-only translucent outlines.
+            url += part < 0 ? (minimumWidth > -part ? minimumWidth : 0) : Math.max(part, minimumWidth);
+        }
+        else
+            url += template.source.slice(part[0], part[1]);
+    }
+    // Pixi keys SVG assets by URL, so different raster densities need distinct URLs.
+    return url + `%3C!--${resolution}--%3E`;
 }
 
 const definitions = new WeakMap();
@@ -723,11 +735,12 @@ class FighterHolder {
         });
         _FighterHolder_loadSvgs.set(this, async (svgsToLoad) => {
             const loadingSvgs = [];
-            const getTexture = (svgDataUrl, renderScale, cacheKey, svgName) => {
+            const getTexture = ({ svg, renderScale, minimumPixels }, cacheKey) => {
                 const cached = __classPrivateFieldGet(FighterHolder, _a, "f", _FighterHolder_sharedSvgTextureCache).get(cacheKey);
                 if (cached) {
                     return cached;
                 }
+                const svgDataUrl = prepareSvg(svg, renderScale, minimumPixels);
                 const loadPromise = pixi_js.Assets.load({
                     src: svgDataUrl,
                     data: {
@@ -735,12 +748,12 @@ class FighterHolder {
                         resolution: renderScale,
                     },
                 }).catch((error) => {
-                    console.error('Error creating SVG texture via Assets.load', error, svgName);
+                    console.error('Error creating SVG texture via Assets.load', error, svg.name);
                     try {
                         return pixi_js.Texture.from(svgDataUrl);
                     }
                     catch (fallbackError) {
-                        console.error('Error creating fallback SVG texture', fallbackError, svgName);
+                        console.error('Error creating fallback SVG texture', fallbackError, svg.name);
                         return null;
                     }
                 });
@@ -750,10 +763,8 @@ class FighterHolder {
             for (const svgToLoad of svgsToLoad) {
                 const { svg, renderScale, minimumPixels } = svgToLoad;
                 loadingSvgs.push(new Promise((resolve) => {
-                    const svgSource = `${prepareSvg(svg.svg, renderScale, minimumPixels)}<!-- ${renderScale} -->`;
-                    const svgDataUrl = `data:image/svg+xml,${encodeURIComponent(svgSource)}`;
                     const cacheKey = `${svg.name}|${renderScale}|${minimumPixels}`;
-                    getTexture(svgDataUrl, renderScale, cacheKey, svg.name)
+                    getTexture(svgToLoad, cacheKey)
                         .then((texture) => {
                         if (texture) {
                             __classPrivateFieldGet(this, _FighterHolder_svgTexturesByLabel, "f").set(svg.name, texture);

@@ -31,12 +31,28 @@ test('runtime bundles externalize Pixi and the rendering-free dataset', () => {
     assert.ok(Buffer.byteLength(code) < 200_000, `${name} must not inline data or Pixi`);
     assert.match(code, /['"]\.\/symbol-data\.cjs['"]/);
     assert.doesNotMatch(code, /<svg/);
+    assert.doesNotMatch(code, /encodeURIComponent|\.matchAll\(|clipPathUnits/,
+      'Runtime bundles must not encode or analyze SVG artwork');
     assert.match(code, name.endsWith('.mjs') ? /from 'pixi\.js'/ : /require\('pixi\.js'\)/);
     if (name.endsWith('.mjs')) assert.doesNotMatch(code, /require\(|Symbols\.js/);
   }
   const data = fs.readFileSync(path.join(root, 'dist/symbol-data.cjs'), 'utf8');
-  assert.match(data, /<svg/);
+  assert.match(data, /%3Csvg/);
   assert.doesNotMatch(data, /require\(|\bimport\s|pixi\.js/);
+});
+
+test('build templates preserve raw SVG access and are shared by both package formats', async () => {
+  const cjs = require('labrute-pixi-fighter');
+  const esm = await import('labrute-pixi-fighter');
+  for (const id of [385, 387, 882, 884, 886, 888, 890, 892]) {
+    const artwork = cjs[`Symbol${id}`].parts[0];
+    const original = require(`../src/json/Symbol${id}.json`).parts[0].svg;
+    assert.equal(artwork.svg, original);
+    assert.equal(artwork.svg, original, 'Raw SVG access must stay repeatable');
+    assert.ok(artwork.raster?.parts.length > 0);
+    assert.equal(artwork.raster, esm[`Symbol${id}`].parts[0].raster);
+    assert.equal(typeof Object.getOwnPropertyDescriptor(artwork, 'svg').get, 'function');
+  }
 });
 
 test('TypeScript NodeNext consumers resolve format-specific declarations', () => {

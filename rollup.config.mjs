@@ -2,6 +2,7 @@ import { readFileSync } from 'node:fs';
 import typescript from 'rollup-plugin-typescript2';
 import json from '@rollup/plugin-json';
 import { minify } from 'terser';
+import svgCompiler from './scripts/compile-svg.cjs';
 
 const symbolExports = [...readFileSync('src/symbols/index.ts', 'utf8')
   .matchAll(/export \{ (\w+) \}/g)].map((match) => match[1]);
@@ -24,6 +25,12 @@ export default [
     input: 'src/symbols/index.ts',
     output: { file: 'dist/symbol-data.cjs', format: 'cjs' },
     plugins: [json(), compile(false), {
+      name: 'compile-svg-templates',
+      transform(code, id) {
+        if (!/[\\/]src[\\/]symbols[\\/][^\\/]+\.ts$/.test(id)) return null;
+        return { code: svgCompiler.compileSymbolSvgs(code), map: null };
+      },
+    }, {
       name: 'compact-published-symbols',
       async renderChunk(code) {
         // Source files stay readable. Published data needs neither whitespace

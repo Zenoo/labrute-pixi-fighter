@@ -1,5 +1,5 @@
 import { Application, Assets, Container } from 'pixi.js';
-import { FighterHolder, Symbol475 } from 'labrute-pixi-fighter';
+import { FighterHolder, Symbol475, Symbol387, Symbol882 } from 'labrute-pixi-fighter';
 
 const check = (value, message) => { if (!value) throw new Error(message); };
 const colorKeys = ['col0', 'col0a', 'col0c', 'col1', 'col1a', 'col1b', 'col1c', 'col1d',
@@ -19,31 +19,60 @@ window.runFighterRegression = async () => {
   };
   let loads = 0;
   let strokeWidthsChecked = 0;
+  const edgesChecked = new Set();
   const load = Assets.load.bind(Assets);
   Assets.load = async (request) => {
     loads++;
     // Every fighter in this fixture has scale 2 and renderer DPR 2. Verify
-    // the package entry prepares its actual browser SVGs with a four-texel floor.
+    // the package entry prepares its scaled strokes with a four-texel floor.
     const svg = decodeURIComponent(request.src.slice(request.src.indexOf(',') + 1));
-    for (const match of svg.matchAll(/\sstroke-width="([\d.]+)"/g)) {
+    const texture = await load(request);
+    for (const symbol of [Symbol387, Symbol882]) {
+      const source = symbol.parts[0].svg;
+      const signature = source.match(/\bd="([^"]+)"/)[1];
+      if (!svg.includes(signature)) continue;
+      const sourceOpacities = new Set([...source.matchAll(/\sstroke-opacity="[^"]+"/g)].map(([value]) => value));
+      check([...svg.matchAll(/\sstroke-opacity="[^"]+"/g)].every(([value]) => sourceOpacities.has(value)),
+      'Hair or pet outline opacity changed during rasterization');
+      const image = new Image();
+      image.src = 'data:image/svg+xml,' + encodeURIComponent(source);
+      await image.decode();
+      const raster = app.renderer.extract.pixels({ target: texture, resolution: texture.source.resolution });
+      const canvas = document.createElement('canvas');
+      canvas.width = raster.width;
+      canvas.height = raster.height;
+      const context = canvas.getContext('2d');
+      context.drawImage(image, 0, 0, image.width * texture.source.resolution, image.height * texture.source.resolution);
+      const original = context.getImageData(0, 0, canvas.width, canvas.height).data;
+      let escaped = 0;
+      for (let index = 3; index < original.length; index += 4) {
+        if (original[index] === 0 && raster.pixels[index] > 16) escaped++;
+      }
+      check(escaped <= 2, 'Scaled outline spread a pale halo outside ' + symbol.name + ': ' + escaped);
+      edgesChecked.add(symbol.name);
+    }
+    const widened = svg.includes('<g clip-path="url(#fighter-outline)">')
+      ? svg.slice(svg.indexOf('<g clip-path="url(#fighter-outline)">')) : svg;
+    for (const match of widened.matchAll(/\sstroke-width="([\d.]+)"/g)) {
       check(Number(match[1]) + 1e-9 >= 4 / request.data.resolution,
         'Default browser rendering lost the scaled stroke minimum');
       strokeWidthsChecked++;
     }
-    const texture = await load(request);
     check(Assets.cache.get(request.src) === texture, 'SVG missing from consumer Assets cache');
     return texture;
   };
   const models = [];
   try {
-    for (const model of ['male', 'female', 'dog', 'bear']) {
+    for (const model of ['male', 'female', 'dog', 'bear', 'panther']) {
       const appearance = {
-        type: 'brute', name: model, model, team: 'L', shield: false,
+        type: 'brute', name: model, model: model === 'panther' ? 'dog' : model, team: 'L', shield: false,
+        colorOffset: model === 'panther' ? { r: -82, g: -97, b: -82 } : undefined,
         width: 50, height: 80,
         parts: Object.fromEntries(['p1', 'p1a', 'p1b', 'p2', 'p3', 'p4', 'p5', 'p6', 'p7', 'p7b', 'p8'].map((key) => [key, 0])),
         colors: Object.fromEntries(['col0', 'col0a', 'col0c', 'col1', 'col1a', 'col1b', 'col1c', 'col1d', 'col2', 'col2a', 'col2b', 'col3', 'col3b', 'col4', 'col4a', 'col4b'].map((key) => [key, '#dd8844'])),
       };
       if (model === 'female') Object.assign(appearance.parts, { p7: 6, p7b: 6, p1: 1 });
+      if (model === 'male') appearance.parts.p3 = 3;
       const holder = new FighterHolder(app, appearance, { current: 1 }, 2);
       await holder.ready;
       check(holder.container instanceof Container, 'Fighter uses a different Pixi Container');
@@ -57,6 +86,14 @@ window.runFighterRegression = async () => {
       const { pixels } = app.renderer.extract.pixels(holder.container);
       check(pixels.some((channel, index) => index % 4 !== 3 && channel > 0), 'Fighter has no colored pixels');
       check(holder.svgs.some((sprite) => sprite.visible && sprite.texture.width > 1), 'SVG textures were not rasterized');
+      for (const sprite of holder.svgs.filter((sprite) => sprite.visible)) {
+        const { a, b, c, d } = sprite.getGlobalTransform();
+        const x = a * a + b * b;
+        const y = c * c + d * d;
+        const stretch = Math.sqrt((x + y + Math.hypot(x - y, 2 * (a * c + b * d))) / 2);
+        check(sprite.texture.source.resolution + 1e-6 >= stretch * app.renderer.resolution,
+          'Insufficient raster detail for ' + sprite.label);
+      }
       if (model === 'female') {
         const visible = (sprite) => sprite.visible && (!sprite.parent || visible(sprite.parent));
         const blades = holder.svgs.filter(sprite => sprite.label === 'Symbol466' && visible(sprite));
@@ -120,9 +157,10 @@ window.runFighterRegression = async () => {
       second.destroy();
       models.push(model);
     }
-    check(shadows === 8 && loads > 0, 'Renderer or Assets was bypassed');
+    check(shadows === 10 && loads > 0, 'Renderer or Assets was bypassed');
     check(strokeWidthsChecked > 0, 'No browser SVG stroke widths were checked');
-    return { models, shadows, loads, strokeWidthsChecked, resolution: app.renderer.resolution };
+    check(edgesChecked.size === 2, 'Hair and pet halo checks did not both run');
+    return { models, shadows, loads, strokeWidthsChecked, edgesChecked: [...edgesChecked], resolution: app.renderer.resolution };
   } finally {
     Assets.load = load;
     app.destroy(true, { children: true });

@@ -963,16 +963,15 @@ export class FighterHolder {
     const loadingSvgs: Promise<void>[] = [];
 
     const getTexture = (
-      svgDataUrl: string,
-      renderScale: number,
+      { svg, renderScale, minimumPixels }: SvgLoadEntry,
       cacheKey: string,
-      svgName: string,
     ) => {
       const cached = FighterHolder.#sharedSvgTextureCache.get(cacheKey);
       if (cached) {
         return cached;
       }
 
+      const svgDataUrl = prepareSvg(svg, renderScale, minimumPixels);
       const loadPromise = Assets.load<Texture>({
         src: svgDataUrl,
         data: {
@@ -980,11 +979,11 @@ export class FighterHolder {
           resolution: renderScale,
         },
       }).catch((error) => {
-        console.error('Error creating SVG texture via Assets.load', error, svgName);
+        console.error('Error creating SVG texture via Assets.load', error, svg.name);
         try {
           return Texture.from(svgDataUrl);
         } catch (fallbackError) {
-          console.error('Error creating fallback SVG texture', fallbackError, svgName);
+          console.error('Error creating fallback SVG texture', fallbackError, svg.name);
           return null;
         }
       });
@@ -997,11 +996,9 @@ export class FighterHolder {
       const { svg, renderScale, minimumPixels } = svgToLoad;
 
       loadingSvgs.push(new Promise((resolve) => {
-        const svgSource = `${prepareSvg(svg.svg, renderScale, minimumPixels)}<!-- ${renderScale} -->`;
-        const svgDataUrl = `data:image/svg+xml,${encodeURIComponent(svgSource)}`;
         const cacheKey = `${svg.name}|${renderScale}|${minimumPixels}`;
 
-        getTexture(svgDataUrl, renderScale, cacheKey, svg.name)
+        getTexture(svgToLoad, cacheKey)
           .then((texture) => {
             if (texture) {
               this.#svgTexturesByLabel.set(svg.name, texture);

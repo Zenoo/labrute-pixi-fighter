@@ -18,8 +18,10 @@ module.exports = (env, argv) => {
         {
           test: /\.(js|ts)$/,
           exclude: /(node_modules|bower_components)/,
-          loader: 'babel-loader',
-          options: { presets: ['@babel/env'] }
+          use: [
+            { loader: 'babel-loader', options: { presets: ['@babel/env'] } },
+            { loader: path.resolve(__dirname, 'scripts/compile-svg-loader.cjs') },
+          ]
         }
       ]
     },

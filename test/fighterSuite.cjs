@@ -145,7 +145,9 @@ test('thin strokes scale with fighter size and DPR without magnifying nested SVG
       for (const request of loads.slice(before)) {
         const svg = decodeURIComponent(request.src.slice(request.src.indexOf(',') + 1));
         if (!svg.includes(signature)) continue;
-        const widths = [...svg.matchAll(/\sstroke-width="([^"]+)"/g)].map((match) => Number(match[1]));
+        const widened = svg.includes('<g clip-path="url(#fighter-outline)">')
+          ? svg.slice(svg.indexOf('<g clip-path="url(#fighter-outline)">')) : svg;
+        const widths = [...widened.matchAll(/\sstroke-width="([^"]+)"/g)].map((match) => Number(match[1]));
         assert.equal(widths.length, authored.length);
         for (let index = 0; index < widths.length; index++) {
           const expected = Math.max(authored[index], scale * resolution / request.data.resolution);

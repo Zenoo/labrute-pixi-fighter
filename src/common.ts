@@ -1,7 +1,15 @@
+/** Build-generated encoded spans, static markup, and numeric stroke-width slots. */
+export type SvgRasterTemplate = Readonly<{
+  source: string;
+  parts: readonly (string | number | readonly [number, number])[];
+}>;
+
 export type Svg = Readonly<{
   type: 'svg';
   name: string;
   svg: string;
+  /** @internal Supplied by the package/playground builds, without duplicating geometry. */
+  raster?: SvgRasterTemplate;
   offset: Readonly<{
     x: number;
     y: number;

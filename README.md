@@ -136,9 +136,16 @@ visible when enlarged extractions are displayed smaller. Wider authored strokes
 are preserved, and nested symbol transforms do not inflate the minimum. Shared
 base textures include the stroke minimum in their cache key; colored variants
 are keyed by the base texture's identity.
-Automated SWF geometry comparisons use a test adapter that disables this
-presentation minimum while retaining the production SVG preparation path.
-Unit and WebGL regressions exercise the default scaled strokes.
+For translucent hairlines, added width is clipped inside the filled silhouette.
+The source hairline and opacity remain intact, without a pale outer halo.
+The package build precomputes clip geometry, nested transforms, source spans and
+URI encoding. Fight loading only joins pre-encoded spans and inserts numeric
+stroke widths; matching textures bypass even that work. The shared data module
+stores one encoded source per SVG. Its public `svg` property lazily returns the
+original SVG string, without making fighters decode or retain raw markup.
+The playground uses the same build compiler through its webpack loader.
+Automated SWF geometry comparisons use the original SVGs with a one-texel stroke
+floor. Unit and WebGL regressions exercise the compiled presentation templates.
 
 The new data preserves all 944 renderable source characters. Placement metadata
 lives on frame entries, so two instances of the same shape can use different color
