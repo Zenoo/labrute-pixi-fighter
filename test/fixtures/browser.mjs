@@ -18,9 +18,18 @@ window.runFighterRegression = async () => {
     return generateTexture(target);
   };
   let loads = 0;
+  let strokeWidthsChecked = 0;
   const load = Assets.load.bind(Assets);
   Assets.load = async (request) => {
     loads++;
+    // Every fighter in this fixture has scale 2 and renderer DPR 2. Verify
+    // the package entry prepares its actual browser SVGs with a four-texel floor.
+    const svg = decodeURIComponent(request.src.slice(request.src.indexOf(',') + 1));
+    for (const match of svg.matchAll(/\sstroke-width="([\d.]+)"/g)) {
+      check(Number(match[1]) + 1e-9 >= 4 / request.data.resolution,
+        'Default browser rendering lost the scaled stroke minimum');
+      strokeWidthsChecked++;
+    }
     const texture = await load(request);
     check(Assets.cache.get(request.src) === texture, 'SVG missing from consumer Assets cache');
     return texture;
@@ -112,7 +121,8 @@ window.runFighterRegression = async () => {
       models.push(model);
     }
     check(shadows === 8 && loads > 0, 'Renderer or Assets was bypassed');
-    return { models, shadows, loads, resolution: app.renderer.resolution };
+    check(strokeWidthsChecked > 0, 'No browser SVG stroke widths were checked');
+    return { models, shadows, loads, strokeWidthsChecked, resolution: app.renderer.resolution };
   } finally {
     Assets.load = load;
     app.destroy(true, { children: true });

@@ -129,31 +129,81 @@ test('shares SVG textures and increases rasterization resolution for larger mode
   [first, second, larger].forEach((holder) => holder.destroy());
 });
 
-test('thin SWF strokes occupy one raster pixel instead of one magnified SVG unit', async () => {
-  const config = appearance();
-  config.parts.p3 = 3;
-  const before = loads.length;
-  const holder = new FighterHolder(application(), config, { current: 1 }, 2.75);
-  await holder.ready;
-  let checked = 0;
+test('thin strokes scale with fighter size and DPR without magnifying nested SVG units', async () => {
   const source = Symbol385.parts.find((part) => part.type === 'svg').svg;
   const signature = source.match(/\bd="([^"]+)"/)[1];
   const authored = [...source.matchAll(/\sstroke-width="([^"]+)"/g)].map((match) => Number(match[1]));
 
-  for (const request of loads.slice(before)) {
-    const svg = decodeURIComponent(request.src.slice(request.src.indexOf(',') + 1));
-    if (!svg.includes(signature)) continue;
-    const widths = [...svg.matchAll(/\sstroke-width="([^"]+)"/g)].map((match) => Number(match[1]));
-
-    for (let index = 0; index < widths.length; index++) {
-      const expected = Math.max(authored[index], 1 / request.data.resolution);
-      assert.ok(Math.abs(widths[index] - expected) < 1e-10, 'A thin stroke used the wrong coordinate space');
-      checked++;
+  for (const [scale, resolution] of [[0.75, 1], [2.75, 1], [2.75, 2]]) {
+    const config = appearance();
+    config.parts.p3 = 3;
+    const before = loads.length;
+    const holder = new FighterHolder(application(resolution), config, { current: 1 }, scale);
+    await holder.ready;
+    try {
+      let checked = 0;
+      for (const request of loads.slice(before)) {
+        const svg = decodeURIComponent(request.src.slice(request.src.indexOf(',') + 1));
+        if (!svg.includes(signature)) continue;
+        const widths = [...svg.matchAll(/\sstroke-width="([^"]+)"/g)].map((match) => Number(match[1]));
+        assert.equal(widths.length, authored.length);
+        for (let index = 0; index < widths.length; index++) {
+          const expected = Math.max(authored[index], scale * resolution / request.data.resolution);
+          assert.ok(Math.abs(widths[index] - expected) < 1e-10,
+            `Incorrect stroke width at scale ${scale}, DPR ${resolution}`);
+          checked++;
+        }
+      }
+      assert.ok(checked > 0, 'The regression did not rasterize any thin outlines');
+      const count = loads.length;
+      const matching = new FighterHolder(application(resolution), config, { current: 1 }, scale);
+      await matching.ready;
+      assert.equal(loads.length, count, 'Matching stroke textures were not shared');
+      matching.destroy();
+    } finally {
+      holder.destroy();
     }
   }
+});
 
-  assert.ok(checked > 0, 'The regression did not rasterize any thin outlines');
-  holder.destroy();
+test('nearby fighter scales cannot share incompatible base or colored stroke textures', async () => {
+  const originalLoad = pixi.Assets.load;
+  const holders = [];
+  pixi.Assets.load = async (request) => {
+    loads.push(request);
+    const texture = new pixi.Texture({ source: new pixi.TextureSource({ width: 24, height: 24 }) });
+    return texture;
+  };
+  try {
+    const app = application();
+    const config = appearance();
+    config.parts.p3 = 3;
+    config.colors = Object.fromEntries(Object.keys(config.colors).map((key) => [key, '#dd8844']));
+    const captures = [];
+    for (const scale of [2.751, 2.752]) {
+      const before = loads.length;
+      const baked = colorBakes.length;
+      const holder = new FighterHolder(app, config, { current: 1 }, scale);
+      holders.push(holder);
+      await holder.ready;
+      holder.setAnimation('idle');
+      assert.ok(colorBakes.length > baked, 'A different stroke minimum reused colored pixels');
+      captures.push(loads.slice(before));
+    }
+    // At these nearby scales, integer raster buckets overlap. Different stroke
+    // minima must still produce distinct source URLs and colored variants.
+    const source = Symbol385.parts.find((part) => part.type === 'svg').svg;
+    const signature = source.match(/\bd="([^"]+)"/)[1];
+    const find = (requests) => requests.find((request) => decodeURIComponent(request.src).includes(signature));
+    const first = find(captures[0]);
+    const second = find(captures[1]);
+    assert.ok(first && second, 'A different stroke minimum reused a base texture');
+    assert.equal(first.data.resolution, second.data.resolution, 'Regression needs a shared raster bucket');
+    assert.notEqual(first.src, second.src, 'Stroke minima collided in the SVG cache');
+  } finally {
+    holders.forEach((holder) => holder.destroy());
+    pixi.Assets.load = originalLoad;
+  }
 });
 
 test('supports seeking, playback restoration, equipment changes and reverse events', async () => {

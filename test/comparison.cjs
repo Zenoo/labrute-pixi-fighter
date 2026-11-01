@@ -7,6 +7,12 @@ const launchChromium = require('./chromium.cjs');
 
 async function main() {
   const config = require('../webpack.config.js')({}, { mode: 'development' });
+  // Source-geometry comparisons exclude the intentional presentation stroke
+  // minimum. Unit and WebGL tests exercise the default scaled strokes instead.
+  // The adapter still uses production prepareSvg with a one-texel minimum.
+  config.plugins.push(new webpack.NormalModuleReplacementPlugin(
+    /^\.\/prepareSvg$/, path.resolve(__dirname, 'sourceSvg.ts'),
+  ));
   const output = path.resolve(__dirname, '../.packaging-test/comparison');
   const compiler = webpack({ ...config, stats: 'errors-only', infrastructureLogging: { level: 'error' } });
   const server = new WebpackDevServer({
@@ -210,6 +216,7 @@ async function main() {
     })()`);
 
     for (const result of results) {
+      result.strokePresentation = false;
       for (const kind of ['source', 'pixi']) {
         const key = kind + 'Image';
 
@@ -242,7 +249,7 @@ async function main() {
     }
 
     assert.deepEqual(browser.errors, [], 'Uncaught browser errors');
-    console.log(`Compared ${results.length} appearance cases.`);
+    console.log(`Compared ${results.length} source-geometry appearance cases (presentation stroke scaling disabled).`);
     console.log(`Detailed pixel differences: ${path.join(output, 'results.json')}`);
   } finally {
     await browser?.close();

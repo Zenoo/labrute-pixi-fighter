@@ -130,8 +130,15 @@ Generation does not use the historical `src/xml` files or their correction table
 FFDec's SVG preview widens subpixel strokes to 1px. The generator restores their
 authored widths from the export metadata before embedding or saving the artwork;
 nested transforms therefore do not inflate hair and eye outlines.
-During texture rasterization, Flash's minimum stroke is applied as one texture
-pixel at the chosen resolution, rather than one magnified SVG coordinate unit.
+During texture rasterization, thin strokes have a one-native-fighter-pixel
+minimum that scales with fighter size and renderer resolution. This keeps lines
+visible when enlarged extractions are displayed smaller. Wider authored strokes
+are preserved, and nested symbol transforms do not inflate the minimum. Shared
+base textures include the stroke minimum in their cache key; colored variants
+are keyed by the base texture's identity.
+Automated SWF geometry comparisons use a test adapter that disables this
+presentation minimum while retaining the production SVG preparation path.
+Unit and WebGL regressions exercise the default scaled strokes.
 
 The new data preserves all 944 renderable source characters. Placement metadata
 lives on frame entries, so two instances of the same shape can use different color

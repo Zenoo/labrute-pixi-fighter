@@ -172,12 +172,12 @@ function createPlacementFilters(placement, color, scale = 1) {
     return filters;
 }
 
-/** Keep Flash's minimum stroke at one raster pixel, not one SVG coordinate unit. */
-function prepareSvg(svg, resolution) {
-    const minimumWidth = 1 / resolution;
-    // A hair/eye symbol may be magnified several times by its parent timelines.
-    // Preserve authored wider strokes, while rasterizing thinner ones as a single
-    // texel. Expanding them to 1 SVG unit would magnify their borders as well.
+/** Express the fighter's minimum stroke in SVG units at its raster resolution. */
+function prepareSvg(svg, resolution, minimumPixels) {
+    const minimumWidth = minimumPixels / resolution;
+    // Keep hairlines one native fighter pixel wide as display size and DPR grow.
+    // Nested symbol magnification must not turn the minimum into a whole SVG unit.
+    // Wider authored strokes remain intact.
     return svg.replace(/\sstroke-width="([\d.]+)"/g, (_, width) => ` stroke-width="${Math.max(Number(width), minimumWidth)}"`);
 }
 
@@ -682,6 +682,7 @@ class FighterHolder {
                         svgsToLoadByName.set(symbol.name, {
                             svg: symbol,
                             renderScale,
+                            minimumPixels: size * resolution,
                         });
                     }
                 }
@@ -747,11 +748,11 @@ class FighterHolder {
                 return loadPromise;
             };
             for (const svgToLoad of svgsToLoad) {
-                const { svg, renderScale } = svgToLoad;
+                const { svg, renderScale, minimumPixels } = svgToLoad;
                 loadingSvgs.push(new Promise((resolve) => {
-                    const svgSource = `${prepareSvg(svg.svg, renderScale)}<!-- ${renderScale} -->`;
+                    const svgSource = `${prepareSvg(svg.svg, renderScale, minimumPixels)}<!-- ${renderScale} -->`;
                     const svgDataUrl = `data:image/svg+xml,${encodeURIComponent(svgSource)}`;
-                    const cacheKey = `${svg.name}|${renderScale}`;
+                    const cacheKey = `${svg.name}|${renderScale}|${minimumPixels}`;
                     getTexture(svgDataUrl, renderScale, cacheKey, svg.name)
                         .then((texture) => {
                         if (texture) {
@@ -1357,7 +1358,8 @@ _a = FighterHolder, _FighterHolder_animationType = new WeakMap(), _FighterHolder
         shared = new Map();
         __classPrivateFieldGet(FighterHolder, _a, "f", _FighterHolder_sharedColoredTextures).set(__classPrivateFieldGet(this, _FighterHolder_renderer, "f"), shared);
     }
-    const key = `${svg.name}|${base.source.resolution}|${color}`;
+    // Distinct stroke minima can share a resolution bucket but not colored pixels.
+    const key = `${svg.name}|${base.uid}|${color}`;
     const existing = shared.get(key);
     if (existing) {
         existing.references++;

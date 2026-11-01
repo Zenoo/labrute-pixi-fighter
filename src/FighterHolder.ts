@@ -368,6 +368,7 @@ const SCALE = 1;
 type SvgLoadEntry = {
   svg: Svg;
   renderScale: number;
+  minimumPixels: number;
 };
 
 type ColoredTexture = {
@@ -911,6 +912,7 @@ export class FighterHolder {
           svgsToLoadByName.set(symbol.name, {
             svg: symbol,
             renderScale,
+            minimumPixels: size * resolution,
           });
         }
       } else {
@@ -992,12 +994,12 @@ export class FighterHolder {
     };
 
     for (const svgToLoad of svgsToLoad) {
-      const { svg, renderScale } = svgToLoad;
+      const { svg, renderScale, minimumPixels } = svgToLoad;
 
       loadingSvgs.push(new Promise((resolve) => {
-        const svgSource = `${prepareSvg(svg.svg, renderScale)}<!-- ${renderScale} -->`;
+        const svgSource = `${prepareSvg(svg.svg, renderScale, minimumPixels)}<!-- ${renderScale} -->`;
         const svgDataUrl = `data:image/svg+xml,${encodeURIComponent(svgSource)}`;
-        const cacheKey = `${svg.name}|${renderScale}`;
+        const cacheKey = `${svg.name}|${renderScale}|${minimumPixels}`;
 
         getTexture(svgDataUrl, renderScale, cacheKey, svg.name)
           .then((texture) => {
@@ -1204,7 +1206,8 @@ export class FighterHolder {
       shared = new Map();
       FighterHolder.#sharedColoredTextures.set(this.#renderer, shared);
     }
-    const key = `${svg.name}|${base.source.resolution}|${color}`;
+    // Distinct stroke minima can share a resolution bucket but not colored pixels.
+    const key = `${svg.name}|${base.uid}|${color}`;
     const existing = shared.get(key);
     if (existing) {
       existing.references++;
