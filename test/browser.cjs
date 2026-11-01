@@ -40,6 +40,9 @@ async function main() {
     ], { timeout: 60000, maxBuffer: 1024 * 1024 });
     fs.writeFileSync(path.join(output, 'result.html'), stdout);
     assert.match(stdout, /data-status="passed"/, stdout.slice(-8000));
+    const outfitImage = stdout.match(/data-female-outfit7="data:image\/png;base64,([^"]+)"/);
+    assert.ok(outfitImage, 'Missing female outfit 7b capture');
+    fs.writeFileSync(path.join(output, 'female-outfit-7b.png'), Buffer.from(outfitImage[1], 'base64'));
     const result = stdout.match(/data-result="([^"]*)"/)?.[1].replaceAll('&quot;', '"');
     console.log('Chromium WebGL fighter regression passed:', result);
   } finally {

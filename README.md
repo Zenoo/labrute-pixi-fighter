@@ -148,10 +148,15 @@ Clothing uses several independent selectors: `p7` selects the clothing set,
 `p7b` selects legwear, and `p1` enables additional armor pieces. For example,
 the male shoulder-pad armor needs `p7: 4` and `p1: 1`; use `p7b: 4` for matching
 legwear. Starting from the default male appearance, its body string is
-`11013100441`. The playground offers basic and detailed presets
-for all seven sets so these combinations can be inspected directly. Presets only
-offer a detailed variant when its source placements differ: female set 6 has
-identical artwork for both `p1` values, so it has one preset. Raw part selectors
+`11013100441`. The playground numbers outfits 1–7 to match the portrait package:
+`6a`/`6b` select `p7: 5`, `p7b: 5`, and `p1: 0`/`1`; `7a`/`7b` select
+`p7: 6`, `p7b: 6`, and `p1: 0`/`1`. The a/b suffix means basic/detailed.
+Raw part selectors retain the source's zero-based numbering.
+Female outfit 7b restores the portrait's forearm blades using the mini SWF's
+existing blade artwork (shape 466), its `col3` binding, and the portrait's
+attachment transform. Generation adds a shared detail layer to forearm timelines
+574 and 842; basic frames and the source SWF stay unchanged. Source
+comparisons therefore intentionally differ at these blades. Raw part selectors
 remain editable for inspecting production body strings.
 Both models use `col3` for iris color, alongside the clothing placements bound
 to that slot. Female eyes extend the source SWF's fixed turquoise artwork:

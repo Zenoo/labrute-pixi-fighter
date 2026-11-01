@@ -17,6 +17,10 @@
     {
       "type": "symbol",
       "name": "Symbol27"
+    },
+    {
+      "type": "symbol",
+      "name": "Symbol946"
     }
   ],
   "frames": [
@@ -58,6 +62,14 @@
     ],
     [],
     [
+      {
+        "name": "Symbol946",
+        "partIdx": "_p1",
+        "transform": {
+          "tx": -0.45,
+          "ty": 3.35
+        }
+      },
       {
         "name": "Symbol27",
         "transform": {

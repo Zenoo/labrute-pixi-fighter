@@ -5,6 +5,7 @@ import { Symbol837 } from './Symbol837';
 import { Symbol839 } from './Symbol839';
 import { Symbol841 } from './Symbol841';
 import { Symbol27 } from './Symbol27';
+import { Symbol946 } from './Symbol946';
 
 export const Symbol842: Symbol = {
   "type": "symbol",
@@ -14,7 +15,8 @@ export const Symbol842: Symbol = {
     Symbol837,
     Symbol839,
     Symbol841,
-    Symbol27
+    Symbol27,
+    Symbol946
   ],
   "frames": [
     [
@@ -64,6 +66,14 @@ export const Symbol842: Symbol = {
     ],
     [],
     [
+      {
+        "name": "Symbol946",
+        "partIdx": "_p1",
+        "transform": {
+          "tx": -0.45,
+          "ty": 3.35
+        }
+      },
       {
         "name": "Symbol27",
         "transform": {

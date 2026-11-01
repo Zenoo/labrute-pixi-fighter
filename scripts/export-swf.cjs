@@ -7,6 +7,7 @@ const { restoreStrokeWidths, compactSvg } = require('./swf/artwork.cjs');
 const { compactTransform, compactColor, compactFilters } = require('./swf/compact.cjs');
 const { emitSymbol } = require('./swf/emit.cjs');
 const { colorableEye } = require('./swf/eyeColors.cjs');
+const { addClothingDetails } = require('./swf/clothingDetails.cjs');
 
 const root = path.resolve(__dirname, '..');
 const source = path.join(root, 'src/swf/mini_perso.swf');
@@ -108,6 +109,7 @@ function generate() {
     });
   }
 
+  addClothingDetails(symbols);
   const ids = [...symbols.keys()].sort((left, right) => left - right);
 
   // Validate shared references and inline layers before replacing generated files.

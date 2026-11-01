@@ -34,6 +34,7 @@ window.runFighterRegression = async () => {
         parts: Object.fromEntries(['p1', 'p1a', 'p1b', 'p2', 'p3', 'p4', 'p5', 'p6', 'p7', 'p7b', 'p8'].map((key) => [key, 0])),
         colors: Object.fromEntries(['col0', 'col0a', 'col0c', 'col1', 'col1a', 'col1b', 'col1c', 'col1d', 'col2', 'col2a', 'col2b', 'col3', 'col3b', 'col4', 'col4a', 'col4b'].map((key) => [key, '#dd8844'])),
       };
+      if (model === 'female') Object.assign(appearance.parts, { p7: 6, p7b: 6, p1: 1 });
       const holder = new FighterHolder(app, appearance, { current: 1 }, 2);
       await holder.ready;
       check(holder.container instanceof Container, 'Fighter uses a different Pixi Container');
@@ -48,6 +49,18 @@ window.runFighterRegression = async () => {
       check(pixels.some((channel, index) => index % 4 !== 3 && channel > 0), 'Fighter has no colored pixels');
       check(holder.svgs.some((sprite) => sprite.visible && sprite.texture.width > 1), 'SVG textures were not rasterized');
       if (model === 'female') {
+        const visible = (sprite) => sprite.visible && (!sprite.parent || visible(sprite.parent));
+        const blades = holder.svgs.filter(sprite => sprite.label === 'Symbol466' && visible(sprite));
+        check(blades.length === 2, 'Female outfit 7b is missing forearm blades');
+        check(blades.every(sprite => sprite.texture.width > 1), 'Forearm blades were not rasterized');
+        holder.weapon = null;
+        holder.shield = false;
+        holder.setAnimation('idle');
+        app.render();
+        document.body.dataset.femaleOutfit7 = app.canvas.toDataURL();
+        holder.weapon = 'sword';
+        holder.shield = true;
+        holder.setAnimation('idle');
         const iris = holder.svgs.find((sprite) => sprite.label === 'Symbol355Iris' && sprite.visible);
         const outline = holder.svgs.find((sprite) => sprite.label === 'Symbol355' && sprite.visible);
         check(iris && outline, 'Female eye layers are missing');
@@ -63,6 +76,9 @@ window.runFighterRegression = async () => {
             && pixels[offset - channel + (1 - channel)] < 20), 'Female iris did not follow col3: ' + color);
           check(outline.texture === whiteTexture, 'Eye whites were recolored with the iris');
           check(loads === eyeLoads, 'Eye recoloring reloaded SVGs');
+          check(blades.every(sprite => app.renderer.extract.pixels(sprite.texture).pixels
+            .some((value, offset, pixels) => offset % 4 === channel && value > 100
+              && pixels[offset - channel + (1 - channel)] < 20)), 'Forearm blades did not follow col3');
         }
       }
       if (model === 'male' || model === 'female') {

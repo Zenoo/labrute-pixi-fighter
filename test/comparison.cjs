@@ -116,19 +116,12 @@ async function main() {
 
           for (let detail = 0; detail < 2; detail++) {
             const previous = window.fighter;
-            const duplicate = model === 'female' && armor === 6;
-
-            if (duplicate && detail === 1) {
-              const preset = document.getElementById('clothing-preset');
-              if ([...preset.options].some(option => option.value === '6:1')) {
-                throw new Error('Female set 6 advertised a nonexistent detail variation');
-              }
-              // Raw body values remain editable even when a preset is deduplicated.
-              change('part-p1', 1);
-              if (preset.value !== '6:0') throw new Error('Equivalent outfit did not retain its preset');
-            } else {
-              change('clothing-preset', armor + ':' + detail);
+            const option = [...document.getElementById('clothing-preset').options]
+              .find(option => option.value === armor + ':' + detail);
+            if (!option?.text.startsWith('Outfit ' + (armor + 1) + (detail === 0 ? 'a' : 'b'))) {
+              throw new Error('Missing portrait-compatible outfit preset: ' + armor + ':' + detail);
             }
+            change('clothing-preset', armor + ':' + detail);
             await until(() => window.fighter !== previous && window.fighter.loaded);
 
             const body = document.getElementById('body-string').value;
@@ -140,10 +133,12 @@ async function main() {
             const status = document.getElementById('comparison-status');
             if (status.dataset.state !== 'ready') throw new Error(status.textContent);
 
-            if (duplicate) {
+            if (armor >= 5) {
               const image = document.getElementById('comparison-pixi').toDataURL();
               if (detail === 0) basicImage = image;
-              else if (image !== basicImage) throw new Error('Female set 6 changed despite identical source artwork');
+              else if (image === basicImage) {
+                throw new Error('Unexpected outfit detail rendering: ' + model + ' ' + (armor + 1));
+              }
             }
             results.push({ model, armor, detail, body, ...status.dataset });
           }

@@ -1,0 +1,23 @@
+{
+  "type": "symbol",
+  "name": "Symbol946",
+  "parts": [
+    {
+      "type": "symbol",
+      "name": "Symbol467"
+    }
+  ],
+  "frames": [
+    [],
+    [
+      {
+        "name": "Symbol467",
+        "colorIdx": "_col3",
+        "transform": {
+          "tx": 7.15,
+          "ty": -5.6
+        }
+      }
+    ]
+  ]
+}

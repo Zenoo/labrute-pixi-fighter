@@ -292,8 +292,8 @@ export class PlaygroundControls {
 
       for (let detail = 0; detail < detailCount; detail++) {
         this.fields.clothingPreset.add(new Option(
-          hasDetails ? `Set ${set} — ${detail === 0 ? 'basic' : 'detailed'}`
-            : `Set ${set} — no detail variation`,
+          hasDetails ? `Outfit ${set + 1}${String.fromCharCode(97 + detail)} — ${detail === 0 ? 'basic' : 'detailed'}`
+            : `Outfit ${set + 1} — no detail variation`,
           `${set}:${detail}`,
         ));
       }

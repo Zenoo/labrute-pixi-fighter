@@ -17,7 +17,18 @@ const defaultParts = Object.fromEntries(
   ['p1', 'p1a', 'p1b', 'p2', 'p3', 'p4', 'p5', 'p6', 'p7', 'p7b', 'p8'].map((key) => [key, 0]),
 );
 
-test('female set 6 repeats its basic artwork in both source detail frames', () => {
+test('outfits 6 and 7 retain their distinct source detail frames', () => {
+  // p1 timelines reachable through p7=5/6 in the male and female idle poses.
+  for (const id of [172, 238, 328, 446, 273, 338, 468, 624, 678, 761, 830]) {
+    const frames = swf.sprites.get(id).frames;
+    const placements = frames.map((frame) => frame.map(({ move, ...placement }) => placement));
+    assert.equal(frames.length, 2);
+    assert.notDeepEqual(placements[0], placements[1], `Source sprite ${id} lacks details`);
+    assert.notDeepEqual(generated(id).frames[0], generated(id).frames[1]);
+  }
+});
+
+test('female outfit 7 torso details repeat in the source; arm blades use existing SWF artwork', () => {
   // These are the two p1 selectors reachable within female outfit 6 across
   // the animation timelines. Neither supplies alternate artwork or transforms.
   for (const id of [769, 815]) {
@@ -27,6 +38,18 @@ test('female set 6 repeats its basic artwork in both source detail frames', () =
     assert.deepEqual(placements[0], placements[1], `Source sprite ${id} has distinct details`);
     assert.deepEqual(generated(id).frames[0], generated(id).frames[1]);
   }
+  assert.deepEqual(generated(946).frames, [[], [{
+    name: 'Symbol467', colorIdx: '_col3', transform: { tx: 7.15, ty: -5.6 },
+  }]]);
+  assert.equal(swf.sprites.get(467).frames[0][0].characterId, 466);
+  for (const id of [574, 842]) {
+    const arm = generated(id);
+    assert.equal(arm.frames[6][0].partIdx, '_p1');
+    assert.deepEqual(arm.frames[6][0].transform, { tx: -0.45, ty: 3.35 });
+    assert.deepEqual(arm.frames[6].slice(1).map(part => part.name),
+      swf.sprites.get(id).frames[6].slice().reverse().map(part => `Symbol${part.characterId}`));
+  }
+  assert.deepEqual(generated(831).frames[6], [], 'Upper arm must not acquire a wrist blade');
 });
 
 test('SVG export restores authored thin strokes without altering ordinary strokes', () => {
@@ -179,10 +202,10 @@ test('reference SWFs preserve source shape records instead of rendering generate
   assert.ok(colors.length > 0);
 });
 
-test('generation manifest identifies the exact SWF and all 944 characters', () => {
+test('generation manifest identifies the exact SWF, 944 characters, and an added detail layer', () => {
   const manifest = JSON.parse(fs.readFileSync(path.join(root, 'src/swf/manifest.json')));
   assert.equal(manifest.sha256, createHash('sha256').update(source).digest('hex'));
-  assert.equal(manifest.symbols, 944);
+  assert.equal(manifest.symbols, 945);
   assert.equal(manifest.shapes, 381);
   assert.equal(manifest.sprites, 558);
 });

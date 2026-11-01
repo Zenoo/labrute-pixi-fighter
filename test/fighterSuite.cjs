@@ -338,6 +338,41 @@ test('male set 4 includes shoulder pads only when clothing details are enabled',
   }
 });
 
+test('portrait outfits 6a/6b and 7a/7b render their distinct clothing details', async () => {
+  const visibleArt = (container) => container.visible
+    ? [container.label, ...container.children.flatMap(visibleArt)] : [];
+
+  for (const model of ['male', 'female']) {
+    for (const set of [5, 6]) {
+      const variants = [];
+      for (const detail of [0, 1]) {
+        const config = appearance({ model });
+        Object.assign(config.parts, { p7: set, p7b: set, p1: detail });
+        const holder = new FighterHolder(application(), config, { current: 1 });
+        await holder.ready;
+        holder.setAnimation('idle');
+        variants.push(visibleArt(holder.container));
+        if (model === 'female' && set === 6) {
+          const visible = (sprite) => sprite.visible && (!sprite.parent || visible(sprite.parent));
+          assert.equal(holder.svgs.filter(sprite => sprite.label === 'Symbol466' && visible(sprite)).length,
+            detail === 1 ? 2 : 0, 'Detailed female outfit 7 needs a blade on each forearm');
+          if (detail === 1) {
+            const bones = holder.svgs.filter(sprite => sprite.label === 'Symbol466' && visible(sprite))
+              .map(sprite => {
+                let parent = sprite.parent;
+                while (parent && !['Symbol574', 'Symbol831', 'Symbol842'].includes(parent.label)) parent = parent.parent;
+                return parent?.label;
+              });
+            assert.deepEqual(bones.sort(), ['Symbol574', 'Symbol842'], 'Blades must follow the forearm bones');
+          }
+        }
+        holder.destroy();
+      }
+      assert.notDeepEqual(variants[0], variants[1], `${model} outfit ${set + 1} lost its details`);
+    }
+  }
+});
+
 test('body selection always wraps by the source timeline frame count', async () => {
   const visibleArt = (container) => container.visible
     ? [container.label, ...container.children.flatMap(visibleArt)] : [];
