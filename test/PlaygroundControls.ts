@@ -1,5 +1,5 @@
 import type { Animation, WeaponName } from '../src/Symbols';
-import { animationsFor, colorKeys, partCounts, partKeys, weapons } from './previewData';
+import { animationsFor, colorKeys, hasClothingDetails, partCounts, partKeys, weapons } from './previewData';
 import { animationModel, defaultState, isBrute } from './playgroundState';
 import type { PlaygroundState, PreviewModel } from './playgroundState';
 import type { PlaygroundPreview } from './PlaygroundPreview';
@@ -20,6 +20,12 @@ function labelFor(name: string): string {
     .replace(/^./, (first) => first.toUpperCase());
 }
 
+const clothingLabels: Record<string, string> = {
+  p1: 'Clothing details (1)',
+  p7: 'Clothing set (7)',
+  p7b: 'Legwear set (7B)',
+};
+
 /** Manages form state and DOM updates; rendering belongs to PlaygroundPreview. */
 export class PlaygroundControls {
   readonly previewContainer = getElement<HTMLElement>('preview');
@@ -35,6 +41,7 @@ export class PlaygroundControls {
     speed: getElement<HTMLSelectElement>('speed'),
     grid: getElement<HTMLInputElement>('grid'),
     bodyString: getElement<HTMLInputElement>('body-string'),
+    clothingPreset: getElement<HTMLSelectElement>('clothing-preset'),
     colorString: getElement<HTMLInputElement>('color-string'),
     frame: getElement<HTMLInputElement>('frame'),
   };
@@ -173,6 +180,20 @@ export class PlaygroundControls {
       options,
     );
 
+    this.fields.clothingPreset.addEventListener('change', () => {
+      const value = this.fields.clothingPreset.value;
+      if (!value) return;
+
+      const [set, detail] = value.split(':').map(Number);
+      // The source keeps these selectors independent. A coordinated preset
+      // exposes complete outfits without changing the renderer's selection rules.
+      this.state.parts.p7 = set;
+      this.state.parts.p7b = set;
+      this.state.parts.p1 = detail;
+      this.populateBodyFields();
+      preview.scheduleRebuild(this.state);
+    }, options);
+
     this.colorFields.addEventListener(
       'input',
       (event) => {
@@ -263,12 +284,26 @@ export class PlaygroundControls {
   private populateBodyFields(): void {
     const counts = partCounts(animationModel(this.state.model));
     const fields = document.createDocumentFragment();
+    this.fields.clothingPreset.replaceChildren(new Option('Custom combination', ''));
+
+    for (let set = 0; set < counts.p7; set++) {
+      const hasDetails = hasClothingDetails(animationModel(this.state.model), set);
+      const detailCount = hasDetails ? counts.p1 : 1;
+
+      for (let detail = 0; detail < detailCount; detail++) {
+        this.fields.clothingPreset.add(new Option(
+          hasDetails ? `Set ${set} — ${detail === 0 ? 'basic' : 'detailed'}`
+            : `Set ${set} — no detail variation`,
+          `${set}:${detail}`,
+        ));
+      }
+    }
 
     for (const key of partKeys) {
       const count = counts[key];
       const label = document.createElement('label');
       const control = document.createElement('select');
-      label.textContent = `Part ${key.substring(1).toUpperCase()}`;
+      label.textContent = clothingLabels[key] ?? `Part ${key.substring(1).toUpperCase()}`;
       control.id = `part-${key}`;
       control.dataset.part = key;
       control.disabled = count <= 1;
@@ -305,6 +340,13 @@ export class PlaygroundControls {
       .map((key) => this.state.parts[key].toString(16))
       .join('');
     this.fields.bodyString.setCustomValidity('');
+
+    const counts = partCounts(animationModel(this.state.model));
+    const set = this.state.parts.p7 % counts.p7;
+    const legwear = this.state.parts.p7b % counts.p7b;
+    const detail = hasClothingDetails(animationModel(this.state.model), set)
+      ? this.state.parts.p1 % counts.p1 : 0;
+    this.fields.clothingPreset.value = set === legwear ? `${set}:${detail}` : '';
   }
 
   private populateColorFields(): void {

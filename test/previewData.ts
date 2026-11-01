@@ -144,6 +144,50 @@ export const animationsFor = (model: FighterModel) =>
 export const animationSymbol = (model: FighterModel, animation: Animation) =>
   (symbols as unknown as Record<string, FighterSymbol>)[`Symbol${animationIds[model][animation]}`];
 
+const clothingDetails = new Map<string, boolean>();
+
+/** Check the selected outfit across all poses and body builds, once per set. */
+export function hasClothingDetails(model: FighterModel, set: number): boolean {
+  const key = `${model}:${set}`;
+  const cached = clothingDetails.get(key);
+  if (cached !== undefined) return cached;
+
+  const visited = new Set<string>();
+  let different = false;
+
+  function visit(symbol: FighterSymbol, selectedFrame?: number): void {
+    const visitKey = `${symbol.name}:${selectedFrame}`;
+    if (visited.has(visitKey)) return;
+    visited.add(visitKey);
+
+    // Outfit selectors stay fixed; inspect every frame of other selectors so
+    // a detail used only by another pose or body build is still discoverable.
+    const frames = selectedFrame === undefined
+      ? symbol.frames ?? []
+      : [symbol.frames![selectedFrame]];
+
+    for (const frame of frames) {
+      for (const placement of frame) {
+        const child = symbol.parts?.find((part) => part.name === placement.name);
+        if (child?.type !== 'symbol') continue;
+
+        if (placement.partIdx === '_p1' && child.frames?.length) {
+          const basic = child.frames[0];
+          const detailed = child.frames[1 % child.frames.length];
+          if (JSON.stringify(basic) !== JSON.stringify(detailed)) different = true;
+        }
+
+        const outfit = placement.partIdx === '_p7' || placement.partIdx === '_p7b';
+        visit(child, outfit ? set % (child.frames?.length ?? 1) : undefined);
+      }
+    }
+  }
+
+  for (const animation of animationsFor(model)) visit(animationSymbol(model, animation));
+  clothingDetails.set(key, different);
+  return different;
+}
+
 export const partCounts = (model: FighterModel) => {
   // Choices come from the source timelines, including empty frames. Encoded
   // appearance values can be larger because the renderer wraps them by length.

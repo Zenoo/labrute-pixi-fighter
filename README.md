@@ -144,6 +144,15 @@ Symbol data is shared and typed as immutable: change appearance through
 `FighterHolder`, rather than mutating exported timelines.
 Body choices in the playground come from source timelines, including female
 body sizing. Imported body values wrap by the corresponding timeline length.
+Clothing uses several independent selectors: `p7` selects the clothing set,
+`p7b` selects legwear, and `p1` enables additional armor pieces. For example,
+the male shoulder-pad armor needs `p7: 4` and `p1: 1`; use `p7b: 4` for matching
+legwear. Starting from the default male appearance, its body string is
+`11013100441`. The playground offers basic and detailed presets
+for all seven sets so these combinations can be inspected directly. Presets only
+offer a detailed variant when its source placements differ: female set 6 has
+identical artwork for both `p1` values, so it has one preset. Raw part selectors
+remain editable for inspecting production body strings.
 The male monk's source jump at frame 57 still controls playback; its remaining
 five source frames are retained for manual inspection instead of being deleted.
 

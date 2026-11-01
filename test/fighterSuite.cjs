@@ -284,6 +284,34 @@ test('steady playback reuses colored textures and does not serialize filter sett
   holder.destroy();
 });
 
+test('male set 4 includes shoulder pads only when clothing details are enabled', async () => {
+  const visibleArt = (container) => container.visible
+    ? [container.label, ...container.children.flatMap(visibleArt)] : [];
+
+  for (const detail of [0, 1]) {
+    const config = appearance();
+    config.parts.p7 = 4;
+    config.parts.p7b = 4;
+    config.parts.p1 = detail;
+    const holder = new FighterHolder(application(), config, { current: 1 });
+    await holder.ready;
+
+    for (const animation of ['idle', 'win']) {
+      holder.setAnimation(animation, animation === 'win' ? 25 : 0);
+      const visible = visibleArt(holder.container);
+
+      // FFDec sprite 442, frame 2, is the broad shoulder pad in the report.
+      // Check its SVG artwork, rather than an empty wrapper's visibility.
+      for (const name of ['Symbol437', 'Symbol439', 'Symbol441']) {
+        assert.equal(visible.includes(name), detail === 1,
+          `${animation}: ${name} did not follow clothing detail selection`);
+      }
+    }
+
+    holder.destroy();
+  }
+});
+
 test('body selection always wraps by the source timeline frame count', async () => {
   const visibleArt = (container) => container.visible
     ? [container.label, ...container.children.flatMap(visibleArt)] : [];

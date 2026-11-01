@@ -16,6 +16,18 @@ const defaultParts = Object.fromEntries(
   ['p1', 'p1a', 'p1b', 'p2', 'p3', 'p4', 'p5', 'p6', 'p7', 'p7b', 'p8'].map((key) => [key, 0]),
 );
 
+test('female set 6 repeats its basic artwork in both source detail frames', () => {
+  // These are the two p1 selectors reachable within female outfit 6 across
+  // the animation timelines. Neither supplies alternate artwork or transforms.
+  for (const id of [769, 815]) {
+    const frames = swf.sprites.get(id).frames;
+    const placements = frames.map((frame) => frame.map(({ move, ...placement }) => placement));
+    assert.equal(frames.length, 2);
+    assert.deepEqual(placements[0], placements[1], `Source sprite ${id} has distinct details`);
+    assert.deepEqual(generated(id).frames[0], generated(id).frames[1]);
+  }
+});
+
 test('SVG export restores authored thin strokes without altering ordinary strokes', () => {
   const ordinary = '<path stroke="#000000" stroke-width="2.0"/>';
   const thin = '<path ffdec:original-stroke-width="0.05" stroke-opacity="0.3019608" stroke-width="1.0"/>';

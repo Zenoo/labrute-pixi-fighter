@@ -102,13 +102,67 @@ async function main() {
         if (edgeOnly) continue;
 
         for (let armor = 0; armor < 7; armor++) {
+          let basicImage;
+
+          for (let detail = 0; detail < 2; detail++) {
+            const previous = window.fighter;
+            const duplicate = model === 'female' && armor === 6;
+
+            if (duplicate && detail === 1) {
+              const preset = document.getElementById('clothing-preset');
+              if ([...preset.options].some(option => option.value === '6:1')) {
+                throw new Error('Female set 6 advertised a nonexistent detail variation');
+              }
+              // Raw body values remain editable even when a preset is deduplicated.
+              change('part-p1', 1);
+              if (preset.value !== '6:0') throw new Error('Equivalent outfit did not retain its preset');
+            } else {
+              change('clothing-preset', armor + ':' + detail);
+            }
+            await until(() => window.fighter !== previous && window.fighter.loaded);
+
+            const body = document.getElementById('body-string').value;
+            if (body[0] !== String(detail) || body[8] !== String(armor) || body[9] !== String(armor)) {
+              throw new Error('Clothing preset did not coordinate details, clothing, and legwear: ' + body);
+            }
+
+            await window.comparison.compare(0);
+            const status = document.getElementById('comparison-status');
+            if (status.dataset.state !== 'ready') throw new Error(status.textContent);
+
+            if (duplicate) {
+              const image = document.getElementById('comparison-pixi').toDataURL();
+              if (detail === 0) basicImage = image;
+              else if (image !== basicImage) throw new Error('Female set 6 changed despite identical source artwork');
+            }
+            results.push({ model, armor, detail, body, ...status.dataset });
+          }
+        }
+
+        if (model === 'male') {
           const previous = window.fighter;
-          change('part-p7', armor);
+          change('clothing-preset', '4:1');
           await until(() => window.fighter !== previous && window.fighter.loaded);
-          await window.comparison.compare(0);
+          change('animation', 'win');
+          await window.comparison.compare(25);
           const status = document.getElementById('comparison-status');
           if (status.dataset.state !== 'ready') throw new Error(status.textContent);
-          results.push({ model, armor, ...status.dataset });
+
+          // This is the reported shoulder-pad outfit in animation sprite 543.
+          // Whole-body pixel scores alone can overlook a small missing accessory.
+          const visible = object => object.visible && (!object.parent || visible(object.parent));
+          for (const name of ['Symbol437', 'Symbol439', 'Symbol441']) {
+            if (!window.fighter.svgs.some(sprite => sprite.label === name && visible(sprite))) {
+              throw new Error('Missing shoulder-pad artwork: ' + name);
+            }
+          }
+
+          results.push({
+            model, fixture: 'shoulder-pads', ...status.dataset,
+            body: document.getElementById('body-string').value,
+            sourceImage: document.querySelector('#comparison-reference > canvas').toDataURL(),
+            pixiImage: document.getElementById('comparison-pixi').toDataURL(),
+          });
         }
 
         change('weapon', 'sword');
