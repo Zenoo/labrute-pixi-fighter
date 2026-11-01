@@ -956,7 +956,9 @@ class FighterHolder {
                     mask.setFromMatrix(multiplyMatrices(matrixFromObject(maskTransform, size), origin));
                     mask.visible = true;
                     mask.renderable = false;
-                    child.mask = mask;
+                    // Flash masks use coverage, regardless of the shape's fill color.
+                    // Symbol39 is green, so Pixi's default red-channel mask is empty.
+                    child.setMask({ mask, channel: 'alpha' });
                 }
                 else {
                     child.mask = null;
@@ -1288,6 +1290,10 @@ class FighterHolder {
             return;
         this.animation = nextAnimation;
         __classPrivateFieldSet(this, _FighterHolder_animationSymbol, ANIMATIONS[__classPrivateFieldGet(this, _FighterHolder_animationType, "f")][this.animation], "f");
+        // The source controller timelines (547/881) place these hurt clips at -20.
+        // Their local artwork alone sits below the fighter's ground origin.
+        __classPrivateFieldGet(this, _FighterHolder_renderContainer, "f").y = ((__classPrivateFieldGet(this, _FighterHolder_animationType, "f") === 'female' && this.animation === 'hit')
+            || (__classPrivateFieldGet(this, _FighterHolder_animationType, "f") === 'male' && this.animation === 'hit-0')) ? -20 * SCALE * __classPrivateFieldGet(this, _FighterHolder_scale, "f") : 0;
         // Reset frame
         __classPrivateFieldSet(this, _FighterHolder_frame, frame, "f");
         __classPrivateFieldSet(this, _FighterHolder_previousFrame, -1, "f");

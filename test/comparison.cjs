@@ -49,6 +49,7 @@ async function main() {
       };
       const results = [];
       const edgeOnly = ${process.env.COMPARISON_EDGE_ONLY === '1'};
+      const animationOnly = ${process.env.COMPARISON_ANIMATION_ONLY === '1'};
 
       for (const model of ['male', 'female']) {
         change('model', model);
@@ -64,132 +65,141 @@ async function main() {
           await wait(50);
         }
 
-        // These body strings are the reported fixtures: male 01013100611 (hair 3)
-        // and female 00100100610 (eyes). Measure their affected artwork locally
-        // so a small but very thick outline cannot hide in a whole-body score.
-        await window.comparison.compare(0);
-        const status = document.getElementById('comparison-status');
-        if (status.dataset.state !== 'ready') throw new Error(status.textContent);
-
-        const artwork = model === 'male'
-          ? new Set(['Symbol385', 'Symbol387'])
-          : new Set(['Symbol352', 'Symbol353', 'Symbol355']);
-        const visible = (object) => object.visible && (!object.parent || visible(object.parent));
-        const bounds = window.fighter.svgs.filter((sprite) => artwork.has(sprite.label) && visible(sprite))
-          .map((sprite) => sprite.getBounds());
-        if (!bounds.length) throw new Error('Missing edge regression artwork for ' + model);
-
-        const offsetX = 320 - window.fighter.container.x;
-        const offsetY = 480 * 0.72 - window.fighter.container.y;
-        const left = Math.max(0, Math.floor(Math.min(...bounds.map((box) => box.x)) + offsetX));
-        const top = Math.max(0, Math.floor(Math.min(...bounds.map((box) => box.y)) + offsetY));
-        const right = Math.min(640, Math.ceil(Math.max(...bounds.map((box) => box.x + box.width)) + offsetX));
-        const bottom = Math.min(480, Math.ceil(Math.max(...bounds.map((box) => box.y + box.height)) + offsetY));
-        const sourceCanvas = document.querySelector('#comparison-reference > canvas');
-        const pixiCanvas = document.getElementById('comparison-pixi');
-        const source = sourceCanvas.getContext('2d').getImageData(0, 0, 640, 480).data;
-        const pixi = pixiCanvas.getContext('2d').getImageData(0, 0, 640, 480).data;
-        let edgeChanged = 0;
-        let edgeOccupied = 0;
-
-        for (let y = top; y < bottom; y++) {
-          for (let x = left; x < right; x++) {
-            const offset = (y * 640 + x) * 4;
-            let difference = Math.abs(source[offset + 3] - pixi[offset + 3]);
-
-            for (let channel = 0; channel < 3; channel++) {
-              difference = Math.max(difference, Math.abs(
-                source[offset + channel] * source[offset + 3] / 255
-                - pixi[offset + channel] * pixi[offset + 3] / 255));
-            }
-
-            if (source[offset + 3] || pixi[offset + 3]) edgeOccupied++;
-            if (difference > 24) edgeChanged++;
-          }
-        }
-
-        results.push({
-          model, fixture: 'edges', ...status.dataset,
-          body: document.getElementById('body-string').value,
-          edgeChanged, edgeOccupied, bounds: { left, top, right, bottom },
-          sourceImage: sourceCanvas.toDataURL(), pixiImage: pixiCanvas.toDataURL(),
-        });
-
-        if (edgeOnly) continue;
-
-        for (let armor = 0; armor < 7; armor++) {
-          let basicImage;
-
-          for (let detail = 0; detail < 2; detail++) {
-            const previous = window.fighter;
-            const option = [...document.getElementById('clothing-preset').options]
-              .find(option => option.value === armor + ':' + detail);
-            if (!option?.text.startsWith('Outfit ' + (armor + 1) + (detail === 0 ? 'a' : 'b'))) {
-              throw new Error('Missing portrait-compatible outfit preset: ' + armor + ':' + detail);
-            }
-            change('clothing-preset', armor + ':' + detail);
-            await until(() => window.fighter !== previous && window.fighter.loaded);
-
-            const body = document.getElementById('body-string').value;
-            if (body[0] !== String(detail) || body[8] !== String(armor) || body[9] !== String(armor)) {
-              throw new Error('Clothing preset did not coordinate details, clothing, and legwear: ' + body);
-            }
-
-            await window.comparison.compare(0);
-            const status = document.getElementById('comparison-status');
-            if (status.dataset.state !== 'ready') throw new Error(status.textContent);
-
-            if (armor >= 5) {
-              const image = document.getElementById('comparison-pixi').toDataURL();
-              if (detail === 0) basicImage = image;
-              else if (image === basicImage) {
-                throw new Error('Unexpected outfit detail rendering: ' + model + ' ' + (armor + 1));
-              }
-            }
-            results.push({ model, armor, detail, body, ...status.dataset });
-          }
-        }
-
-        if (model === 'male') {
-          const previous = window.fighter;
-          change('clothing-preset', '4:1');
-          await until(() => window.fighter !== previous && window.fighter.loaded);
-          change('animation', 'win');
-          await window.comparison.compare(25);
+        if (!animationOnly) {
+          // These body strings are the reported fixtures: male 01013100611 (hair 3)
+          // and female 00100100610 (eyes). Measure their affected artwork locally
+          // so a small but very thick outline cannot hide in a whole-body score.
+          await window.comparison.compare(0);
           const status = document.getElementById('comparison-status');
           if (status.dataset.state !== 'ready') throw new Error(status.textContent);
 
-          // This is the reported shoulder-pad outfit in animation sprite 543.
-          // Whole-body pixel scores alone can overlook a small missing accessory.
-          const visible = object => object.visible && (!object.parent || visible(object.parent));
-          for (const name of ['Symbol437', 'Symbol439', 'Symbol441']) {
-            if (!window.fighter.svgs.some(sprite => sprite.label === name && visible(sprite))) {
-              throw new Error('Missing shoulder-pad artwork: ' + name);
+          const artwork = model === 'male'
+            ? new Set(['Symbol385', 'Symbol387'])
+            : new Set(['Symbol352', 'Symbol353', 'Symbol355']);
+          const visible = (object) => object.visible && (!object.parent || visible(object.parent));
+          const bounds = window.fighter.svgs.filter((sprite) => artwork.has(sprite.label) && visible(sprite))
+            .map((sprite) => sprite.getBounds());
+          if (!bounds.length) throw new Error('Missing edge regression artwork for ' + model);
+
+          const offsetX = 320 - window.fighter.container.x;
+          const offsetY = 480 * 0.72 - window.fighter.container.y;
+          const left = Math.max(0, Math.floor(Math.min(...bounds.map((box) => box.x)) + offsetX));
+          const top = Math.max(0, Math.floor(Math.min(...bounds.map((box) => box.y)) + offsetY));
+          const right = Math.min(640, Math.ceil(Math.max(...bounds.map((box) => box.x + box.width)) + offsetX));
+          const bottom = Math.min(480, Math.ceil(Math.max(...bounds.map((box) => box.y + box.height)) + offsetY));
+          const sourceCanvas = document.querySelector('#comparison-reference > canvas');
+          const pixiCanvas = document.getElementById('comparison-pixi');
+          const source = sourceCanvas.getContext('2d').getImageData(0, 0, 640, 480).data;
+          const pixi = pixiCanvas.getContext('2d').getImageData(0, 0, 640, 480).data;
+          let edgeChanged = 0;
+          let edgeOccupied = 0;
+
+          for (let y = top; y < bottom; y++) {
+            for (let x = left; x < right; x++) {
+              const offset = (y * 640 + x) * 4;
+              let difference = Math.abs(source[offset + 3] - pixi[offset + 3]);
+
+              for (let channel = 0; channel < 3; channel++) {
+                difference = Math.max(difference, Math.abs(
+                  source[offset + channel] * source[offset + 3] / 255
+                  - pixi[offset + channel] * pixi[offset + 3] / 255));
+              }
+
+              if (source[offset + 3] || pixi[offset + 3]) edgeOccupied++;
+              if (difference > 24) edgeChanged++;
             }
           }
 
           results.push({
-            model, fixture: 'shoulder-pads', ...status.dataset,
+            model, fixture: 'edges', ...status.dataset,
             body: document.getElementById('body-string').value,
-            sourceImage: document.querySelector('#comparison-reference > canvas').toDataURL(),
-            pixiImage: document.getElementById('comparison-pixi').toDataURL(),
+            edgeChanged, edgeOccupied, bounds: { left, top, right, bottom },
+            sourceImage: sourceCanvas.toDataURL(), pixiImage: pixiCanvas.toDataURL(),
           });
+
+          if (edgeOnly) continue;
+
+          for (let armor = 0; armor < 7; armor++) {
+            let basicImage;
+
+            for (let detail = 0; detail < 2; detail++) {
+              const previous = window.fighter;
+              const option = [...document.getElementById('clothing-preset').options]
+                .find(option => option.value === armor + ':' + detail);
+              if (!option?.text.startsWith('Outfit ' + (armor + 1) + (detail === 0 ? 'a' : 'b'))) {
+                throw new Error('Missing portrait-compatible outfit preset: ' + armor + ':' + detail);
+              }
+              change('clothing-preset', armor + ':' + detail);
+              await until(() => window.fighter !== previous && window.fighter.loaded);
+
+              const body = document.getElementById('body-string').value;
+              if (body[0] !== String(detail) || body[8] !== String(armor) || body[9] !== String(armor)) {
+                throw new Error('Clothing preset did not coordinate details, clothing, and legwear: ' + body);
+              }
+
+              await window.comparison.compare(0);
+              const status = document.getElementById('comparison-status');
+              if (status.dataset.state !== 'ready') throw new Error(status.textContent);
+
+              if (armor >= 5) {
+                const image = document.getElementById('comparison-pixi').toDataURL();
+                if (detail === 0) basicImage = image;
+                else if (image === basicImage) {
+                  throw new Error('Unexpected outfit detail rendering: ' + model + ' ' + (armor + 1));
+                }
+              }
+              results.push({ model, armor, detail, body, ...status.dataset });
+            }
+          }
+
+          if (model === 'male') {
+            const previous = window.fighter;
+            change('clothing-preset', '4:1');
+            await until(() => window.fighter !== previous && window.fighter.loaded);
+            change('animation', 'win');
+            await window.comparison.compare(25);
+            const status = document.getElementById('comparison-status');
+            if (status.dataset.state !== 'ready') throw new Error(status.textContent);
+
+            // This is the reported shoulder-pad outfit in animation sprite 543.
+            // Whole-body pixel scores alone can overlook a small missing accessory.
+            const visible = object => object.visible && (!object.parent || visible(object.parent));
+            for (const name of ['Symbol437', 'Symbol439', 'Symbol441']) {
+              if (!window.fighter.svgs.some(sprite => sprite.label === name && visible(sprite))) {
+                throw new Error('Missing shoulder-pad artwork: ' + name);
+              }
+            }
+
+            results.push({
+              model, fixture: 'shoulder-pads', ...status.dataset,
+              body: document.getElementById('body-string').value,
+              sourceImage: document.querySelector('#comparison-reference > canvas').toDataURL(),
+              pixiImage: document.getElementById('comparison-pixi').toDataURL(),
+            });
+          }
         }
 
         change('weapon', 'sword');
         document.getElementById('shield').checked = true;
         document.getElementById('shield').dispatchEvent(new Event('change'));
 
-        for (const [animation, frame] of [['slash', 5], ['whip', 4]]) {
+        for (const [animation, frame] of [['slash', 5], ['whip', 4],
+          ...[0, 5, 14].map(frame => [model === 'female' ? 'hit' : 'hit-0', frame])]) {
           change('animation', animation);
           await window.comparison.compare(frame);
           const status = document.getElementById('comparison-status');
           if (status.dataset.state !== 'ready') throw new Error(status.textContent);
-          results.push({ model, animation, ...status.dataset });
+          results.push({ model, animation, frame, ...status.dataset,
+            ...(animation === 'hit' || animation === 'hit-0' ? {
+              fixture: animation + '-' + frame,
+              sourceImage: document.querySelector('#comparison-reference > canvas').toDataURL(),
+              pixiImage: document.getElementById('comparison-pixi').toDataURL(),
+            } : {}),
+          });
         }
       }
 
-      if (edgeOnly) return results;
+      if (edgeOnly || animationOnly) return results;
 
       change('animation', 'fist');
       await window.comparison.scan();

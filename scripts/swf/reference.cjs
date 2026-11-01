@@ -172,6 +172,11 @@ function makeReference(input, options) {
   }
 
   const root = snapshot(symbolId, frame);
+  // Include the placement from the source controller, not just local artwork.
+  const controllerPlacement = [547, 881]
+    .flatMap((id) => swf.sprites.get(id)?.frames ?? [])
+    .flat().find((part) => part.characterId === symbolId && part.instanceName === 'smc');
+  const origin = controllerPlacement?.matrix ?? {};
   const rect = new BitWriter();
   const rectangle = [0, width * 20, 0, height * 20];
   const rectWidth = signedWidth(rectangle);
@@ -190,7 +195,9 @@ function makeReference(input, options) {
       .map((entry) => tag(entry.code, entry.data)),
     ...definitions,
     place(root, { depth: 1, matrix: {
-      a: scale * facing, d: scale, tx: width / 2, ty: height * 0.72,
+      a: scale * facing, d: scale,
+      tx: width / 2 + (origin.tx ?? 0) * scale * facing,
+      ty: height * 0.72 + (origin.ty ?? 0) * scale,
     } }),
     tag(12, readyAction), // Stop, then signal that the source pose was initialized.
     tag(1), tag(0),

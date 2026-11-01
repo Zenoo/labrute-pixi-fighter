@@ -1,4 +1,4 @@
-import { Application, Assets, Container } from 'pixi.js';
+import { Application, Assets, Container, Rectangle } from 'pixi.js';
 import { FighterHolder, Symbol475, Symbol387, Symbol882 } from 'labrute-pixi-fighter';
 
 const check = (value, message) => { if (!value) throw new Error(message); };
@@ -128,6 +128,39 @@ window.runFighterRegression = async () => {
         }
       }
       if (model === 'male' || model === 'female') {
+        // A valid scene graph can still render an entirely transparent weapon:
+        // Flash's green mask has no red channel. Check actual WebGL pixels and
+        // repeated pooled-mask reuse for both facings and several weapon shapes.
+        const visible = object => object.visible && (!object.parent || visible(object.parent));
+        holder.shield = false;
+        for (const facing of [1, -1]) for (const weapon of ['sword', 'knife', 'piopio', 'sword']) {
+          holder.container.scale.x = facing;
+          holder.weapon = weapon;
+          holder.setAnimation('idle');
+          const masked = [];
+          const visit = object => {
+            if (object.mask && visible(object)) masked.push(object);
+            for (const child of object.children ?? []) visit(child);
+          };
+          visit(holder.container);
+          check(masked.length > 0, 'Weapon hand mask is missing');
+          app.render();
+          const capture = () => app.renderer.extract.pixels({
+            target: app.stage, frame: new Rectangle(0, 0, 320, 240),
+          }).pixels;
+          const armed = capture();
+          masked.forEach(object => { object.visible = false; });
+          app.render();
+          const hidden = capture();
+          let changed = 0;
+          for (let index = 0; index < armed.length; index += 4) {
+            if ([0, 1, 2, 3].some(channel => Math.abs(armed[index + channel] - hidden[index + channel]) > 24)) changed++;
+          }
+          masked.forEach(object => { object.visible = true; });
+          check(changed > 30, model + ' ' + weapon + ' weapon rendered no pixels: ' + changed);
+        }
+        holder.shield = true;
+        holder.container.scale.x = 1;
         const originals = new Set(holder.svgs.map((sprite) => sprite.texture));
         holder.setColors(Object.fromEntries(colorKeys.map((key) => [key, '#00ff00'])));
         app.render();

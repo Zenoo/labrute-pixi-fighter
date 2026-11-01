@@ -80,6 +80,35 @@ test('package retains symbol exports and exports the renderer', () => {
   assert.equal(Symbol121.frames[0], Symbol121.frames[1], 'Held frames should share their placement array');
 });
 
+test('hurt poses retain the source controller origin through seeks and animation changes', async () => {
+  for (const [model, animation, controller, symbol] of [
+    ['female', 'hit', 881, 851], ['male', 'hit-0', 547, 488],
+  ]) {
+    const source = require(`../src/json/Symbol${controller}.json`).frames.flat()
+      .find((part) => part.name === `Symbol${symbol}`);
+    for (const team of ['L', 'R']) for (const scale of [1, 2.5]) {
+      const holder = new FighterHolder(application(), appearance({ model, team }), { current: 1 }, scale);
+      await holder.ready;
+      holder.container.position.set(123, 456);
+      const render = holder.container.children[0];
+      for (const frame of [0, 5, 14]) {
+        holder.renderPlaybackFrame({ animation, frame, airborne: false });
+        assert.equal(render.y, source.transform.ty * scale);
+        assert.equal(holder.container.y, 456);
+        assert.equal(holder.shadow.y, 0);
+        holder.setColors({ col3: '#ffffff' });
+        assert.equal(render.y, source.transform.ty * scale);
+      }
+      holder.setAnimation('idle');
+      assert.equal(render.y, 0, 'Hurt offset must not leak into idle');
+      holder.setAnimation(animation);
+      holder.setAnimation('run');
+      assert.equal(render.y, 0, 'Hurt offset must not leak into run');
+      holder.destroy();
+    }
+  }
+});
+
 test('renders every model, reuses sprites, and detaches its ticker on destroy', async () => {
   for (const model of ['male', 'female', 'dog', 'bear']) {
     const app = application();

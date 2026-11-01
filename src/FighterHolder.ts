@@ -843,6 +843,13 @@ export class FighterHolder {
 
     this.#animationSymbol = ANIMATIONS[this.#animationType][this.animation];
 
+    // The source controller timelines (547/881) place these hurt clips at -20.
+    // Their local artwork alone sits below the fighter's ground origin.
+    this.#renderContainer.y = (
+      (this.#animationType === 'female' && this.animation === 'hit')
+      || (this.#animationType === 'male' && this.animation === 'hit-0')
+    ) ? -20 * SCALE * this.#scale : 0;
+
     // Reset frame
     this.#frame = frame;
     this.#previousFrame = -1;
@@ -1333,7 +1340,9 @@ export class FighterHolder {
         ));
         mask.visible = true;
         mask.renderable = false;
-        child.mask = mask;
+        // Flash masks use coverage, regardless of the shape's fill color.
+        // Symbol39 is green, so Pixi's default red-channel mask is empty.
+        child.setMask({ mask, channel: 'alpha' });
       } else {
         child.mask = null;
       }

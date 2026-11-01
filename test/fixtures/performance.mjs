@@ -26,6 +26,7 @@ window.runPerformance = async () => {
           colors: Object.fromEntries(colorKeys.map((key) => [key, '#dd8844'])),
         }, { current: 1 }, 2);
         await holder.ready;
+        holder.weapon = 'sword';
         holder.pause();
         holder.container.position.set(120 + index % 4 * 220, 260 + Math.floor(index / 4) * 300);
         app.stage.addChild(holder.container);

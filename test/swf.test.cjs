@@ -202,6 +202,21 @@ test('reference SWFs preserve source shape records instead of rendering generate
   assert.ok(colors.length > 0);
 });
 
+test('reference hurt snapshots include the source controller placement', () => {
+  for (const [symbolId, controller, model] of [[851, 881, 'female'], [488, 547, 'male']]) {
+    const placement = swf.sprites.get(controller).frames.flat()
+      .find(part => part.characterId === symbolId);
+    assert.equal(placement.matrix.ty, -20);
+    for (const frame of [0, 5, 14]) {
+      const reference = readSwf(makeReference(source, {
+        symbolId, frame, model, parts: defaultParts, scale: 2,
+      }));
+      const root = readTimeline(reference.tags, 1).frames[0][0];
+      assert.ok(Math.abs(root.matrix.ty - (480 * 0.72 + placement.matrix.ty * 2)) < 1e-9);
+    }
+  }
+});
+
 test('generation manifest identifies the exact SWF, 944 characters, and an added detail layer', () => {
   const manifest = JSON.parse(fs.readFileSync(path.join(root, 'src/swf/manifest.json')));
   assert.equal(manifest.sha256, createHash('sha256').update(source).digest('hex'));
