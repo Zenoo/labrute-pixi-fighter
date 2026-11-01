@@ -7,6 +7,15 @@
 * Add conditional exports, format-specific TypeScript declarations, and packaging
   and browser regressions while retaining the legacy CommonJS entry point.
 
+## [1.0.16](https://github.com/Zenoo/labrute-pixi-fighter/compare/v1.0.15...v1.0.16) (2026-11-01)
+
+
+### Bug Fixes
+
+* Adapt female model eye color like male model ([b4a12fc](https://github.com/Zenoo/labrute-pixi-fighter/commit/b4a12fcea7cfc1a3ef3901f2f00a8277f834db96))
+* Clothing presets ([48979c8](https://github.com/Zenoo/labrute-pixi-fighter/commit/48979c8497ce0db9db7d4fa7a847316639a1d07c))
+* Parse SWF automatically, skip manual symbol parsing ([b43839c](https://github.com/Zenoo/labrute-pixi-fighter/commit/b43839c4931ae5305b7be67461e8078d0eb422c7))
+
 ## [1.0.15](https://github.com/Zenoo/labrute-pixi-fighter/compare/v1.0.14...v1.0.15) (2026-10-30)
 
 
