@@ -7,6 +7,13 @@
 * Add conditional exports, format-specific TypeScript declarations, and packaging
   and browser regressions while retaining the legacy CommonJS entry point.
 
+## [1.0.17](https://github.com/Zenoo/labrute-pixi-fighter/compare/v1.0.16...v1.0.17) (2026-11-01)
+
+
+### Bug Fixes
+
+* Add 7b clothing preset ([6969f75](https://github.com/Zenoo/labrute-pixi-fighter/commit/6969f75aeeb1b43a1fd74a6634dbcd199903be18))
+
 ## [1.0.16](https://github.com/Zenoo/labrute-pixi-fighter/compare/v1.0.15...v1.0.16) (2026-11-01)
 
 
