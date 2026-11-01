@@ -7,6 +7,14 @@
 * Add conditional exports, format-specific TypeScript declarations, and packaging
   and browser regressions while retaining the legacy CommonJS entry point.
 
+## [1.0.18](https://github.com/Zenoo/labrute-pixi-fighter/compare/v1.0.17...v1.0.18) (2026-11-01)
+
+
+### Bug Fixes
+
+* Enlarge stroke width with fighger scaling ([890c821](https://github.com/Zenoo/labrute-pixi-fighter/commit/890c8212ead64b6340a3936e285acee7cdb169be))
+* Prebuild SVG spans ([5ae3a03](https://github.com/Zenoo/labrute-pixi-fighter/commit/5ae3a03a6053712f955f2b5ec80ffc05e08fb9fd))
+
 ## [1.0.17](https://github.com/Zenoo/labrute-pixi-fighter/compare/v1.0.16...v1.0.17) (2026-11-01)
 
 
