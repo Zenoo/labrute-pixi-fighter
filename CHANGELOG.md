@@ -1,6 +1,14 @@
 # Changelog
 
 
+## [1.0.20](https://github.com/Zenoo/labrute-pixi-fighter/compare/v1.0.19...v1.0.20) (2026-11-10)
+
+
+### Bug Fixes
+
+* Update vuln deps ([5477b65](https://github.com/Zenoo/labrute-pixi-fighter/commit/5477b659e933e1671834e49eb9b70cae8778c356))
+* Wrong vertical placement for pets ([ed3619b](https://github.com/Zenoo/labrute-pixi-fighter/commit/ed3619be9d86245ebdfb373a6a3321d208058f07))
+
 ## [1.0.19](https://github.com/Zenoo/labrute-pixi-fighter/compare/v1.0.18...v1.0.19) (2026-11-01)
 
 
