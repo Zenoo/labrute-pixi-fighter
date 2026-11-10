@@ -1112,6 +1112,9 @@ class FighterHolder {
         // Add shadowSprite to shadow container
         this.shadow.addChild(shadowSprite);
         this.shadow.alpha = 0;
+        // The render container and shadow are siblings; insertion order must not
+        // put the shadow over the fighter when Pixi sorts equal-depth children.
+        this.shadow.zIndex = -1;
         // Add shadow Container to fightHolder
         this.container.addChild(this.shadow);
         const svgsToLoadByName = new Map();
@@ -1291,10 +1294,15 @@ class FighterHolder {
             return;
         this.animation = nextAnimation;
         __classPrivateFieldSet(this, _FighterHolder_animationSymbol, ANIMATIONS[__classPrivateFieldGet(this, _FighterHolder_animationType, "f")][this.animation], "f");
-        // The source controller timelines (547/881) place these hurt clips at -20.
-        // Their local artwork alone sits below the fighter's ground origin.
-        __classPrivateFieldGet(this, _FighterHolder_renderContainer, "f").y = ((__classPrivateFieldGet(this, _FighterHolder_animationType, "f") === 'female' && this.animation === 'hit')
-            || (__classPrivateFieldGet(this, _FighterHolder_animationType, "f") === 'male' && this.animation === 'hit-0')) ? -20 * SCALE * __classPrivateFieldGet(this, _FighterHolder_scale, "f") : 0;
+        // Fight coordinates mark the ground. Pet artwork has a different local
+        // origin: retain the ground offsets used before SWF regeneration, without
+        // modifying generated symbols or moving the shadow/airborne origin.
+        // The brute hurt clips also need their source controller (547/881) offset.
+        const groundOffset = __classPrivateFieldGet(this, _FighterHolder_animationType, "f") === 'bear' ? -32.5
+            : __classPrivateFieldGet(this, _FighterHolder_animationType, "f") === 'dog' ? -11.2
+                : ((__classPrivateFieldGet(this, _FighterHolder_animationType, "f") === 'female' && this.animation === 'hit')
+                    || (__classPrivateFieldGet(this, _FighterHolder_animationType, "f") === 'male' && this.animation === 'hit-0')) ? -20 : 0;
+        __classPrivateFieldGet(this, _FighterHolder_renderContainer, "f").y = groundOffset * SCALE * __classPrivateFieldGet(this, _FighterHolder_scale, "f");
         // Reset frame
         __classPrivateFieldSet(this, _FighterHolder_frame, frame, "f");
         __classPrivateFieldSet(this, _FighterHolder_previousFrame, -1, "f");

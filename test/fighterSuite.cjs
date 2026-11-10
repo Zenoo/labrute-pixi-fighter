@@ -503,4 +503,45 @@ test('destroy during loading does not attach a ticker later', async () => {
   assert.equal(app.ticker.handlers.size, 0);
 });
 
+// Fight ground offsets predate the generated SWF data and belong to the holder.
+for (const [name, model, offset, scale] of [
+  ['male', 'male', 0, 1], ['female', 'female', 0, 1],
+  ['dog', 'dog', -11.2, 1], ['panther', 'dog', -11.2, 1.5],
+  ['bear', 'bear', -32.5, 1], ['bear boss', 'bear', -32.5, 2.5],
+]) for (const team of ['L', 'R']) {
+  test(name + ' ' + team + ': artwork stays grounded above its shadow', async () => {
+    const app = application();
+    const holder = new FighterHolder(app, appearance({ model, team,
+      type: model === 'male' || model === 'female' ? 'brute' : name === 'bear boss' ? 'boss' : 'pet',
+    }), { current: 1 }, scale);
+    await holder.ready;
+    try {
+      holder.container.position.set(123, 456);
+      const render = holder.container.children.find(child => child !== holder.shadow);
+      const animations = ['idle', 'run', 'arrive', 'death', 'idle'];
+      if (model === 'dog' || model === 'bear') {
+        animations.push('attack', 'hit', 'evade', 'grab', 'grabbed', 'trapped', 'idle');
+      }
+      for (const animation of animations) {
+        holder.setAnimation(animation);
+        holder.pause();
+        holder.setColors({ col3: '#ffffff' });
+        app.ticker.tick();
+        holder.renderPlaybackFrame({ animation, frame: 1, airborne: false });
+        assert.equal(render.y, offset * scale, animation + ': ground offset');
+        assert.equal(holder.container.y, 456, 'Fight coordinates stay at ground level');
+        assert.equal(holder.shadow.y, 0, 'Shadow stays at ground level');
+        holder.container.sortChildren();
+        assert.ok(holder.container.children.indexOf(holder.shadow)
+          < holder.container.children.indexOf(render), 'Shadow draws behind artwork');
+      }
+      holder.setAirborn(true);
+      holder.container.y -= 30;
+      holder.shadow.y = 30;
+      holder.setAnimation('idle');
+      assert.equal(render.y, offset * scale, 'Airborne artwork keeps its local origin');
+      assert.equal(holder.shadow.y, 30, 'Animation does not overwrite airborne shadow');
+    } finally { holder.destroy(); }
+  });
+}
 };

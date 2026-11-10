@@ -62,6 +62,7 @@ window.runFighterRegression = async () => {
     return texture;
   };
   const models = [];
+  let shadowPosesChecked = 0;
   try {
     for (const model of ['male', 'female', 'dog', 'bear', 'panther']) {
       const appearance = {
@@ -94,6 +95,40 @@ window.runFighterRegression = async () => {
         check(sprite.texture.source.resolution + 1e-6 >= stretch * app.renderer.resolution,
           'Insufficient raster detail for ' + sprite.label);
       }
+      // Check actual compositing: enabling a ground shadow must never darken
+      // fully opaque artwork. Both facings and moving/dead poses reuse pools.
+      const render = holder.container.children.find(child => child !== holder.shadow);
+      const groundOffset = model === 'bear' ? -32.5 : model === 'dog' || model === 'panther' ? -11.2 : 0;
+      for (const facing of [1, -1]) for (const animation of ['idle', 'run', 'death']) {
+        holder.container.scale.x = facing;
+        holder.setAnimation(animation);
+        holder.pause();
+        check(render.y === groundOffset * 2, model + ' lost its fight ground offset');
+        const capture = () => app.renderer.extract.pixels({
+          target: app.stage, frame: new Rectangle(0, 0, 320, 240), resolution: 1,
+        }).pixels;
+        holder.shadow.alpha = 0;
+        const withoutShadow = capture();
+        holder.shadow.alpha = 1;
+        const withShadow = capture();
+        let opaque = 0;
+        let changed = 0;
+        for (let index = 0; index < withoutShadow.length; index += 4) {
+          const difference = Math.max(...[0, 1, 2, 3].map(channel =>
+            Math.abs(withoutShadow[index + channel] - withShadow[index + channel])));
+          if (difference > 2) changed++;
+          if (withoutShadow[index + 3] === 255) {
+            opaque++;
+            check(difference <= 2, model + ' ' + animation + ': shadow darkens artwork');
+          }
+        }
+        check(opaque > 30, model + ' has no opaque artwork to check');
+        check(changed > 30, model + ' ground shadow did not render');
+        shadowPosesChecked++;
+      }
+      holder.shadow.alpha = 0;
+      holder.container.scale.x = model === 'dog' || model === 'panther' ? -1 : 1;
+      holder.setAnimation('idle');
       if (model === 'female') {
         const visible = (sprite) => sprite.visible && (!sprite.parent || visible(sprite.parent));
         const blades = holder.svgs.filter(sprite => sprite.label === 'Symbol466' && visible(sprite));
@@ -193,7 +228,7 @@ window.runFighterRegression = async () => {
     check(shadows === 10 && loads > 0, 'Renderer or Assets was bypassed');
     check(strokeWidthsChecked > 0, 'No browser SVG stroke widths were checked');
     check(edgesChecked.size === 2, 'Hair and pet halo checks did not both run');
-    return { models, shadows, loads, strokeWidthsChecked, edgesChecked: [...edgesChecked], resolution: app.renderer.resolution };
+    return { models, shadows, loads, shadowPosesChecked, strokeWidthsChecked, edgesChecked: [...edgesChecked], resolution: app.renderer.resolution };
   } finally {
     Assets.load = load;
     app.destroy(true, { children: true });

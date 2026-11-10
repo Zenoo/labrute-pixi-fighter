@@ -1,11 +1,5 @@
 # Changelog
 
-## Unreleased
-
-* Publish genuine CommonJS and ESM FighterHolder builds that use the consumer's
-  matching Pixi runtime, with one shared symbol/SVG data module.
-* Add conditional exports, format-specific TypeScript declarations, and packaging
-  and browser regressions while retaining the legacy CommonJS entry point.
 
 ## [1.0.19](https://github.com/Zenoo/labrute-pixi-fighter/compare/v1.0.18...v1.0.19) (2026-11-01)
 
